@@ -33,7 +33,7 @@ Open the `AlphaTrackerCOLAB.ipynb`, which can be found at this [link here](https
 Click `Runtime` and then `Change runtime type`...from the dropdown menu, select `GPU`. 
 
 <p align = 'center'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/runtime_pic.png' widht = 250 height = 250>
+    <img src = '../Manual/media/runtime_pic.png' widht = 250 height = 250>
 </p>
 
 <br>
@@ -45,7 +45,7 @@ Now, we will connect our Python session to our Google Drive. Press the play butt
 Run the second code block...**this is an important note**: The main `My Drive` folder has the following path: `/content/drive/My Drive`. We are now inside this main folder
 
 <p align = 'center'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/step_4_.png'>
+    <img src = '../Manual/media/step_4_.png'>
 </p>
 
 <br>
@@ -59,7 +59,7 @@ Run the following code block to download `Alphatracker` into your Google Drive..
 Go into the newly created `Alphatracker` folder. Find the subfolder entitled `01 Tracking`. **Rename this folder to `01_Tracking`...add an underscore between the "01" and "Tracking"**
 
 <p align = 'center'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/step_5_.png'>
+    <img src = '../Manual/media/step_5_.png'>
 </p>
 
 <br>
@@ -77,7 +77,7 @@ In the variable `extension`, type in the filetype of the images...for example, `
 Now, navigate back to the `My Drive` folder...you will see a new folder created beginning with `TRAINING_DATA` followed by the date. This is your new training data folder that contains all the images and JSON files in the appropriate format for Colab to use...At this point, you can remove the original image folders, but not the videos, you uploaded into your Google Drive to free up some memory. 
 
 <p align = 'center'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/step_6_.png' >
+    <img src = '../Manual/media/step_6_.png' >
 </p>
 
 <br>
@@ -115,7 +115,7 @@ In `result_folder`, enter the path for where you want to save tracking results..
 Save the `setting.py` file, and you should be good to go! In the image below, you will see a formatted version of the `setting.py` after adjustments have been made. 
 
 <p align = 'center'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/setting_file.PNG' width = 500  height = 800>
+    <img src = '../Manual/media/setting_file.PNG' width = 500  height = 800>
 </p>
 
 <br>
@@ -125,7 +125,7 @@ Save the `setting.py` file, and you should be good to go! In the image below, yo
 Run the following code blocks back-to-back without any alterations...this will take about 6-10 minutes to complete!
 
 <p align = 'left'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/step_8_.png'>
+    <img src = '../Manual/media/step_8_.png'>
 </p>
 
 <br>
@@ -135,7 +135,7 @@ Run the following code blocks back-to-back without any alterations...this will t
 Run the following code block to train Alphatracker! This step can take anywhere from 30 minutes to 6 hours...it depends on how many iterations you are training for.
 
 <p align = 'left'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/step_9_.png'>
+    <img src = '../Manual/media/step_9_.png'>
 </p>
 
 <br>
@@ -145,5 +145,5 @@ Run the following code block to train Alphatracker! This step can take anywhere 
 Run the following code block to perform tracking on the videos you listed in `setting.py`. Once this step is complete, you can go to the folder you designated in the `result_folder` variable in `setting.py` to find the location of the tracked results!
 
 <p align = 'left'>
-    <img src = 'https://github.com/RuihanZhang2015/AlphaTracker/blob/master/00%20Manual/media/step_10_.png'>
+    <img src = '../Manual/media/step_10_.png'>
 </p>
