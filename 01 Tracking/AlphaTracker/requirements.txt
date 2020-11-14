@@ -1,0 +1,20 @@
+Cython
+torch==0.4.1
+torchvision==0.2.2
+-e git+https://github.com/ncullen93/torchsample.git#egg=torchsample
+visdom
+nibabel
+pandas
+numpy==1.14.5
+scipy==1.1.0
+opencv_python==3.4.2.16
+opencv_contrib_python==3.4.2.17
+matplotlib==2.2.2
+tqdm==4.19.9
+Image==1.5.25
+Pillow==5.3.0
+munkres==1.0.12
+h5py==2.9.0
+cython==0.29.6
+tensorboardX
+pycocotools

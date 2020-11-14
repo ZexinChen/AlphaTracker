@@ -1,0 +1,5 @@
+classes= 1
+train=/home/zexin/project/mice/algorithm/tracking/AlphaTracker/train_yolo/darknet//data/labeled_byCompany_4567_split90_ori//train.txt 
+valid=/home/zexin/project/mice/algorithm/tracking/AlphaTracker/train_yolo/darknet//data/labeled_byCompany_4567_split90_ori//valid.txt 
+backup=backup/labeled_byCompany_4567_split90_ori 
+names = data/mice.names

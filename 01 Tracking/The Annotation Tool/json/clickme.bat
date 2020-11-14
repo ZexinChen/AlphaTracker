@@ -1,0 +1,1 @@
+python ./get_json_name.py

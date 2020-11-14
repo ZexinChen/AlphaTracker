@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlphaMice-ClusterView</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/DataInspector.css">
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/canvasjs.min.js"></script>
+    <script src="../js/jquery.canvasjs.min.js"></script>
+    <script src="../js/go.js"></script>
+    <script src="../js/DataInspector.js"></script>
+    <script>
+        function video_play() {
+            var video_file = document.getElementById('input_video').files[0];
+            var video_url = URL.createObjectURL(video_file);
+            console.log(video_url);
+            document.getElementById('video').src=video_url;
+
+
+        }
+
+    </script>
+
+</head>
+
+
+<body style="background-color:#ffffff" onload="$('#json_input_modal_clip').modal('show');">
+<div class="modal fade" id="json_ini" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="exampleModalLabel">Initiating...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="json_input_modal_clip" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="ModalLabel1">1. Clip description json file import</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="display: flex">
+                <button class="btn btn-secondary" style="width: 100px;height: 35px;margin: 5px;text-align: center;padding: 5px 7px;">Click Here
+                    <input style="top: -35px"
+                           type="file"
+                           class="custom-file-input"
+                           id="json_input_clip"
+                           aria-describedby="inputGroupFileAddon01"
+                           onchange="
+                             $('#json_input_modal_clip').modal('hide');
+                             $('#input_modal_video').modal('show');"
+                    >
+                </button>
+                <p id="json_input_modal_text" style="padding: 10px 10px;font-size: small;margin: 0;color: red;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="input_modal_video" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="ModalLabel2">2. Video Import</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>File_Path</th>
+                        <th>Video_name</th>
+                        <th>Framerate</th>
+                        <th>Import</th>
+                    </tr>
+                    </thead>
+                    <tbody id="video_table">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        onclick="operation_checkpoint()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="json_input_modal_tree" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="ModalLabel3">3. Cluster Tree description json file import</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-secondary" style="width: 100px;height: 35px;margin: 5px;text-align: center;padding: 5px 7px;">Click Here
+                    <input style="top: -35px"
+                           type="file"
+                           class="custom-file-input"
+                           id="json_input_tree"
+                           aria-describedby="inputGroupFileAddon01"
+                           onchange="
+                             $('#json_input_modal_tree').modal('hide');
+                            page_ini();"
+                    >
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="move_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="ModalLabel4">Move to...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="move_target_node" type="text" class="form-control" placeholder="Target Clip/Cluster #">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        onclick="
+                        var tmp_node = myDiagram.findNodeForKey(parseInt(document.getElementById('move_target_node').value));
+                        if(tmp_node !==null){
+                            myDiagram.model.setParentKeyForNodeData(selected_node.data,tmp_node.data.key);
+                            log_update('Move '+selected_node.data.name+' to '+tmp_node.data.name);
+                        }else{
+                            alert('Invalid Cluster IDs');
+                        }
+                        $('#move_modal').modal('hide');
+                        ">Move</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rename_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="ModalLabel5">Rename...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="node_name" type="text" class="form-control" value="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        onclick="
+                        var tmp_str = selected_node.data.name;
+                        myDiagram.model.setDataProperty(selected_node.data,'name',document.getElementById('node_name').value);
+                        log_update('Rename '+ tmp_str +' to '+selected_node.data.name);
+                        $('#rename_modal').modal('hide');">Rename</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-navbar" class="am-navbar" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div style="float: left;color: #f3f3f3;margin-right: 9%;">
+        <span  style="
+        width: 150px;
+        text-align: center;
+        font-family: Lora, serif;
+        font-size: large;
+        position: relative;
+        padding:9px 0 0 0;
+        z-index: 50;
+        float: left;
+            ">AlphaMice</span>
+        <div class="slopingside"></div>
+        <span class="title-text"><a href="curate.html" style="color: white">Tracking</a></span>
+        <div class="slopingside"></div>
+        <span class="title-text active">Behavior</span>
+        <div class="slopingside"></div>
+        <span  class="title-text">Help</span>
+        <div class="slopingside"></div>
+
+
+
+    </div>
+    <div style="float: right; color: white;margin-right: 2%">
+        <svg
+                id="save_button"
+                width="52"
+                height="45"
+                viewBox="0 -4 35 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+
+        >
+            <path
+                    d="M16.9498 5.96781L15.5356 7.38203L13 4.84646V17.0421H11V4.84653L8.46451 7.38203L7.05029 5.96781L12 1.01807L16.9498 5.96781Z"
+                    fill="currentColor"
+            />
+            <path
+                    d="M5 20.9819V10.9819H9V8.98193H3V22.9819H21V8.98193H15V10.9819H19V20.9819H5Z"
+                    fill="currentColor"
+            />
+        </svg>
+        <svg
+                width="45"
+                height="45"
+                viewBox="0 -6 36 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onclick="$('#json_input_modal_clip').modal('show');
+                document.getElementById('json_input_modal_text').innerText = 'By continuing, your unsaved result will be lost.';"
+        >
+            <path d="M10 18V16H8V14H10V12H12V14H14V16H12V18H10Z" fill="currentColor" />
+            <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z"
+                    fill="currentColor"
+            />
+        </svg>
+        <svg
+                id="undo_button"
+                style="color: gray"
+                width="45"
+                height="45"
+                viewBox="0 -3 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onclick="myDiagram.model.undoManager.undo();"
+        >
+            <path
+                    d="M5.33929 4.46777H7.33929V7.02487C8.52931 6.08978 10.0299 5.53207 11.6607 5.53207C15.5267 5.53207 18.6607 8.66608 18.6607 12.5321C18.6607 16.3981 15.5267 19.5321 11.6607 19.5321C9.51025 19.5321 7.58625 18.5623 6.30219 17.0363L7.92151 15.8515C8.83741 16.8825 10.1732 17.5321 11.6607 17.5321C14.4222 17.5321 16.6607 15.2935 16.6607 12.5321C16.6607 9.77065 14.4222 7.53207 11.6607 7.53207C10.5739 7.53207 9.56805 7.87884 8.74779 8.46777L11.3393 8.46777V10.4678H5.33929V4.46777Z"
+                    fill="currentColor"
+            />
+        </svg>
+
+        <svg
+            id="redo_button"
+            style="color: gray"
+            width="45"
+            height="45"
+            viewBox="0 -3 30 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onclick="myDiagram.model.undoManager.redo();"
+        >
+        <path
+                d="M13.1459 11.0499L12.9716 9.05752L15.3462 8.84977C14.4471 7.98322 13.2242 7.4503 11.8769 7.4503C9.11547 7.4503 6.87689 9.68888 6.87689 12.4503C6.87689 15.2117 9.11547 17.4503 11.8769 17.4503C13.6977 17.4503 15.2911 16.4771 16.1654 15.0224L18.1682 15.5231C17.0301 17.8487 14.6405 19.4503 11.8769 19.4503C8.0109 19.4503 4.87689 16.3163 4.87689 12.4503C4.87689 8.58431 8.0109 5.4503 11.8769 5.4503C13.8233 5.4503 15.5842 6.24474 16.853 7.52706L16.6078 4.72412L18.6002 4.5498L19.1231 10.527L13.1459 11.0499Z"
+                fill="currentColor"
+        />
+        </svg>
+
+    </div>
+</div>
+
+<div class = 'container' style="padding: 30px 0 10px 0; max-width: 1600px">
+
+    <div class = 'row' >
+        <!-- Video & SVG -->
+        <div id = 'video_col' class = 'col-6'>
+            <video  id = 'video' src = '' style="height: 450px"></video><!-- 1411_black_two.mov -->
+
+        </div>
+        <!-- Function Panel -->
+        <div class = 'col-3'>
+            <div class="row" style="height: 25px;width: 300px">
+                <p class="col-6" style="color: black;font-size: small;margin-bottom: 2px;">Dendrogram:</p>
+            </div>
+
+            <div id="myDiagramDiv" style="border: 2px solid #bfbfbf; width: 300px; height: 425px"></div>
+        </div>
+        <div class="col-2" style="width: 20%;">
+            <div id="myInspectorDiv" class="inspector" style="display: none"></div>
+            <div class="input-group mb-3">
+                <input id="target_node" type="text" class="form-control" placeholder="Clip/Cluster #">
+                <div class="input-group-append">
+                        <span class="input-group-text" onclick="
+                        var tmp = document.getElementById('target_node');
+                        if(data_array[video_sel.value][parseInt(tmp.value)]!==undefined){
+                            highlight_scatter(parseInt(tmp.value));
+                            tmp = myDiagram.findNodeForKey(parseInt(tmp.value));
+                            myDiagram.centerRect(tmp.actualBounds);
+                            myDiagram.select(tmp);
+                            document.getElementById('target_node').setAttribute('placeholder','Clip/Cluster #');
+                        }else if(frame_clip_map.get(Math.round(v.currentTime*framerate))!==undefined){
+                            tmp = myDiagram.findNodeForKey(frame_clip_map.get(Math.round(v.currentTime*framerate)));
+                            myDiagram.centerRect(tmp.actualBounds);
+                            myDiagram.select(tmp);
+                            document.getElementById('target_node').setAttribute('placeholder','Clip/Cluster #');
+                        }else{
+                            document.getElementById('target_node').setAttribute('placeholder','Wrong #!');
+                        }
+                        document.getElementById('target_node').value = '';
+                        ">Jump To</span>
+                </div>
+            </div>
+
+            <div class = 'row' style="padding-left: 15px">
+                <div style="width: 50%">
+                    <input id = "merge_target_1" class="form-control" style="font-size: small;margin: 2px" placeholder="Clip/Cluster #">
+                    <input id = "merge_target_2" class="form-control" style="font-size: small;margin: 2px" placeholder="Clip/Cluster #">
+                </div>
+                <button id = 'merge_button' type="button" class="btn btn-secondary" style="width: 40%;margin: 10px"
+                        onclick="
+            var target_1 = myDiagram.findNodeForKey(parseInt(document.getElementById('merge_target_1').value));
+            var target_2 = myDiagram.findNodeForKey(parseInt(document.getElementById('merge_target_2').value));
+            if(target_1!==null&&target_2!==null){
+                if(target_1.findTreeLevel()!==target_2.findTreeLevel() ){
+                    alert('Cannot merge clusters with different levels!');
+                }else if(target_1.isTreeLeaf&&target_2.isTreeLeaf){
+                    log_update('Merged '+ target_1.data.name +' & '+ target_2.data.name);
+                    myDiagram.model.addNodeData({key: node_counter,
+                                                    parent: target_1.findTreeParentNode().data.key,
+                                                    name:'Cluster'+node_counter});
+                    myDiagram.model.setParentKeyForNodeData(target_1.data,node_counter);
+                    myDiagram.model.setParentKeyForNodeData(target_2.data,node_counter);
+                    var tmp = myDiagram.findNodeForKey(node_counter);
+                    myDiagram.centerRect(tmp.actualBounds);
+                    myDiagram.select(tmp);
+                    node_counter++;
+                }else{
+                    log_update('Merged '+ target_1.data.name +' & '+ target_2.data.name);
+                    if(target_1.isTreeLeaf){
+                        myDiagram.model.setParentKeyForNodeData(target_1.data,target_2.data.key);
+                        myDiagram.centerRect(target_2.actualBounds);
+                        myDiagram.select(target_2);
+                    }else if(target_2.isTreeLeaf){
+                        myDiagram.model.setParentKeyForNodeData(target_2.data,target_1.data.key);
+                        myDiagram.centerRect(target_1.actualBounds);
+                        myDiagram.select(target_1);
+                    }else{
+                        var it = target_2.findTreeChildrenNodes();
+                        while (it.next()){
+                            myDiagram.model.setParentKeyForNodeData(it.value.data,target_1.data.key);
+                        }
+                        myDiagram.centerRect(target_1.actualBounds);
+                        myDiagram.select(target_1);
+                        myDiagram.remove(target_2);
+                    }
+                }
+
+            }else {alert('Invalid Cluster/Clip #s');}
+                    ">
+                    Merge</button>
+            </div>
+            <p style="color: black;font-size: small;margin-bottom: 2px;margin-top: 15px">Operation Log:</p>
+            <textarea class="form-control" rows="15" id="log_text" style="resize: none;font-size: small"></textarea>
+        </div>
+    </div>
+</div>
+<!-- Video Control -->
+<div class="row" style="margin:  0;background-color: #f0f0f0;height: 45px">
+    <div class="row col-5">
+        <div class="row col-9" style="padding: 0;margin: 0">
+            <button id = 'play' type="button" class="play-button" style="margin:10px 0 0 10%"></button>
+            <p style="font-size: small;color: rgba(0,0,0,0.97);padding:13px 0 0 3%">Time:</p>
+            <h3 id = 'time_h3' style="color: #080072;padding: 4px 0 0 3%;width: 150px;font-family: 'Source Code Pro', serif"> 00:00:00 </h3>
+
+            <p style="font-size: small;color: rgba(0,0,0,0.97);padding:13px 8px 0 3%;">Frame:</p>
+            <h3  id="frame_h3"
+                 style="color: #080072;width: 120px;height:30px;margin-top: 4px;font-family: 'Source Code Pro',serif;resize: none;">0</h3>
+        </div>
+
+        <div class="row col-3" style="padding: 0;margin: 0">
+            <p style="font-size: small;color: rgba(0,0,0,1);margin:13px 0 0 5%;min-width: 70px">Frame Ctrl:</p>
+            <button id = 'back_button' type="button" class="left-button" style="margin:10px 0 0 5%"></button>
+            <button id = 'forward_button' type="button" class="play-button" style="margin:10px 0 0 5%"></button>
+        </div>
+    </div>
+    <div class="row col-5">
+        <div class="row col-4">
+            <p style="font-size: small;color: #000000;padding:13px 0 0 2%">Speed:</p>
+            <div>
+                <select class="form-control" id="speed-control" style="margin: 8px 0 0 4px;height: 30px;">
+                    <option value="0.5">0.5x</option>
+                    <option value="1" selected>1.0x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2">2.0x</option>
+                </select>
+            </div>
+        </div>
+        <div class="row col-4">
+            <p style="font-size: small;color: #000000;padding:13px 0 0 2%">Video:</p>
+            <div>
+                <select class="form-control" id="video-select" style="margin: 8px 0 0 4px;height: 30px;">
+                </select>
+            </div>
+        </div>
+        <div class="row col-4">
+            <p style="font-size: small;color: #000000;padding:13px 0 0 2%">Level:</p>
+            <div>
+                <select class="form-control" id="level-select" style="margin: 8px 0 0 4px;height: 30px;">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row col-2">
+        <p style="font-size: small;color: rgba(0,0,0,0.97);padding:13px 0 0 3%">Current Clip#:</p>
+        <h3 id="current_clip" style="color: #080072;padding: 4px 0 0 3%;width: 150px;font-family: 'Source Code Pro', serif">---</h3>
+    </div>
+    <!--
+    <button class="btn btn-secondary" style="width: 50px;height: 35px;margin: 5px;text-align: center;padding: 5px 7px;">Video
+        <input style="top: -35px" type="file" class="custom-file-input" id="input_video" aria-describedby="inputGroupFileAddon01"
+        onchange="video_play()">
+    </button> -->
+
+</div>
+<div class="row" style="margin: 10px 0 0 0;">
+    <div class = 'position-relative' style="width: 100%;padding: 0 4px 0 40px;">
+        <input type = "range" class = "custom-range" min = 0 max = 100 id = "range" step = 0.01>
+    </div>
+
+</div>
+<div class="row" style="margin: 10px 0 0 0;">
+    <div id="chartContainer" style="height: 280px; width: 100%;"></div>
+
+
+</div>
+<ul id="contextMenu" class="menu">
+    <li id="move" class="menu-item" onclick="cxcommand(event)">Move</li>
+    <li id="rename" class="menu-item" onclick="cxcommand(event)">Rename</li>
+    <li id="delete" class="menu-item" onclick="cxcommand(event)">Delete</li>
+    <li id="delete_subtree" class="menu-item" onclick="cxcommand(event)">Delete Subtree</li>
+</ul>
+<script src="../js/cluster_script.js"></script>
+
+</body>
+</html>

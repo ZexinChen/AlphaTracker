@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlphaMice-Curate</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/canvasjs.min.js"></script>
+    <script src="../js/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript">
+        // set the pyodide files URL (packages.json, pyodide.asm.data etc)
+        window.languagePluginUrl = 'http://localhost:8000/data/';
+    </script>
+    <script src="../data/pyodide.js"></script>
+
+</head>
+
+
+<body style="background-color:#ffffff" onload="$('#input_modal').modal('show');">
+<div class="modal fade" id="input_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="ModalLabel2">Video & Json Import</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>Json:</td>
+                        <td><button class="btn btn-secondary" style="width: 100px;height: 35px;margin: 5px;text-align: center;padding: 5px 7px;">Click Here
+                            <input style="top: -35px"
+                                   type="file"
+                                   class="custom-file-input"
+                                   id="json_input"
+                                   aria-describedby="inputGroupFileAddon01" onchange="show_filename('json_filename',$('#json_input').val())">
+                        </button></td>
+                        <td id="json_filename">No File Selected...</td>
+                    </tr>
+                    <tr>
+                        <td>Video:</td>
+                        <td><button class="btn btn-secondary" style="width: 100px;height: 35px;margin: 5px;text-align: center;padding: 5px 7px;">Click Here
+                            <input style="top: -35px"
+                                   type="file"
+                                   class="custom-file-input"
+                                   id="video_input"
+                                   aria-describedby="inputGroupFileAddon01" onchange="show_filename('video_filename',$('#video_input').val())">
+                        </button></td>
+                        <td id="video_filename">No File Selected...</td>
+                    </tr>
+                    <tr>
+                        <td>Video Framerate:</td>
+                        <td>
+                            <input type="text" value="29.95" style="width: 100px"
+                                   class="custom-text-input"
+                                   id="framerate_input"
+                                   aria-describedby="inputGroupFileAddon01">
+                        </td><td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <p id="json_input_modal_text" style="padding: 10px 10px;font-size: small;margin: 0;color: red;"></p>
+                <button type="button" class="btn btn-secondary"
+                        onclick="check()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ini_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" >Please Wait...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="json_err" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content alert-danger" style="background-color: #ffeff1">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title" id="exampleModalLabel">Error, no .json file!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="py_err" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content alert-danger" style="background-color: #ffeff1">
+            <div class="modal-header" style="border-bottom: 0;">
+                <h5 class="modal-title">An error occurred while loading python module!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Error Detail:</p>
+                <p id="py_err_text"></p>
+                <p>Try refresh the page or rerun the python script.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-navbar" class="am-navbar" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div style="float: left;color: #f3f3f3;margin-right: 9%;">
+        <span  style="
+        width: 150px;
+        text-align: center;
+        font-family: Lora, serif;
+        font-size: large;
+        position: relative;
+        padding:9px 0 0 0;
+        z-index: 50;
+        float: left;
+            ">AlphaMice</span>
+        <div class="slopingside"></div>
+        <span class="title-text active">Tracking</span>
+        <div class="slopingside"></div>
+        <span class="title-text">Behavior</a></span>
+        <div class="slopingside"></div>
+        <span  class="title-text">Help</span>
+        <div class="slopingside"></div>
+    </div>
+
+    <div style="float: right; color: white;margin-right: 2%">
+        <svg
+                id="save_button"
+                width="52"
+                height="45"
+                viewBox="0 -4 35 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+
+        >
+            <path
+                    d="M16.9498 5.96781L15.5356 7.38203L13 4.84646V17.0421H11V4.84653L8.46451 7.38203L7.05029 5.96781L12 1.01807L16.9498 5.96781Z"
+                    fill="currentColor"
+            />
+            <path
+                    d="M5 20.9819V10.9819H9V8.98193H3V22.9819H21V8.98193H15V10.9819H19V20.9819H5Z"
+                    fill="currentColor"
+            />
+        </svg>
+        <svg
+                width="45"
+                height="45"
+                viewBox="0 -6 36 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onclick="$('#input_modal').modal('show');
+                document.getElementById('json_input_modal_text').innerText = 'By continuing, your unsaved result will be lost.';">
+
+            <path d="M10 18V16H8V14H10V12H12V14H14V16H12V18H10Z" fill="currentColor" />
+            <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z"
+                    fill="currentColor"
+            />
+        </svg>
+        <svg
+                id="undo_button"
+                style="color: gray"
+                width="45"
+                height="45"
+                viewBox="0 -3 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+
+        >
+            <path
+                    d="M5.33929 4.46777H7.33929V7.02487C8.52931 6.08978 10.0299 5.53207 11.6607 5.53207C15.5267 5.53207 18.6607 8.66608 18.6607 12.5321C18.6607 16.3981 15.5267 19.5321 11.6607 19.5321C9.51025 19.5321 7.58625 18.5623 6.30219 17.0363L7.92151 15.8515C8.83741 16.8825 10.1732 17.5321 11.6607 17.5321C14.4222 17.5321 16.6607 15.2935 16.6607 12.5321C16.6607 9.77065 14.4222 7.53207 11.6607 7.53207C10.5739 7.53207 9.56805 7.87884 8.74779 8.46777L11.3393 8.46777V10.4678H5.33929V4.46777Z"
+                    fill="currentColor"
+            />
+        </svg>
+
+        <svg
+                id="redo_button"
+                style="color: gray"
+                width="45"
+                height="45"
+                viewBox="0 -3 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+
+        >
+            <path
+                    d="M13.1459 11.0499L12.9716 9.05752L15.3462 8.84977C14.4471 7.98322 13.2242 7.4503 11.8769 7.4503C9.11547 7.4503 6.87689 9.68888 6.87689 12.4503C6.87689 15.2117 9.11547 17.4503 11.8769 17.4503C13.6977 17.4503 15.2911 16.4771 16.1654 15.0224L18.1682 15.5231C17.0301 17.8487 14.6405 19.4503 11.8769 19.4503C8.0109 19.4503 4.87689 16.3163 4.87689 12.4503C4.87689 8.58431 8.0109 5.4503 11.8769 5.4503C13.8233 5.4503 15.5842 6.24474 16.853 7.52706L16.6078 4.72412L18.6002 4.5498L19.1231 10.527L13.1459 11.0499Z"
+                    fill="currentColor"
+            />
+        </svg>
+
+    </div>
+
+</div>
+<!--
+<div id="workspace-navbar" class="am-navbar"
+     style="background-color: #505050;
+     height:33px;
+
+        ">
+    <ul class="nav nav-tabs" style="padding: 10px 0 0 30px">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" style="padding: 1px 16px;color: azure;font-size: small">Workspace:</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="padding: 1px 16px;color: azure;font-size: small">Training</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="padding: 1px 16px;color: azure;font-size: small">Tracking</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#" style="padding: 1px 16px;font-size: small">Curation</a>
+        </li>
+    </ul>
+</div>
+-->
+
+
+<div class = 'container' style="padding-top: 30px">
+
+    <div class = 'row' >
+        <!-- Video & SVG -->
+        <div id = 'video_col' class = 'col-md-8'>
+            <video  id = 'video' src = '' style="height: 480px"></video>
+            <svg id = 'svg' >
+                <!-- <line x1 = 0 y1 = '0' x2 = 100 y2 = '100' style = "stroke:rgb(255,0,0);stroke-width :2"/> -->
+                <!-- <circle class = 'draggable' cx = 50 cy = 50 r = 40 stroke = 'black' stroke-width = 3 fill = 'red'/>
+                <circle class = 'draggable' cx = 100 cy = 50 r = 40 stroke = 'black' stroke-width = 3 fill = 'blue'/> -->
+            </svg>
+        </div>
+        <!-- Function Panel -->
+        <div class = 'col-md-4' style="height: 500px">
+            <!--
+            <div class = 'row position-relative m-3' style="border-bottom: black solid 1px;display: none">
+                <div style="width: 50%">
+                <select id = "old_identity_input" class="custom-select" style="font-size: small;margin: 2px">
+                        <option value="none" selected disabled hidden>
+                            Old Identity</option>
+                        <option value="1">Mouse 1</option>
+                        <option value="2">Mouse 2</option>
+                </select>
+
+                <select id = "new_identity_input" class="custom-select" style="font-size: small;margin: 2px">
+                        <option value="none" selected disabled hidden >
+                            New Identity</option>
+                        <option value="1">Mouse 1</option>
+                        <option value="2">Mouse 2</option>
+                </select>
+                </div>
+
+                <button id = 'reassign_identity_button' type="button" class="btn btn-secondary" style="width: 40%;margin: 10px">
+                    Reassign Identity</button>
+            </div>-->
+            <div class = 'row position-relative m-3' style="border-bottom: black solid 1px;">
+
+                <div class="input-group mb-3">
+                    <input id="target_frame" type="text" class="form-control" placeholder="Frame #">
+                    <div class="input-group-append">
+                        <span class="input-group-text" onclick="
+                        var tmp = document.getElementById('target_frame');
+                        if(!isNaN(parseInt(tmp.value))){
+                            tmp = parseInt(tmp.value);
+                            time_h3.textContent = tmp/framerate > v.duration? v.duration : tmp/framerate;
+                            v.currentTime = tmp/framerate > v.duration? v.duration : tmp/framerate;
+                            frame_h3.textContent =  String(Math.round(v.currentTime*framerate));
+                            chart1.axisX[0].stripLines[0].set('value',Math.round(v.currentTime*framerate));
+                            chart2.axisX[0].stripLines[0].set('value',Math.round(v.currentTime*framerate));
+                            draw_mice();}
+                        ">Jump To</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class = 'position-relative m-3' style="border-bottom: black solid 1px;">
+                <button id = 'curate_button' type="button" class="btn btn-secondary btn-lg" style="margin-bottom: 16px">Curate</button>
+                <button id = 'reassign_identity_button' type="button" class="btn btn-secondary btn-lg" style="width: 60%;margin-bottom: 16px">
+                    Reassign Identity</button>
+                <!--
+                <button  type="button" class="btn btn-secondary btn-lg" style="margin-bottom: 16px" onclick="$('#input_modal').modal('show');">New Project</button>
+                -->
+                <p style="font-size: small;color: rgba(0,0,0,0.97)" id="rangeOfReassign">Set Interval: From Frame - to -</p>
+            </div>
+            <div class = 'position-relative m-3'>
+                <p style="color: black;font-size: medium;margin-bottom: 2px">Operation Log:</p>
+                <textarea class="form-control" rows="10" id="log_text" style="resize: none;font-size: small"></textarea>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" value=""
+                               onchange="stripLineSwitch=!stripLineSwitch;">Turn on strip lines updates on playback
+                        <p style="color: gray;font-size: small;margin-bottom: 2px">May slow-down playback performance</p>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Video Control -->
+<div class="row" style="background-color: #f0f0f0;height: 45px;margin: 0">
+    <div class="row col-6">
+        <div class="row col-9" style="padding: 0;margin: 0">
+            <button id = 'play' type="button" class="play-button" style="margin:10px 0 0 10%"></button>
+            <p style="font-size: small;color: rgba(0,0,0,0.97);padding:13px 0 0 3%">Time:</p>
+            <h3 id = 'time_h3' style="color: #080072;padding: 4px 0 0 3%;width: 150px;font-family: 'Source Code Pro', serif"> 00:00:00 </h3>
+
+            <p style="font-size: small;color: rgba(0,0,0,0.97);padding:13px 0 0 3%;margin-right: 8px;">Frame:</p>
+            <h3  id="frame_h3"
+                       style="color: #080072;width: 120px;height:30px;margin-top: 4px;font-family: 'Source Code Pro',serif;resize: none;">0</h3>
+        </div>
+
+        <div class="row col-3" style="padding: 0;margin: 0">
+            <p style="font-size: small;color: rgba(0,0,0,1);margin:13px 0 0 5%;min-width: 70px">Frame Ctrl:</p>
+            <button id = 'back_button' type="button" class="left-button" style="margin:10px 0 0 5%"></button>
+            <button id = 'forward_button' type="button" class="play-button" style="margin:10px 0 0 5%"></button>
+        </div>
+    </div>
+
+    <div class="row col-6">
+        <div class="row col-5" style="padding: 0;margin: 0">
+            <p style="font-size: small;color: #000000;margin:13px 0 0 1%;min-width: 75px">Set Interval:</p>
+            <button class="btn btn-secondary btn-sm"
+                    id="setIN" style="width: 50px;height: 30px;text-align: center;margin: 8px 0 0 4px;padding: 0"
+                    onclick="inpoint = Math.round(v.currentTime*framerate);
+                    if(outpoint<inpoint) outpoint=inpoint;chartUpdate(1);chartUpdate(2);
+                    range_of_re.textContent='Set Interval: From Frame '+inpoint+' to '+outpoint;
+                    log_update('IN point set at frame '+inpoint)">IN</button>
+            <button class="btn btn-secondary btn-sm"
+                    id="setOUT" style="width: 50px;height: 30px;text-align: center;margin: 8px 0 0 4px;padding: 0"
+                    onclick="outpoint = Math.round(v.currentTime*framerate);
+                    if(outpoint<inpoint||inpoint===-1) inpoint=outpoint;chartUpdate(1);chartUpdate(2);
+                    range_of_re.textContent='Set Interval: From Frame '+inpoint+' to '+outpoint;
+                    log_update('OUT point set at frame '+outpoint)">OUT</button>
+
+
+        </div>
+        <div class="row col-3" style="padding: 0;margin: 0">
+            <p style="font-size: small;color: #000000;padding:13px 0 0 1%">Speed:</p>
+            <div>
+                <select class="form-control" id="speed-control" style="margin: 8px 0 0 4px;height: 30px;">
+                    <option value="0.5">0.5x</option>
+                    <option value="1" selected>1.0x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2">2.0x</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+<div class="row" style="margin: 10px 0 0 0;">
+    <div class = 'position-relative' style="width: 100%">
+        <input type = "range" class = "custom-range" min = 0 max = 100 id = "range" step = 0.01 style="padding: 0 1% 0 11%">
+    </div>
+</div>
+<div class="row" style="margin: 10px 0 0 0;">
+    <div style="width: 8%;text-align: center">Idty #1
+        <select class="form-control" id="chart1-ctrl" style="padding: 4px;height: 30px;">
+            <option value="5" selected>Box</option>
+            <option value="0">Point 1</option>
+            <option value="1">Point 2</option>
+            <option value="2">Point 3</option>
+            <option value="3">Point 4</option>
+            <option value="4">Score</option>
+        </select>
+    </div>
+
+    <div id="miceChart1" style="height: 140px; width: 92%;"></div>
+</div>
+<div class="row" style="margin: 10px 0 0 0;">
+    <div style="width: 8%;text-align: center">Idty #2
+        <select class="form-control" id="chart2-ctrl" style="padding: 4px;height: 30px;">
+            <option value="5" selected>Box</option>
+            <option value="0">Point 1</option>
+            <option value="1">Point 2</option>
+            <option value="2">Point 3</option>
+            <option value="3">Point 4</option>
+            <option value="4">Score</option>
+        </select>
+    </div>
+    <div id="miceChart2" style="height: 140px; width: 92%;"></div>
+</div>
+<script type="text/html" id="py_script">
+from __future__ import absolute_import, division, print_function, unicode_literals
+from copy import deepcopy
+import math
+from math import log, exp, sqrt, cos, sin
+import sys
+import warnings
+import numpy as np
+from numpy import dot, zeros, eye, isscalar, shape, vstack, array
+import numpy.linalg as linalg
+from scipy.linalg import expm, block_diag
+from collections import defaultdict
+import copy
+import inspect
+import numpy as np
+from scipy.stats import norm, multivariate_normal
+import argparse
+import json
+from functools import cmp_to_key
+
+
+def reshape_z(z, dim_z, ndim):
+    """ ensure z is a (dim_z, 1) shaped vector"""
+
+    z = np.atleast_2d(z)
+    if z.shape[1] == dim_z:
+        z = z.T
+
+    if z.shape != (dim_z, 1):
+        raise ValueError('z must be convertible to shape ({}, 1)'.format(dim_z))
+
+    if ndim == 1:
+        z = z[:, 0]
+
+    if ndim == 0:
+        z = z[0, 0]
+
+    return z
+    
+def pretty_str(label, arr):
+    def is_col(a):
+        try:
+            return a.shape[0] > 1 and a.shape[1] == 1
+        except (AttributeError, IndexError):
+            return False
+    if label is None:
+        label = ''
+    if label:
+        label += ' = '
+    if is_col(arr):
+        return label + str(arr.T).replace('\n', '') + '.T'
+    rows = str(arr).split('\n')
+    if not rows:
+        return ''
+    s = label + rows[0]
+    pad = ' ' * len(label)
+    for line in rows[1:]:
+        s = s + '\n' + pad + line
+
+    return s
+
+def logpdf(x, mean=None, cov=1, allow_singular=True):
+    if mean is not None:
+        flat_mean = np.asarray(mean).flatten()
+    else:
+        flat_mean = None
+
+    flat_x = np.asarray(x).flatten()
+
+    if _support_singular:
+        return multivariate_normal.logpdf(flat_x, flat_mean, cov, allow_singular)
+    return multivariate_normal.logpdf(flat_x, flat_mean, cov)
+
+
+
+class KalmanFilter(object):
+
+    def __init__(self, dim_x, dim_z, dim_u=0):
+        if dim_x < 1:
+            raise ValueError('dim_x must be 1 or greater')
+        if dim_z < 1:
+            raise ValueError('dim_z must be 1 or greater')
+        if dim_u < 0:
+            raise ValueError('dim_u must be 0 or greater')
+
+        self.dim_x = dim_x
+        self.dim_z = dim_z
+        self.dim_u = dim_u
+
+        self.x = zeros((dim_x, 1))        # state
+        self.P = eye(dim_x)               # uncertainty covariance
+        self.Q = eye(dim_x)               # process uncertainty
+        self.B = None                     # control transition matrix
+        self.F = eye(dim_x)               # state transition matrix
+        self.H = zeros((dim_z, dim_x))    # Measurement function
+        self.R = eye(dim_z)               # state uncertainty
+        self._alpha_sq = 1.               # fading memory control
+        self.M = np.zeros((dim_z, dim_z)) # process-measurement cross correlation
+        self.z = np.array([[None]*self.dim_z]).T
+
+        # gain and residual are computed during the innovation step. We
+        # save them so that in case you want to inspect them for various
+        # purposes
+        self.K = np.zeros((dim_x, dim_z)) # kalman gain
+        self.y = zeros((dim_z, 1))
+        self.S = np.zeros((dim_z, dim_z)) # system uncertainty
+        self.SI = np.zeros((dim_z, dim_z)) # inverse system uncertainty
+
+        # identity matrix. Do not alter this.
+        self._I = np.eye(dim_x)
+
+        # these will always be a copy of x,P after predict() is called
+        self.x_prior = self.x.copy()
+        self.P_prior = self.P.copy()
+
+        # these will always be a copy of x,P after update() is called
+        self.x_post = self.x.copy()
+        self.P_post = self.P.copy()
+
+        # Only computed only if requested via property
+        self._log_likelihood = log(sys.float_info.min)
+        self._likelihood = sys.float_info.min
+        self._mahalanobis = None
+
+        self.inv = np.linalg.inv
+
+
+    def predict(self, u=None, B=None, F=None, Q=None):
+
+        if B is None:
+            B = self.B
+        if F is None:
+            F = self.F
+        if Q is None:
+            Q = self.Q
+        elif isscalar(Q):
+            Q = eye(self.dim_x) * Q
+
+        # x = Fx + Bu
+        if B is not None and u is not None:
+            self.x = dot(F, self.x) + dot(B, u)
+        else:
+            self.x = dot(F, self.x)
+
+        # P = FPF' + Q
+        self.P = self._alpha_sq * dot(dot(F, self.P), F.T) + Q
+
+        # save prior
+        self.x_prior = self.x.copy()
+        self.P_prior = self.P.copy()
+
+
+    def update(self, z, R=None, H=None):
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
+
+        if z is None:
+            self.z = np.array([[None]*self.dim_z]).T
+            self.x_post = self.x.copy()
+            self.P_post = self.P.copy()
+            self.y = zeros((self.dim_z, 1))
+            return
+
+        z = reshape_z(z, self.dim_z, self.x.ndim)
+
+        if R is None:
+            R = self.R
+        elif isscalar(R):
+            R = eye(self.dim_z) * R
+
+        if H is None:
+            H = self.H
+
+        # y = z - Hx
+        # error (residual) between measurement and prediction
+        self.y = z - dot(H, self.x)
+
+        # common subexpression for speed
+        PHT = dot(self.P, H.T)
+
+        # S = HPH' + R
+        # project system uncertainty into measurement space
+        self.S = dot(H, PHT) + R
+        self.SI = self.inv(self.S)
+        # K = PH'inv(S)
+        # map system uncertainty into kalman gain
+        self.K = dot(PHT, self.SI)
+
+        # x = x + Ky
+        # predict new x with residual scaled by the kalman gain
+        self.x = self.x + dot(self.K, self.y)
+
+        # P = (I-KH)P(I-KH)' + KRK'
+        # This is more numerically stable
+        # and works for non-optimal K vs the equation
+        # P = (I-KH)P usually seen in the literature.
+
+        I_KH = self._I - dot(self.K, H)
+        self.P = dot(dot(I_KH, self.P), I_KH.T) + dot(dot(self.K, R), self.K.T)
+
+        # save measurement and posterior state
+        self.z = deepcopy(z)
+        self.x_post = self.x.copy()
+        self.P_post = self.P.copy()
+
+    def predict_steadystate(self, u=0, B=None):
+        """
+        Predict state (prior) using the Kalman filter state propagation
+        equations. Only x is updated, P is left unchanged. See
+        update_steadstate() for a longer explanation of when to use this
+        method.
+        Parameters
+        ----------
+        u : np.array
+            Optional control vector. If non-zero, it is multiplied by B
+            to create the control input into the system.
+        B : np.array(dim_x, dim_z), or None
+            Optional control transition matrix; a value of None
+            will cause the filter to use `self.B`.
+        """
+
+        if B is None:
+            B = self.B
+
+        # x = Fx + Bu
+        if B is not None:
+            self.x = dot(self.F, self.x) + dot(B, u)
+        else:
+            self.x = dot(self.F, self.x)
+
+        # save prior
+        self.x_prior = self.x.copy()
+        self.P_prior = self.P.copy()
+
+    def update_steadystate(self, z):
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
+
+        if z is None:
+            self.z = np.array([[None]*self.dim_z]).T
+            self.x_post = self.x.copy()
+            self.P_post = self.P.copy()
+            self.y = zeros((self.dim_z, 1))
+            return
+
+        z = reshape_z(z, self.dim_z, self.x.ndim)
+
+        # y = z - Hx
+        # error (residual) between measurement and prediction
+        self.y = z - dot(self.H, self.x)
+
+        # x = x + Ky
+        # predict new x with residual scaled by the kalman gain
+        self.x = self.x + dot(self.K, self.y)
+
+        self.z = deepcopy(z)
+        self.x_post = self.x.copy()
+        self.P_post = self.P.copy()
+
+        # set to None to force recompute
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
+
+    def update_correlated(self, z, R=None, H=None):
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
+
+        if z is None:
+            self.z = np.array([[None]*self.dim_z]).T
+            self.x_post = self.x.copy()
+            self.P_post = self.P.copy()
+            self.y = zeros((self.dim_z, 1))
+            return
+
+        z = reshape_z(z, self.dim_z, self.x.ndim)
+
+        if R is None:
+            R = self.R
+        elif isscalar(R):
+            R = eye(self.dim_z) * R
+
+        # rename for readability and a tiny extra bit of speed
+        if H is None:
+            H = self.H
+
+        # handle special case: if z is in form [[z]] but x is not a column
+        # vector dimensions will not match
+        if self.x.ndim == 1 and shape(z) == (1, 1):
+            z = z[0]
+
+        if shape(z) == (): # is it scalar, e.g. z=3 or z=np.array(3)
+            z = np.asarray([z])
+
+        # y = z - Hx
+        # error (residual) between measurement and prediction
+        self.y = z - dot(H, self.x)
+
+        # common subexpression for speed
+        PHT = dot(self.P, H.T)
+
+        # project system uncertainty into measurement space
+        self.S = dot(H, PHT) + dot(H, self.M) + dot(self.M.T, H.T) + R
+        self.SI = self.inv(self.S)
+
+        # K = PH'inv(S)
+        # map system uncertainty into kalman gain
+        self.K = dot(PHT + self.M, self.SI)
+
+        # x = x + Ky
+        # predict new x with residual scaled by the kalman gain
+        self.x = self.x + dot(self.K, self.y)
+        self.P = self.P - dot(self.K, dot(H, self.P) + self.M.T)
+
+        self.z = deepcopy(z)
+        self.x_post = self.x.copy()
+        self.P_post = self.P.copy()
+
+    def batch_filter(self, zs, Fs=None, Qs=None, Hs=None,
+                     Rs=None, Bs=None, us=None, update_first=False,
+                     saver=None):
+        n = np.size(zs, 0)
+        if Fs is None:
+            Fs = [self.F] * n
+        if Qs is None:
+            Qs = [self.Q] * n
+        if Hs is None:
+            Hs = [self.H] * n
+        if Rs is None:
+            Rs = [self.R] * n
+        if Bs is None:
+            Bs = [self.B] * n
+        if us is None:
+            us = [0] * n
+
+        # mean estimates from Kalman Filter
+        if self.x.ndim == 1:
+            means = zeros((n, self.dim_x))
+            means_p = zeros((n, self.dim_x))
+        else:
+            means = zeros((n, self.dim_x, 1))
+            means_p = zeros((n, self.dim_x, 1))
+
+        # state covariances from Kalman Filter
+        covariances = zeros((n, self.dim_x, self.dim_x))
+        covariances_p = zeros((n, self.dim_x, self.dim_x))
+
+        if update_first:
+            for i, (z, F, Q, H, R, B, u) in enumerate(zip(zs, Fs, Qs, Hs, Rs, Bs, us)):
+
+                self.update(z, R=R, H=H)
+                means[i, :] = self.x
+                covariances[i, :, :] = self.P
+
+                self.predict(u=u, B=B, F=F, Q=Q)
+                means_p[i, :] = self.x
+                covariances_p[i, :, :] = self.P
+
+                if saver is not None:
+                    saver.save()
+        else:
+            for i, (z, F, Q, H, R, B, u) in enumerate(zip(zs, Fs, Qs, Hs, Rs, Bs, us)):
+
+                self.predict(u=u, B=B, F=F, Q=Q)
+                means_p[i, :] = self.x
+                covariances_p[i, :, :] = self.P
+
+                self.update(z, R=R, H=H)
+                means[i, :] = self.x
+                covariances[i, :, :] = self.P
+
+                if saver is not None:
+                    saver.save()
+
+        return (means, covariances, means_p, covariances_p)
+
+    def rts_smoother(self, Xs, Ps, Fs=None, Qs=None, inv=np.linalg.inv):
+
+        if len(Xs) != len(Ps):
+            raise ValueError('length of Xs and Ps must be the same')
+
+        n = Xs.shape[0]
+        dim_x = Xs.shape[1]
+
+        if Fs is None:
+            Fs = [self.F] * n
+        if Qs is None:
+            Qs = [self.Q] * n
+
+        # smoother gain
+        K = zeros((n, dim_x, dim_x))
+
+        x, P, Pp = Xs.copy(), Ps.copy(), Ps.copy()
+        for k in range(n-2, -1, -1):
+            Pp[k] = dot(dot(Fs[k+1], P[k]), Fs[k+1].T) + Qs[k+1]
+
+            #pylint: disable=bad-whitespace
+            K[k]  = dot(dot(P[k], Fs[k+1].T), inv(Pp[k]))
+            x[k] += dot(K[k], x[k+1] - dot(Fs[k+1], x[k]))
+            P[k] += dot(dot(K[k], P[k+1] - Pp[k]), K[k].T)
+
+        return (x, P, K, Pp)
+
+    def get_prediction(self, u=0):
+
+        x = dot(self.F, self.x) + dot(self.B, u)
+        P = self._alpha_sq * dot(dot(self.F, self.P), self.F.T) + self.Q
+        return (x, P)
+
+    def get_update(self, z=None):
+
+        if z is None:
+            return self.x, self.P
+        z = reshape_z(z, self.dim_z, self.x.ndim)
+
+        R = self.R
+        H = self.H
+        P = self.P
+        x = self.x
+
+        # error (residual) between measurement and prediction
+        y = z - dot(H, x)
+
+        # common subexpression for speed
+        PHT = dot(P, H.T)
+
+        # project system uncertainty into measurement space
+        S = dot(H, PHT) + R
+
+        # map system uncertainty into kalman gain
+        K = dot(PHT, self.inv(S))
+
+        # predict new x with residual scaled by the kalman gain
+        x = x + dot(K, y)
+
+        # P = (I-KH)P(I-KH)' + KRK'
+        I_KH = self._I - dot(K, H)
+        P = dot(dot(I_KH, P), I_KH.T) + dot(dot(K, R), K.T)
+
+        return x, P
+
+    def residual_of(self, z):
+        return z - dot(self.H, self.x_prior)
+
+    def measurement_of_state(self, x):
+        return dot(self.H, x)
+
+    @property
+    def log_likelihood(self):
+        if self._log_likelihood is None:
+            self._log_likelihood = logpdf(x=self.y, cov=self.S)
+        return self._log_likelihood
+
+    @property
+    def likelihood(self):
+        if self._likelihood is None:
+            self._likelihood = exp(self.log_likelihood)
+            if self._likelihood == 0:
+                self._likelihood = sys.float_info.min
+        return self._likelihood
+
+    @property
+    def mahalanobis(self):
+        if self._mahalanobis is None:
+            self._mahalanobis = sqrt(float(dot(dot(self.y.T, self.SI), self.y)))
+        return self._mahalanobis
+
+    @property
+    def alpha(self):
+        return self._alpha_sq**.5
+
+    def log_likelihood_of(self, z):
+
+        if z is None:
+            return log(sys.float_info.min)
+        return logpdf(z, dot(self.H, self.x), self.S)
+
+    @alpha.setter
+    def alpha(self, value):
+        if not np.isscalar(value) or value < 1:
+            raise ValueError('alpha must be a float greater than 1')
+
+        self._alpha_sq = value**2
+
+    def __repr__(self):
+        return '\n'.join([
+            'KalmanFilter object',
+            pretty_str('dim_x', self.dim_x),
+            pretty_str('dim_z', self.dim_z),
+            pretty_str('dim_u', self.dim_u),
+            pretty_str('x', self.x),
+            pretty_str('P', self.P),
+            pretty_str('x_prior', self.x_prior),
+            pretty_str('P_prior', self.P_prior),
+            pretty_str('x_post', self.x_post),
+            pretty_str('P_post', self.P_post),
+            pretty_str('F', self.F),
+            pretty_str('Q', self.Q),
+            pretty_str('R', self.R),
+            pretty_str('H', self.H),
+            pretty_str('K', self.K),
+            pretty_str('y', self.y),
+            pretty_str('S', self.S),
+            pretty_str('SI', self.SI),
+            pretty_str('M', self.M),
+            pretty_str('B', self.B),
+            pretty_str('z', self.z),
+            pretty_str('log-likelihood', self.log_likelihood),
+            pretty_str('likelihood', self.likelihood),
+            pretty_str('mahalanobis', self.mahalanobis),
+            pretty_str('alpha', self.alpha),
+            pretty_str('inv', self.inv)
+            ])
+
+    def test_matrix_dimensions(self, z=None, H=None, R=None, F=None, Q=None):
+
+        if H is None:
+            H = self.H
+        if R is None:
+            R = self.R
+        if F is None:
+            F = self.F
+        if Q is None:
+            Q = self.Q
+        x = self.x
+        P = self.P
+
+        assert x.ndim == 1 or x.ndim == 2, \
+                "x must have one or two dimensions, but has {}".format(x.ndim)
+
+        if x.ndim == 1:
+            assert x.shape[0] == self.dim_x, \
+                   "Shape of x must be ({},{}), but is {}".format(
+                       self.dim_x, 1, x.shape)
+        else:
+            assert x.shape == (self.dim_x, 1), \
+                   "Shape of x must be ({},{}), but is {}".format(
+                       self.dim_x, 1, x.shape)
+
+        assert P.shape == (self.dim_x, self.dim_x), \
+               "Shape of P must be ({},{}), but is {}".format(
+                   self.dim_x, self.dim_x, P.shape)
+
+        assert Q.shape == (self.dim_x, self.dim_x), \
+               "Shape of P must be ({},{}), but is {}".format(
+                   self.dim_x, self.dim_x, P.shape)
+
+        assert F.shape == (self.dim_x, self.dim_x), \
+               "Shape of F must be ({},{}), but is {}".format(
+                   self.dim_x, self.dim_x, F.shape)
+
+        assert np.ndim(H) == 2, \
+               "Shape of H must be (dim_z, {}), but is {}".format(
+                   P.shape[0], shape(H))
+
+        assert H.shape[1] == P.shape[0], \
+               "Shape of H must be (dim_z, {}), but is {}".format(
+                   P.shape[0], H.shape)
+
+        # shape of R must be the same as HPH'
+        hph_shape = (H.shape[0], H.shape[0])
+        r_shape = shape(R)
+
+        if H.shape[0] == 1:
+            # r can be scalar, 1D, or 2D in this case
+            assert r_shape == () or r_shape == (1,) or r_shape == (1, 1), \
+            "R must be scalar or one element array, but is shaped {}".format(
+                r_shape)
+        else:
+            assert r_shape == hph_shape, \
+            "shape of R should be {} but it is {}".format(hph_shape, r_shape)
+
+
+        if z is not None:
+            z_shape = shape(z)
+        else:
+            z_shape = (self.dim_z, 1)
+
+        # H@x must have shape of z
+        Hx = dot(H, x)
+
+        if z_shape == (): # scalar or np.array(scalar)
+            assert Hx.ndim == 1 or shape(Hx) == (1, 1), \
+            "shape of z should be {}, not {} for the given H".format(
+                shape(Hx), z_shape)
+
+        elif shape(Hx) == (1,):
+            assert z_shape[0] == 1, 'Shape of z must be {} for the given H'.format(shape(Hx))
+
+        else:
+            assert (z_shape == shape(Hx) or
+                    (len(z_shape) == 1 and shape(Hx) == (z_shape[0], 1))), \
+                    "shape of z should be {}, not {} for the given H".format(
+                        shape(Hx), z_shape)
+
+        if np.ndim(Hx) > 1 and shape(Hx) != (1, 1):
+            assert shape(Hx) == z_shape, \
+               'shape of z should be {} for the given H, but it is {}'.format(
+                   shape(Hx), z_shape)
+                   
+                   
+def order_by_derivative(Q, dim, block_size):
+    N = dim * block_size
+    D = zeros((N, N))
+    Q = array(Q)
+    for i, x in enumerate(Q.ravel()):
+        f = eye(block_size) * x
+
+        ix, iy = (i // dim) * block_size, (i % dim) * block_size
+        D[ix:ix+block_size, iy:iy+block_size] = f
+
+    return D
+
+
+
+def Q_discrete_white_noise(dim, dt=1., var=1., block_size=1, order_by_dim=True):
+    if not (dim == 2 or dim == 3 or dim == 4):
+        raise ValueError("dim must be between 2 and 4")
+    if dim == 2:
+        Q = [[.25*dt**4, .5*dt**3],
+             [ .5*dt**3,    dt**2]]
+    elif dim == 3:
+        Q = [[.25*dt**4, .5*dt**3, .5*dt**2],
+             [ .5*dt**3,    dt**2,       dt],
+             [ .5*dt**2,       dt,        1]]
+    else:
+        Q = [[(dt**6)/36, (dt**5)/12, (dt**4)/6, (dt**3)/6],
+             [(dt**5)/12, (dt**4)/4,  (dt**3)/2, (dt**2)/2],
+             [(dt**4)/6,  (dt**3)/2,   dt**2,     dt],
+             [(dt**3)/6,  (dt**2)/2 ,  dt,        1.]]
+
+    if order_by_dim:
+        return block_diag(*[Q]*block_size) * var
+    return order_by_derivative(array(Q), dim, block_size) * var
+
+def pos_vel_filter(x, P, R, Q=0., dt=1.0):
+    """ Returns a KalmanFilter which implements a
+    constant velocity model for a state [x dx].T
+    """
+    
+    kf = KalmanFilter(dim_x=2, dim_z=1)
+    kf.x = np.array([x[0], x[1]]) # location and velocity
+    kf.F = np.array([[1., dt],
+                     [0.,  1.]])  # state transition matrix
+    kf.H = np.array([[1., 0]])    # Measurement function
+    kf.R *= R                     # measurement uncertainty
+    if np.isscalar(P):
+        kf.P *= P                 # covariance matrix 
+    else:
+        kf.P[:] = P               # [:] makes deep copy
+    if np.isscalar(Q):
+        kf.Q = Q_discrete_white_noise(dim=2, dt=dt, var=Q)
+    else:
+        kf.Q[:] = Q
+    return kf
+
+def init_kfs(track_forJson,max_pid_id_setting,num_pose,init_id):
+    all_keys = list(track_forJson.keys())
+    all_keys.sort(key=cmp_to_key(lambda a,b:int(a.split('_')[-1])-int(b.split('_')[-1])))
+    
+    kfs =  [ [] for i in range(max_pid_id_setting)]
+    fame_0_key = all_keys[init_id]
+    fame_1_key = all_keys[init_id+1]
+    for mouse_i in range(max_pid_id_setting):
+        for pose_j in range(num_pose):
+            for xOrY in range(2):
+                pos_1 = track_forJson[fame_1_key][mouse_i]['keypoints'][3*pose_j+xOrY]
+                pos_0 = track_forJson[fame_0_key][mouse_i]['keypoints'][3*pose_j+xOrY]
+                velocity = pos_1 - pos_0
+                confidence = 0.5*(track_forJson[fame_1_key][mouse_i]['keypoints'][3*pose_j+2]+track_forJson[fame_1_key][mouse_i]['keypoints'][3*pose_j+2])
+                kfs[mouse_i].append(
+                    pos_vel_filter(x=[10000000,velocity],\
+#                                    P=np.diag([((1-confidence)*(abs(pos_1-pos_0)))**2, ((1-confidence)*abs(velocity))**2]),\
+                                   P=np.diag([500,5000]),\
+                                   ## elem in P is var of position and var of velocity
+                                   R = 10*(1-confidence), \
+                                   ## R is the measurement uncertainty, elem is var of the uncertainty
+                                   Q=0.1, \
+                                   ## Q is the process covariance. white nose would be fine
+                                   dt=1\
+                                   ## time interval of two kalman update
+                ))
+    return kfs
+
+def kalman_get(kfs,track_forJson,frame_id):
+    frame_info_list_pred = []
+    frame_info_list = track_forJson[frame_id]
+    for mouse_i, mouse_info_dict in enumerate(frame_info_list):
+        frame_info_list_pred.append(copy.deepcopy(mouse_info_dict))
+        if mouse_info_dict:
+            for pose_j in range(int(len(mouse_info_dict['keypoints'])/3)):
+                for xOrY in range(2):
+                    kf = kfs[mouse_i][pose_j*2+xOrY]
+                    z = mouse_info_dict['keypoints'][pose_j*3+xOrY]
+                    confidence = mouse_info_dict['keypoints'][pose_j*3+2]
+                    kf.predict()
+                    if confidence == -1:
+                        kf.update(z,R = 0.00000001)
+                    elif confidence < 0.15:
+                        kf.update(z,R = 100*(1-confidence))
+                    elif confidence < 0.25:
+                        kf.update(z,R = 50*(1-confidence))
+                    else:
+                        kf.update(z,R = 0.01*(1-confidence))
+                    frame_info_list_pred[mouse_i]['keypoints'][pose_j*3+xOrY] = kf.x[0]
+    return frame_info_list_pred
+
+def post_process_tracking(track_forJson,args):
+    try:
+        frame_start = args.frame_start
+        frame_end = args.frame_end
+    except Exception as e:
+        frame_start = 0
+        frame_end = len(sorted_keys)
+    if args.kalman:
+        kfs = init_kfs(track_forJson,args.max_pid_id_setting,args.num_pose,init_id=frame_start+1)# 
+    if args.fill_blank_with_predict and args.max_pid_id_setting==-1:
+        print('Warning! If fill_blank_with_predict==True, then max_pid_id_setting would better not be -1.')
+    
+    sorted_keys = list(track_forJson.keys())
+    sorted_keys.sort(key=cmp_to_key(lambda a,b:int(a.split('_')[-1])-int(b.split('_')[-1])))
+    
+    for frame_id in range(frame_start,frame_end):
+        imgname = sorted_keys[frame_id]
+        if args.kalman:
+            frame_info_list_pred = kalman_get(kfs,track_forJson,imgname)
+        else:
+            frame_info_list_pred = track_forJson[imgname] 
+        if args.kalman and frame_id>10:
+            track_forJson[imgname] = frame_info_list_pred
+parser = argparse.ArgumentParser(description='FoseFlow Tracker')
+parser.add_argument('--frame_start', type=int, required=False, help="")
+parser.add_argument('--frame_end', type=int, required=False, help="")
+parser.add_argument('--num_pose', type=int, required=False, help="")
+parser.add_argument('--max_pid_id_setting', type=int, required=False, help="number of mice in the video. -1 for unknown.")
+parser.add_argument('--fill_blank_with_predict', type=bool, required=False, default=False, help="")
+parser.add_argument('--smooth_pose', type=bool, required=False, default=False, help="")
+
+args = parser.parse_args()
+args.kalman = True
+</script>
+<script src="../js/script.js"></script>
+
+
+</body>
+</html>
