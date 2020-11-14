@@ -3,14 +3,14 @@
 ###                        general setting                         ###
 ######################################################################
 # gpu_id is the id of gpu that will be used
-gpu_id = 5
+gpu_id = 0
 
 
 ######################################################################
 ###                         code path setting                      ###
 ######################################################################
 # AlphaTracker_root = '/disk2/zexin/project/mice/AlphaTracker/'
-AlphaTracker_root = '/home/zexin/project/mice/algorithm/tracking/AlphaTracker'
+AlphaTracker_root = './'
 
 
 ######################################################################
@@ -76,7 +76,7 @@ json_file_list = [\
 # num_mouse is a list the specify the number of mouse in the images in each image folder path
 num_mouse = [4,4,4,4]
 # exp_name is the name of the experiment
-exp_name = 'labeled_byCompany_4567_split90_ori'
+exp_name = 'demo'
 # num_pose is the number of the pose that is labeled
 ## note!! remember to change self.nJoints in train_sppe/src/utils/dataset/coco.py
 num_pose = 4
@@ -134,20 +134,14 @@ yolo_batchSize = 4
 # video_full_path = '/disk4/zexin/ruihan/mice/datasets/20190603/1929_black_two.mov'
 # video_full_path = '/disk4/zexin/project/mice/datasets/interaction/2019-10-25_15-29-43_femalespost3hourisolation.mp4'
 # video_full_path = '/disk4/zexin/project/mice/datasets/06_040506_twoMice/0854_black_two.mov'
-video_full_path = '/home/zexin/project/mice/datasets/interaction/2019-11-19_2femalespost8hrisolation.mp4'
+video_full_path = './data/demo.mp4'
 video_paths = [
-	# '/disk4/zexin/ruihan/mice/datasets/0605/',
-	# '/disk4/zexin/ruihan/mice/datasets/0604/',
-  # '/disk4/zexin/project/mice/datasets/06_040506_twoMice',
-  # '/disk4/zexin/ruihan/mice/datasets/20191030_social/',
-  # '/disk4/zexin/project/mice/datasets/interaction/',
-  
   '/disk2/zexin/data/mice/demo_videos/2019-11-19_2femalespost8hrisolation.mp4',
   '/disk2/zexin/data/mice/demo_videos/2019-10-25_15-29-43_femalespost3hourisolation.mp4',
   '/disk2/zexin/data/mice/demo_videos/2019-11-04_females4hrpostisolation.mp4',
   '/disk2/zexin/data/mice/demo_videos/2019-11-07_femaleandmalepost6hrisolation.mp4',
   '/disk2/zexin/data/mice/demo_videos/2019-11-07_malemaleinteraction6hrpostisolation.mp4',
-	] ## make sure video names are different from each other
+  ] ## make sure video names are different from each other
 # start_frame is the id of the start frame of the video
 start_frame = 0
 # end_frame is the id of the last frame of the video
@@ -158,7 +152,7 @@ max_pid_id_setting = 2
 # result_folder = '/home/zexin/project/mice/AlphaTracker/examples/tracke_result_folder/'
 # result_folder = '/disk1/zexin/project/mice/clustering_sequencial/track_result_folder/withLimbs_interaction_refine/'
 # result_folder = '/disk1/zexin/project/mice/clustering_sequencial/track_result_folder/noLimbs_interaction/'
-result_folder = '/disk2/zexin/project/mice/track_result/time_testing/'
+result_folder = ',/track_result/'
 # remove_oriFrame is whether remove the original frame that generated from video
 remove_oriFrame = False
 vis_track_result = 0
