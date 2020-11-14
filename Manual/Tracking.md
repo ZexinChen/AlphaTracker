@@ -8,7 +8,7 @@ This project is tested in conda env and thus conda is recommended. To install co
 
 ### Install conda environment
 
-Create conda enviroment with dependencies:
+1. Create conda enviroment with dependencies:
 
 ```bash
 conda env create -f environment.yml
@@ -20,24 +20,27 @@ If the above command line failed, please install the packages in the environment
 conda activate alphatracker
 conda env update --file environment.yml
 ```
+2. install pytorch following the guide from [Pytorch Website](https://pytorch.org/get-started/previous-versions/).
+
+(The code is tested with pytorch 0.4.0, pytorch 0.4.1)
+```
 
 ### Install YOLO
 
 Install [YOLO](https://pjreddie.com/darknet/yolo/) for training.
 ```bash
-cd ./tracking/AlphaTracker/train_yolo/darknet/
+cd ./Tracking/AlphaTracker/train_yolo/darknet/
 make
 cd ../../../../
 ```
 
-### Download initial weights
+### Download weights 
 
 Download files from google driver and place them in specific locations:
-
-* [duc_se.pth](https://drive.google.com/file/d/1OPORTWB2cwd5YTVBX-NE8fsauZJWsrtW/view): put it in
-./tracking/AlphaTracker/models/sppe/
-
-* [darknet53.conv.74](https://drive.google.com/file/d/1g8uJjK7EOlqrUCmjZTtCegwnNsBig6zn/view?usp=sharing): put it in ./tracking/AlphaTracker/train_yolo/darknet/cfg/
+```bash
+cd ./Tracking/AlphaTracker/
+python3 download.py
+```
 
 <br>
 

@@ -303,12 +303,12 @@ for idx, frame_name in enumerate(tqdm(frame_list[:-1])):
 
     # all_cors = np.loadtxt(cor_file)
 
-    # if there is no people in this frame, then copy the info from former frame
+    # if there is no animal in this frame, then copy the info from former frame
     if track[next_frame_name]['num_boxes'] == 0:
         track[next_frame_name] = copy.deepcopy(track[frame_name])
         continue
     # print(track, frame_list[:-1], idx, max_pid_id, link_len)
-    # get all the newest people info from frame idx-linklen to idx
+    # get all the newest animal info from frame idx-linklen to idx
     cur_all_pids, cur_all_pids_fff = stack_all_pids(track, frame_list[:-1], idx, max_pid_id, link_len)
     stack_time = time.time()
 
@@ -422,12 +422,12 @@ for idx, frame_name in enumerate(tqdm(frame_list[:-1])):
 np.save('track-bl.npy',track)
 # track = np.load('track-bl.npy').item()
 
-# calculate number of people
+# calculate number of animal
 num_persons = 0
 for fid, frame_name in enumerate(frame_list):
     for pid in range(1, track[frame_name]['num_boxes']+1):
         num_persons = max(num_persons, track[frame_name][pid]['new_pid'])
-print("This video contains %d people."%(num_persons))
+print("This video contains %d animals." % (num_persons))
 
 # export tracking result into notrack json files
 print("\nExport tracking results to json...")

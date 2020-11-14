@@ -145,7 +145,7 @@ video_paths = [
 # start_frame is the id of the start frame of the video
 start_frame = 0
 # end_frame is the id of the last frame of the video
-end_frame = 3000000
+end_frame = 3000
 # max_pid_id_setting is the number of mice in the video
 max_pid_id_setting = 2
 # result_folder is the path to the folder used to save the result
@@ -155,7 +155,7 @@ max_pid_id_setting = 2
 result_folder = ',/track_result/'
 # remove_oriFrame is whether remove the original frame that generated from video
 remove_oriFrame = False
-vis_track_result = 0
+vis_track_result = 1
 # weights and match are parameter of tracking algorithm, following setting should work fine, no need to change
 weights = '0 6 0 0 0 0 '
 match = 0
