@@ -23,7 +23,7 @@ conda env update --file environment.yml
 2. install pytorch following the guide from [Pytorch Website](https://pytorch.org/get-started/previous-versions/).
 
 (The code is tested with pytorch 0.4.0, pytorch 0.4.1)
-```
+
 
 ### Install YOLO
 
