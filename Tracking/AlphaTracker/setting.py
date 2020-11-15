@@ -3,6 +3,7 @@
 ###                        general setting                         ###
 ######################################################################
 # gpu_id is the id of gpu that will be used
+import os
 gpu_id = 0
 
 
@@ -135,10 +136,21 @@ max_pid_id_setting = 2
 # result_folder = '/home/zexin/project/mice/AlphaTracker/examples/tracke_result_folder/'
 # result_folder = '/disk1/zexin/project/mice/clustering_sequencial/track_result_folder/withLimbs_interaction_refine/'
 # result_folder = '/disk1/zexin/project/mice/clustering_sequencial/track_result_folder/noLimbs_interaction/'
-result_folder = ',/track_result/'
+result_folder = './track_result/'
 # remove_oriFrame is whether remove the original frame that generated from video
 remove_oriFrame = False
 vis_track_result = 1
 # weights and match are parameter of tracking algorithm, following setting should work fine, no need to change
 weights = '0 6 0 0 0 0 '
 match = 0
+
+
+## the following code is for self-check and reformat
+assert len(image_root_list) == len(
+    json_file_list), 'the length of image_root_list and json_file_list should be the same'
+for i in range(len(image_root_list)):
+    image_root_list[i] = os.path.abspath(image_root_list[i])
+    json_file_list[i] = os.path.abspath(json_file_list[i])
+AlphaTracker_root = os.path.abspath(AlphaTracker_root)
+result_folder = os.path.abspath(result_folder)
+
