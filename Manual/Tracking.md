@@ -38,6 +38,7 @@ cd ../../../../
 
 Download files from google driver and place them in specific locations:
 ```bash
+conda activate alphatracker
 cd ./Tracking/AlphaTracker/
 python3 download.py
 ```
