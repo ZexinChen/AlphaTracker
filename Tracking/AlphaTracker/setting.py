@@ -59,7 +59,7 @@ json_file_list = [\
 # num_mouse is a list the specify the number of mouse in the images in each image folder path
 num_mouse = [2]
 # exp_name is the name of the experiment
-exp_name = 'demo_train'
+exp_name = 'demo'
 # num_pose is the number of the pose that is labeled
 ## note!! remember to change self.nJoints in train_sppe/src/utils/dataset/coco.py
 num_pose = 4
