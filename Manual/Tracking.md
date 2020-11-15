@@ -31,7 +31,7 @@ conda env update --file environment.yml
 
 ### Install YOLO
 
-Install [YOLO](https://pjreddie.com/darknet/yolo/) for training.
+Install [YOLO](https://pjreddie.com/darknet/yolo/) for training by copy-pasting the following into the Anaconda Prompt.
 ```bash
 cd ./Tracking/AlphaTracker/train_yolo/darknet/
 make
@@ -40,7 +40,7 @@ cd ../../../../
 
 ### Download weights 
 
-Download files from google driver and place them in specific locations:
+Download files from google drive and place them in specific locations by copy-pasting the following into the Anaconda Prompt:
 ```bash
 conda activate alphatracker
 cd ./Tracking/AlphaTracker/
@@ -53,19 +53,25 @@ python3 download.py
 
 ### Step 1. Configuration
 
-Before tracking, you need to charge the parameters in ./Tracking/AlphaTracker/setting.py (blue block in Figure 2). The meaning of
+Before tracking, you need to change the parameters in ./Tracking/AlphaTracker/setting.py (blue block in Figure 2). The meaning of
 the parameters can be found in the ./Tracking/AlphaTracker/setting.py.
 
 The default ./Tracking/AlphaTracker/setting.py will use a trained weight to track a demo video
 
 ### Step 2. Running the code
 
-Use the following command line to train the model:
+Use the following command line to train the model...copy paste the following into the Anaconda Prompt:
 ```bash
 conda activate alphatracker
 cd ./Tracking/AlphaTracker/
+python train.py
+```
+
+Use the following command line to track your videos after training...copy paste the following into the Anaconda Prompt:
+```bash
 python track.py
 ```
+
 
 <br>
 
