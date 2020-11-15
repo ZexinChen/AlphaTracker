@@ -10,7 +10,7 @@ This project is tested in conda env and thus conda is recommended. To install co
 
 ### Install conda environment
 
-In your command window, type in "anaconda prompt". Open this application. Then, find the folder that contains the `AlphaTracker` repository that you just downloaded. Then inside the Anaconda Prompt, change the directory as follows: `cd /path/to/AlphaTracker`. 
+In your command window, locate the terminal prompt. Open this application. Then, find the folder that contains the `AlphaTracker` repository that you just downloaded. Then inside the terminal window, change the directory as follows: `cd /path/to/AlphaTracker`. 
 
 1. Create conda enviroment with dependencies by typing in the following:
 
@@ -31,7 +31,7 @@ conda env update --file environment.yml
 
 ### Install YOLO
 
-Install [YOLO](https://pjreddie.com/darknet/yolo/) for training by copy-pasting the following into the Anaconda Prompt.
+Install [YOLO](https://pjreddie.com/darknet/yolo/) for training by copy-pasting the following into the terminal window.
 ```bash
 cd ./Tracking/AlphaTracker/train_yolo/darknet/
 make
@@ -40,7 +40,7 @@ cd ../../../../
 
 ### Download weights 
 
-Download files from google drive and place them in specific locations by copy-pasting the following into the Anaconda Prompt:
+Download files from google drive and place them in specific locations by copy-pasting the following into the terminal window:
 ```bash
 conda activate alphatracker
 cd ./Tracking/AlphaTracker/
@@ -48,45 +48,6 @@ python3 download.py
 ```
 
 <br>
-
-## Tracking
-
-### Step 1. Configuration
-
-Before tracking, you need to change the parameters in ./Tracking/AlphaTracker/setting.py (blue block in Figure 2). The meaning of
-the parameters can be found in the ./Tracking/AlphaTracker/setting.py.
-
-The default ./Tracking/AlphaTracker/setting.py will use a trained weight to track a demo video
-
-### Step 2. Running the code
-
-Use the following command line to train the model...copy paste the following into the Anaconda Prompt:
-```bash
-conda activate alphatracker
-cd ./Tracking/AlphaTracker/
-python train.py
-```
-
-Use the following command line to track your videos after training...copy paste the following into the Anaconda Prompt:
-```bash
-python track.py
-```
-
-
-<br>
-
-### General Notes about the Parameters:
-1. Remember not to include any spaces or parentheses in your file names
-2. For training the parameter num_mouse must include the same number of items as the number of json files
-that have annotated data. For example if you have one json file with annotated data for 3 animals then
-```num_mouse=[3]``` if you have two json files with annoted data for 3 animals then ```num_mouse=[3,3]```.
-3. ```sppe_lr``` is the learning rate for the SAPE network. If your network is not performing well you can lower this
-number and try retraining
-4. ```sppe_epoch``` is the number of training epochs that the SAPE network does. More epochs will take longer but
-can potentially lead to better performance.
-
-<br>
-
 
 ## Training
 
@@ -120,6 +81,42 @@ Change directory to the alphatracker folder (where this README is in) and use th
 conda activate alphatracker
 python train.py
 ```
+
+<br>
+
+
+
+## Tracking
+
+### Step 1. Configuration
+
+Before tracking, you need to change the parameters in ./Tracking/AlphaTracker/setting.py (blue block in Figure 2). The meaning of
+the parameters can be found in the ./Tracking/AlphaTracker/setting.py.
+
+The default ./Tracking/AlphaTracker/setting.py will use a trained weight to track a demo video
+
+### Step 2. Running the code
+
+Use the following command line to train the model...copy paste the following into the terminal window:
+```bash
+conda activate alphatracker
+cd ./Tracking/AlphaTracker/
+python track.py
+```
+
+
+
+<br>
+
+### General Notes about the Parameters:
+1. Remember not to include any spaces or parentheses in your file names
+2. For training the parameter num_mouse must include the same number of items as the number of json files
+that have annotated data. For example if you have one json file with annotated data for 3 animals then
+```num_mouse=[3]``` if you have two json files with annoted data for 3 animals then ```num_mouse=[3,3]```.
+3. ```sppe_lr``` is the learning rate for the SAPE network. If your network is not performing well you can lower this
+number and try retraining
+4. ```sppe_epoch``` is the number of training epochs that the SAPE network does. More epochs will take longer but
+can potentially lead to better performance.
 
 <br>
 
