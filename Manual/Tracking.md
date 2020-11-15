@@ -2,13 +2,17 @@
 
 ## Preparation
 
+Download the AlphaTracker repository. Once downloaded, change the name of the main folder from `AlphaTracker-master` to `AlphaTracker`. 
+
 ### Install conda
 
 This project is tested in conda env and thus conda is recommended. To install conda, please follow the instructions from the [conda website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) With conda installed, please set up the environment with the following steps.
 
 ### Install conda environment
 
-1. Create conda enviroment with dependencies:
+In your command window, type in "anaconda prompt". Open this application. Then, find the folder that contains the `AlphaTracker` repository that you just downloaded. Then inside the Anaconda Prompt, change the directory as follows: `cd /path/to/AlphaTracker`. 
+
+1. Create conda enviroment with dependencies by typing in the following:
 
 ```bash
 conda env create -f environment.yml
