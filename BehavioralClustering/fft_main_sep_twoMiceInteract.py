@@ -12,7 +12,7 @@ import seaborn as sns
 from time import time 
 from sklearn.manifold import TSNE 
 import umap
-from utils_file import setting, contour_utils
+import setting, contour_utils
 import pickle
 import fft_utils
 

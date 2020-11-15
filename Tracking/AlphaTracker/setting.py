@@ -129,7 +129,7 @@ video_paths = [
 # start_frame is the id of the start frame of the video
 start_frame = 0
 # end_frame is the id of the last frame of the video
-end_frame = 3000
+end_frame = 300
 # max_pid_id_setting is the number of mice in the video
 max_pid_id_setting = 2
 # result_folder is the path to the folder used to save the result

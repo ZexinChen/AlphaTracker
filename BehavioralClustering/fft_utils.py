@@ -23,6 +23,7 @@ from sklearn import metrics
 import csv
 import umap
 import random
+from sklearn.manifold import TSNE
 
 
 def mkdir_p(path):
@@ -268,12 +269,12 @@ def retrieve_poses_Mice(arg):
                 poseTheOther = np.delete(poseTheOther, 2, axis=1)
                 poseTheOther_clip.append(poseTheOther[:])
 
-                frames_path_clip.append(arg.imgdir[i] + data_key + '.png')
+                frames_path_clip.append(arg.imgdir[i] + '/' + data_key + '.png')
                 info_dict['track_infos'].append(mice)
                 info_dict['frame_keys'].append(data_key)
 
                 faces = pd.DataFrame([])
-                frame = plt.imread(arg.contdir[i] + 'mask_mouse{}_{}.png'.format(arg.targetMouseID,frame_id))
+                frame = plt.imread(arg.contdir[i] + '/' + 'mask_mouse{}_{}.png'.format(arg.targetMouseID,frame_id))
                 frame = np.asarray(frame[:,:,0],dtype = 'uint8')
                 face = pd.Series(frame.flatten(),name = frame_id)
                 faces = faces.append(face)
@@ -281,7 +282,7 @@ def retrieve_poses_Mice(arg):
                 cont_clip.append(component[0][0:10])
 
                 faces = pd.DataFrame([])
-                frame = plt.imread(arg.contdir[i] + 'mask_mouse{}_{}.png'.format(referMouseID,frame_id))
+                frame = plt.imread(arg.contdir[i] + '/' + 'mask_mouse{}_{}.png'.format(referMouseID,frame_id))
                 frame = np.asarray(frame[:,:,0],dtype = 'uint8')
                 face = pd.Series(frame.flatten(),name = frame_id)
                 faces = faces.append(face)

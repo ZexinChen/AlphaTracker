@@ -36,7 +36,7 @@ def create_dataframe_faces():
             if np.random.randn()>0.8:
                 print('add %d th image '%(len(faces+1)))
                 # print(i,img_dict + img_name)
-                frame = plt.imread(img_dict + img_name)
+                frame = plt.imread(img_dict + '/' + img_name)
                 frame = np.asarray(frame[:,:,0],dtype = 'uint8')
                 frame[frame == 255] = 1
                 # flat = frame.flatten()
