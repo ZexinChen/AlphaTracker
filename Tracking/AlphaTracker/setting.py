@@ -49,34 +49,17 @@ AlphaTracker_root = './'
 
 # image_root_list is a list of image folder paths to the RGB image for training
 image_root_list=[\
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/04/data_04/',
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/05/data_05/',
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/06/select_track_frame_merged/',
-                # '/disk4/zexin/datasets/mice/new_labeled_byCompany/07/select_track_frame_merged/',
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/08/select_track_frame/all',
-
-                 # '/disk2/zexin/data/mice/train_data/data_04/',
-                 # '/disk2/zexin/data/mice/train_data/data_05/', # image folder path 3
-                 # '/disk2/zexin/data/mice/train_data/data_06/',
-                 # '/disk2/zexin/data/mice/train_data/data_07/',
+                './data/sample_annotated_data/demo/'
                 ]
 # json_file_list is a list of paths to the json file that contain labels of the images for training
 json_file_list = [\
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/04/multi_person_04.json',
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/05/multi_person_05.json',
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/06/multi_person_06.json',
-                # '/disk4/zexin/datasets/mice/new_labeled_byCompany/07/multi_person_07.json',
-                '/disk4/zexin/datasets/mice/new_labeled_byCompany/08/multi_person_08.json',
-                  # '/disk2/zexin/data/mice/train_data/multi_person_04.json', # label json file 3
-                  # '/disk2/zexin/data/mice/train_data/multi_person_05.json', # label json file 3
-                  # '/disk2/zexin/data/mice/train_data/multi_person_06.json', # label json file 3
-                  # '/disk2/zexin/data/mice/train_data/multi_person_07.json', # label json file 3
-                 ]
+                './data/sample_annotated_data/demo/train9.json'
+                ]
 
 # num_mouse is a list the specify the number of mouse in the images in each image folder path
-num_mouse = [4,4,4,4]
+num_mouse = [2]
 # exp_name is the name of the experiment
-exp_name = 'demo'
+exp_name = 'demo_train'
 # num_pose is the number of the pose that is labeled
 ## note!! remember to change self.nJoints in train_sppe/src/utils/dataset/coco.py
 num_pose = 4

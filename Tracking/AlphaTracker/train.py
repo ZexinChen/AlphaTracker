@@ -16,6 +16,12 @@ from setting import AlphaTracker_root,\
         image_root_list,json_file_list,num_mouse,exp_name,num_pose,train_val_split,image_suffix,gpu_id,\
         sppe_lr, sppe_epoch,yolo_lr,yolo_iter,sppe_pretrain,yolo_pretrain,yolo_batchSize,sppe_batchSize
 
+assert len(image_root_list) == len(json_file_list), 'the length of image_root_list and json_file_list should be the same'
+for i in range(len(image_root_list)):
+    image_root_list[i] = os.path.abspath(image_root_list[i])
+    json_file_list[i] = os.path.abspath(json_file_list[i])
+AlphaTracker_root = os.path.abspath(AlphaTracker_root)
+
 class cd:
     """Context manager for changing the current working directory"""
     def __init__(self, newPath):
@@ -151,6 +157,7 @@ print('')
 print('*** training sppe ***')
 if sppe_pretrain == '':
   sppe_pretrain = '{}/models/sppe/duc_se.pth'.format(AlphaTracker_root)
+sppe_pretrain = os.path.abspath(sppe_pretrain)
 sppe_train_cmd = 'CUDA_VISIBLE_DEVICES={} python train.py \\\n \
             --dataset coco \\\n \
             --img_folder_train {} \\\n \

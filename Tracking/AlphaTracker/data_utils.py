@@ -42,9 +42,11 @@ def merge_clean_ln_split_Data(image_root_list,json_file_list,ln_image_dir,train_
                         has_box = True
                 annot = new_annot 
                 if(len(new_annot)!=num_mouse[ii]*(num_pose+1)):
+                    print('Bad annotation: there %s animals and %s pose for each animal, but only %s annoation'%(str(num_mouse[ii]),str((num_pose+1)),str(len(new_annot))))
                     num_badAnnot += 1
                     continue
                 if(not has_box):
+                    print('The annotations does not have info of bounding box')
                     num_badAnnot += 1
                     continue
                 for mice_id in range(num_mouse[ii]):
@@ -60,9 +62,9 @@ def merge_clean_ln_split_Data(image_root_list,json_file_list,ln_image_dir,train_
                 new_data.append(single_img_data)
                 single_img_data_count += 1
                 # num_allAnnot += num_mouse[ii]
-            except:
+            except Exception as e:
                 num_badAnnot += 1
-                print('bad annot!!:',single_img_data)
+                print('bad annot!!:',e,single_img_data)
         
         ### split data
         train_data += new_data[:int(len(data)*train_val_split)]
@@ -135,7 +137,7 @@ def generate_yolo_data(list_file,data_in,image_root_in,yolo_annot_root,image_suf
                 print('image path:')
                 print(image_root_in+item['filename'])
                 raise e
-            with open((yolo_annot_root+item['filename'].strip(image_suffix)+'txt'),'w') as fileout:
+            with open((yolo_annot_root+item['filename'].strip(item['filename'].split('.')[-1])+'txt'), 'w') as fileout:
                 for j in item['annotations']:
                     if (j['class']=='Face') or j['class']=='boundingBox':
                         x_mean=(j['x']+j['width']/2)/yolo_inputImg_size[0]
