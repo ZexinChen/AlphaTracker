@@ -15,38 +15,8 @@ AlphaTracker_root = './'
 
 
 ######################################################################
-###                        data related setting                    ###
+###                        data related settings                    ###
 ######################################################################
-# # image_root_list is a list of image folder paths to the RGB image for training
-# image_root_list=[\
-#                  '/disk4/zexin/datasets/mice/new_labeled_byCompany/0416/02/color/', # image folder path 1
-#                  '/disk4/zexin/datasets/mice/new_labeled_byCompany/04/data_04/', # image folder path 2
-#                  '/disk4/zexin/datasets/mice/new_labeled_byCompany/05/data_05/', # image folder path 3
-#                  '/disk4/zexin/datasets/mice/new_labeled_byCompany/06/select_track_frame_merge/', # image folder path 4
-#                  '/disk4/zexin/datasets/mice/new_labeled_byCompany/07/select_track_frame_merge/', # image folder path 4
-#                 ]
-# # json_file_list is a list of paths to the json file that contain labels of the images for training
-# json_file_list = [\
-#                   '/disk4/zexin/datasets/mice/new_labeled_byCompany/0416/02/annotation_02.json', # label json file 1
-#                   '/disk4/zexin/datasets/mice/new_labeled_byCompany/04/multi_person_04.json', # label json file 2
-#                   '/disk4/zexin/datasets/mice/new_labeled_byCompany/05/multi_person_05.json', # label json file 3
-#                   '/disk4/zexin/datasets/mice/new_labeled_byCompany/06/multi_person_06.json',
-#                   '/disk4/zexin/datasets/mice/new_labeled_byCompany/07/multi_person_07.json',
-#                  ]
-# # num_mouse is a list the specify the number of mouse in the images in each image folder path
-# num_mouse = [4,4,4,4,5]
-# # exp_name is the name of the experiment
-# exp_name = 'labeled_byCompany_0204050607_split90_ori'
-# # num_pose is the number of the pose that is labeled
-# ## note!! remember to change self.nJoints in train_sppe/src/utils/dataset/coco.py
-# num_pose = 4
-# pose_pair = [[0,1],[0,2],[0,3]]
-# # train_val_split is ratio of data that used to train model
-# train_val_split = 0.90
-# # image_suffix is the suffix of the image
-# image_suffix = 'png'
-
-
 
 # image_root_list is a list of image folder paths to the RGB image for training
 image_root_list=[\
@@ -67,32 +37,8 @@ num_pose = 4
 pose_pair = [[0,1],[0,2],[0,3]]
 # train_val_split is ratio of data that used to train model
 train_val_split = 0.90
-# image_suffix is the suffix of the image
+# image_suffix is the suffix of the image. Accepted images are png or jpg
 image_suffix = 'png'
-
-
-
-# # image_root_list is a list of image folder paths to the RGB image for training
-# image_root_list=[\
-#                  '/disk4/zexin/datasets/mice/new_labeled_byCompany/08/select_track_frame/all/', # image folder path 4
-#                 ]
-# # json_file_list is a list of paths to the json file that contain labels of the images for training
-# json_file_list = [\
-#                   '/disk4/zexin/datasets/mice/new_labeled_byCompany/08/multi_person_08.json',
-#                  ]
-# # num_mouse is a list the specify the number of mouse in the images in each image folder path
-# num_mouse = [2]
-# # exp_name is the name of the experiment
-# exp_name = 'labeled_byCompany_08_split80_withLimbs_pretrain_correct_refine'
-
-# # num_pose is the number of the pose that is labeled
-# ## note!! remember to change self.nJoints in train_sppe/src/utils/dataset/coco.py
-# num_pose = 8
-# pose_pair = [[0,1],[0,2],[0,3],[4,5],[5,7],[7,6],[6,4]]
-# # train_val_split is ratio of data that used to train model
-# train_val_split = 0.80
-# # image_suffix is the suffix of the image
-# image_suffix = 'png'
 
 ######################################################################
 ###               training hyperparameter setting                  ###
