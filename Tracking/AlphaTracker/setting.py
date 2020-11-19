@@ -43,13 +43,14 @@ image_suffix = 'png'
 ######################################################################
 ###               training hyperparameter setting                  ###
 ######################################################################
+#protip: if your training does not give good enough tracking you can lower lr and increase epoch number. But lowering the lr too much can be bad for tracking quality as well. 
 sppe_lr=1e-4
 sppe_epoch=10
 # sppe_pretrain = '/disk4/zexin/project/mice/AlphaTracker/train_sppe/exp/coco/labeled_byCompany_0204050607_split90_ori/model_10.pkl'
 sppe_pretrain = ''
 sppe_batchSize = 10
 yolo_lr=0.0005
-yolo_iter=20000+20000+20000  ## if use pretrained model please make sure yolo_iter to be large enough to garantee finetune is done
+yolo_iter=20000+20000+20000  ## if use pretrained model please make sure yolo_iter to be large enough to guarantee finetune is done
 # yolo_pretrain = '/disk4/zexin/project/mice/AlphaTracker/train_yolo/darknet/backup/labeled_byCompany_0204050607_split90_ori/yolov3-mice_final.weights'
 yolo_pretrain = ''
 yolo_batchSize = 4
@@ -60,10 +61,7 @@ yolo_batchSize = 4
 ######################################################################
 ### note video_full_path is for track.py, video_paths is for track_batch.py
 # video_full_path is the path to the video that will be tracked
-# video_full_path = '/disk4/zexin/project/mice/datasets/0603/1959_black_two.mov'
-# video_full_path = '/disk4/zexin/ruihan/mice/datasets/20190603/1929_black_two.mov'
-# video_full_path = '/disk4/zexin/project/mice/datasets/interaction/2019-10-25_15-29-43_femalespost3hourisolation.mp4'
-# video_full_path = '/disk4/zexin/project/mice/datasets/06_040506_twoMice/0854_black_two.mov'
+
 video_full_path = './data/demo.mp4'
 video_paths = [
   '/disk2/zexin/data/mice/demo_videos/2019-11-19_2femalespost8hrisolation.mp4',
