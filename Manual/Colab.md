@@ -52,11 +52,8 @@ Run the second code block...**this is an important note**: The main `My Drive` f
 
 ## Step 5:
 
-Run the following code block to download `Alphatracker` into your Google Drive...Wait a minute or two, then go to your `My Drive` folder...you should notice a new folder by the name `Alphatracker` has appeared. 
+Run the following code block to download `AlphaTracker` into your Google Drive...Wait a minute or two, then go to your `My Drive` folder...you should notice a new folder by the name `AlphaTracker` has appeared. 
 
-#### **THIS FOLLOWING IS CRUCIAL:**
-
-Go into the newly created `Alphatracker` folder. Find the subfolder entitled `01 Tracking`. **Rename this folder to `01_Tracking`...add an underscore between the "01" and "Tracking"**
 
 <p align = 'center'>
     <img src = '../Manual/media/step_5_.png'>
@@ -84,7 +81,7 @@ Now, navigate back to the `My Drive` folder...you will see a new folder created 
 
 ## Step 7: 
 
-Now, find the `setting.py` file inside the `Alphatracker` directory: The file should be located in `/Alphatracker/01_Tracking/Alphatracker/setting.py`.
+Now, find the `setting.py` file inside the `AlphaTracker` directory: The file should be located in `/AlphaTracker/Tracking/AlphaTracker/setting.py`.
 
 **Open this file using the `Text Editor` and NOT Google Docs!!**
 
@@ -92,7 +89,7 @@ Inside the `setting.py` file, you will find some variable that must be adjusted.
 
 First, find the `gpu_id` variable and set it equal to `0`. For example, `gpu_id = 0`. 
 
-Next, find the `Alphatracker_root` variable, and **copy paste the following:** `/gdrive/AlphaTracker/01_Tracking/AlphaTracker`
+Next, find the `AlphaTracker_root` variable, and **copy paste the following:** `/gdrive/AlphaTracker/Tracking/AlphaTracker`
 
 Next, find the `image_root_list` variable...replace it with the path to your new training data folder that was created in `Step 6`. **IMPORTANT: instead of typing `/content/drive/My Drive/TRAINING_DATA...`, type the following: `/gdrive/TRAINING_DATA...`. Essentially, replace `/content/drive/My Drive` with `/gdrive` while keeping everything else the same**
 
@@ -132,7 +129,7 @@ Run the following code blocks back-to-back without any alterations...this will t
 
 ## Step 9:
 
-Run the following code block to train Alphatracker! This step can take anywhere from 30 minutes to 6 hours...it depends on how many iterations you are training for.
+Run the following code block to train AlphaTracker! This step can take anywhere from 30 minutes to 6 hours...it depends on how many iterations you are training for.
 
 <p align = 'left'>
     <img src = '../Manual/media/step_9_.png'>
