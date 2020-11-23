@@ -10,7 +10,7 @@ Google Colab is only useful for training and inference purposes. If you have a f
 
 Also, if you are trying out Alphatracker and would like to use the sample data, click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
 
-To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1MVyZE73jzOI7bILU9vQttOpU3abK4daa?usp=sharing)**
+To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1B0FZGVSDtLc7S5Mr1aYWpIUEs2hVgh4d?usp=sharing)**
 
 <br>
 
