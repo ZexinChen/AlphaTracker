@@ -145,43 +145,6 @@ print('')
 
 
 
-    
-
-# print('you can run the following cmd to train sppe:')
-print('*** training sppe ***')
-if sppe_pretrain == '':
-  sppe_pretrain = '{}/models/sppe/duc_se.pth'.format(AlphaTracker_root)
-sppe_pretrain = os.path.abspath(sppe_pretrain)
-sppe_train_cmd = 'CUDA_VISIBLE_DEVICES={} python train.py \\\n \
-            --dataset coco \\\n \
-            --img_folder_train {} \\\n \
-            --annot_file_train {} \\\n \
-            --img_folder_val {} \\\n \
-            --annot_file_val {} \\\n \
-            --expID {} \\\n \
-            --nClasses {} \\\n \
-            --LR {} --trainBatch {} \\\n \
-            --nEpochs {} \\\n \
-            --nThreads 6 \\\n \
-            --loadModel {}'.format(\
-                                   gpu_id, \
-                                   yolo_image_annot_root,\
-                                   train_h5_file,\
-                                   yolo_image_annot_root,\
-                                   val_h5_file,exp_name,\
-                                   num_pose,\
-                                   sppe_lr, sppe_batchSize,\
-                                   sppe_epoch, \
-                                   sppe_pretrain)
-
-print('training with following setting:\n%s'%(sppe_train_cmd))
-with cd(sppe_root+'/src'):
-    os.system(sppe_train_cmd)
-
-
-
-
-
 print('*** training detector ***')
 
 if not os.path.exists(darknet_root+'/backup/'+exp_name):
@@ -225,6 +188,37 @@ time_end = time.time()
 
 print('training finished. Time used: {} seconds'.format(time_end-time_start))
 
+
+# print('you can run the following cmd to train sppe:')
+print('*** training sppe ***')
+if sppe_pretrain == '':
+  sppe_pretrain = '{}/models/sppe/duc_se.pth'.format(AlphaTracker_root)
+sppe_pretrain = os.path.abspath(sppe_pretrain)
+sppe_train_cmd = 'CUDA_VISIBLE_DEVICES={} python train.py \\\n \
+            --dataset coco \\\n \
+            --img_folder_train {} \\\n \
+            --annot_file_train {} \\\n \
+            --img_folder_val {} \\\n \
+            --annot_file_val {} \\\n \
+            --expID {} \\\n \
+            --nClasses {} \\\n \
+            --LR {} --trainBatch {} \\\n \
+            --nEpochs {} \\\n \
+            --nThreads 6 \\\n \
+            --loadModel {}'.format(
+    gpu_id,
+    yolo_image_annot_root,
+    train_h5_file,
+    yolo_image_annot_root,
+    val_h5_file, exp_name,
+    num_pose,
+    sppe_lr, sppe_batchSize,
+    sppe_epoch,
+    sppe_pretrain)
+
+print('training with following setting:\n%s' % (sppe_train_cmd))
+with cd(sppe_root+'/src'):
+    os.system(sppe_train_cmd)
 
 
 
