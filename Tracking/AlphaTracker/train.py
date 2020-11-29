@@ -11,6 +11,8 @@ import time
 
 import json
 from tqdm import tqdm
+import subprocess
+import sys
 
 from setting import AlphaTracker_root,\
         image_root_list,json_file_list,num_mouse,exp_name,num_pose,train_val_split,image_suffix,gpu_id,\
@@ -28,7 +30,55 @@ class cd:
     def __exit__(self, etype, value, traceback):
         os.chdir(self.savedPath)
 
+def execute(cmd):
+    # popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+    # for stdout_line in iter(popen.stdout.readline, ""):
+    #     yield stdout_line
+    if isinstance(cmd, str):
+        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    else:
+        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    for stdout_line in popen.stdout:
+        try:
+            stdout_line_str = stdout_line.decode('ascii', errors='ignore')
+        except Exception as ex1:
+            # print("ascii catch exception: {}. will decode with utf-8".format(ex1))
+            try:
+                stdout_line_str = stdout_line.decode('utf-8')
+            except Exception as ex2:
+                # print("ascii catch exception: {}. will decode with utf-8".format(ex2))
+                stdout_line_str = stdout_line.decode('cp850')
+        yield stdout_line_str
+    for stdout_line in popen.stderr:
+        try:
+            stdout_line_str = stdout_line.decode('ascii', errors='ignore')
+        except Exception as ex1:
+            # print("ascii catch exception: {}. will decode with utf-8".format(ex1))
+            try:
+                stdout_line_str = stdout_line.decode('utf-8')
+            except Exception as ex2:
+                # print("ascii catch exception: {}. will decode with utf-8".format(ex2))
+                stdout_line_str = stdout_line.decode('cp850')
+        yield stdout_line_str
+    popen.stdout.close()
+    return_code = popen.wait()
+    if return_code:
+        raise subprocess.CalledProcessError(return_code, cmd)
 
+
+def executeAndWriteFile(cmd, filePath):
+    try:
+        with open(filePath,'a') as fout:
+            for outLine in execute(cmd):
+                print(outLine)
+                fout.write(outLine)
+        return 0
+    except subprocess.CalledProcessError:
+        return 1
+    else:
+        return 2
+
+        
 ###################################
 ###    code path setting        ###
 ###################################
@@ -182,11 +232,16 @@ f_cmd_id.close()
 # print('training with following setting:\ndir:%s\ncmd:%s'%(darknet_root,yolo_train_cmd))
 
 time_start=time.time()
+filePath = os.path.abspath('./outputOfYoloTraining.txt')
 with cd(darknet_root):
-    os.system('bash train.sh')
+    exitCode = executeAndWriteFile(['bash','train.sh'], filePath)
+    if exitCode != 0:
+        print('failed to train YOLO, please check output of YOLO training in %s'%(filePath))
+        sys.exit(1)
+    # os.system('bash train.sh')
 time_end = time.time()
 
-print('training finished. Time used: {} seconds'.format(time_end-time_start))
+print('YOLO training finished. Time used: {} seconds'.format(time_end-time_start))
 
 
 # print('you can run the following cmd to train sppe:')
@@ -217,8 +272,15 @@ sppe_train_cmd = 'CUDA_VISIBLE_DEVICES={} python train.py \\\n \
     sppe_pretrain)
 
 print('training with following setting:\n%s' % (sppe_train_cmd))
+filePath = os.path.abspath('./outputOfSPPETraining.txt')
 with cd(sppe_root+'/src'):
-    os.system(sppe_train_cmd)
+    exitCode = executeAndWriteFile(sppe_train_cmd, filePath)
+    if exitCode != 0:
+        print('failed to train sppe, please check output of YOLO training in %s'%(filePath))
+        sys.exit(1)
+    else:
+        print('SPPE is trained, please check output of YOLO training in %s' % (filePath))
+    # os.system(sppe_train_cmd)
 
 
 
