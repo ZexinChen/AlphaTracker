@@ -4,9 +4,9 @@ import shutil
 from datetime import datetime
 
 def convert(image_filepaths, json_filepaths, extension):
-    save_path = '/content/drive/My Drive/TRAINING_DATA'+'_'+datetime.today().strftime('%Y-%m-%d')
+    save_path = '/content/drive/My Drive/AlphaTracker/Tracking/data_folder'
     if os.path.isdir(save_path) == True:
-        print('Directory already exists...please adjust before continuing!')
+        shutil.rmtree(save_path)
     else:
         os.mkdir(save_path)
     
@@ -42,8 +42,9 @@ def convert(image_filepaths, json_filepaths, extension):
     json_save = save_path + '/ATjsonCOLAB.json'
     with open(json_save, 'w') as outfile:
         json.dump(comb_pop, outfile, indent=4)
-        
-        
+		
+		
+		
 def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_name, image_suffix, sppe_lr, \
                    sppe_epoch, sppe_batchSize, yolo_lr, yolo_iter, yolo_batchSize, start_frame, end_frame, \
 				   max_pid_setting, visualize, video_path):
