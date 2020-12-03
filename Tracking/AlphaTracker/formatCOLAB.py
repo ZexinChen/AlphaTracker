@@ -62,7 +62,7 @@ def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_nam
 		f.write("json_file_list='/gdrive/AlphaTracker/Tracking/data_folder/ATjsonCOLAB.json'\n")
 		f.write("num_mouse={}\n".format(num_mouse))
 		f.write("num_pose={}\n".format(num_pose))
-		f.write("exp_name={}\n".format(exp_name))
+		f.write("exp_name='{}'\n".format(exp_name))
 		f.write("pose_pair={}\n".format(pose_pair))
 		f.write("train_val_split={}\n".format(train_val_split))
 		f.write("image_suffix={}\n".format(image_suffix))
