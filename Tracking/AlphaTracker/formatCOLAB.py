@@ -73,6 +73,7 @@ def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_nam
 		f.write("yolo_lr={}\n".format(yolo_lr))
 		f.write("yolo_iter={}\n".format(yolo_iter))
 		f.write("yolo_batchSize={}\n".format(yolo_batchSize))
+		f.write("yolo_pretrain=''\n")
 		
 		if len(video_path) == 1:
 			f.write("video_full_path='{}'\n".format(new_video_paths[0]))
