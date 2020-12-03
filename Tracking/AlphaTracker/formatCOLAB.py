@@ -65,7 +65,7 @@ def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_nam
 		f.write("exp_name='{}'\n".format(exp_name))
 		f.write("pose_pair={}\n".format(pose_pair))
 		f.write("train_val_split={}\n".format(train_val_split))
-		f.write("image_suffix={}\n".format(image_suffix))
+		f.write("image_suffix='{}'\n".format(image_suffix))
 		f.write("sppe_lr={}\n".format(sppe_lr))
 		f.write("sppe_epoch={}\n".format(sppe_epoch))
 		f.write("sppe_batchSize={}\n".format(sppe_batchSize))
