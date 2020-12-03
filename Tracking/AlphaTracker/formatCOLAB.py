@@ -4,7 +4,7 @@ import shutil
 from datetime import datetime
 
 def convert(image_filepaths, json_filepaths, extension):
-    save_path = '/content/drive/My Drive/data_folder'
+    save_path = '/content/drive/My Drive/TRAINING_DATA'
     if os.path.isdir(save_path) == True:
         shutil.rmtree(save_path)
     else:
@@ -58,8 +58,8 @@ def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_nam
 		f.write("import os\n")
 		f.write("gpu_id=0\n")
 		f.write("AlphaTracker_root = '/gdrive/AlphaTracker/Tracking/AlphaTracker'\n")
-		f.write("image_root_list='/gdrive/data_folder'\n")
-		f.write("json_file_list='/gdrive/data_folder/ATjsonCOLAB.json'\n")
+		f.write("image_root_list='/gdrive/TRAINING_DATA'\n")
+		f.write("json_file_list='/gdrive/TRAINING_DATA/ATjsonCOLAB.json'\n")
 		f.write("num_mouse={}\n".format(num_mouse))
 		f.write("num_pose={}\n".format(num_pose))
 		f.write("exp_name='{}'\n".format(exp_name))
