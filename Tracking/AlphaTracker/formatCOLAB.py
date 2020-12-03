@@ -4,7 +4,7 @@ import shutil
 from datetime import datetime
 
 def convert(image_filepaths, json_filepaths, extension):
-    save_path = '/content/drive/My Drive/AlphaTracker/Tracking/data_folder'
+    save_path = '/content/drive/My Drive/data_folder'
     if os.path.isdir(save_path) == True:
         shutil.rmtree(save_path)
     else:
