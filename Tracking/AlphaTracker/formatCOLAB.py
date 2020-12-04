@@ -87,9 +87,9 @@ def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_nam
 		f.write("remove_oriFrame=False\n")
 		
 		if visualize == 'yes':
-			f.write("vis_track_results=1\n")
+			f.write("vis_track_result=1\n")
 		else:
-			f.write("vis_track_results=0\n")
+			f.write("vis_track_result=0\n")
 			
 		f.write("weights = '0 6 0 0 0 0 '\n")
 		f.write("match = 0\n")
