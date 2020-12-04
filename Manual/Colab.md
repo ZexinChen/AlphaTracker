@@ -1,14 +1,16 @@
 # 04 Training and Tracking with Colab
 
-# Introduction
+## Introduction
 
-AlphaTracker is tested in Linux systems broadly and those systems that have GPUs. However, if you would do not have Linux-compatible system or do not have access to consumer GPUs, you can use Google Colab for the purposes of training and tracking Alphatracker!
+AlphaTracker has been developed on Linux systems with GPUs. Here, we provide an alternative approach for users who do not have access to Linux/GPUs.
 
-## An Important Notice Before You Continue:
+<b> An Important Notice Before You Continue:</b>
 
-Google Colab is only useful for training and inference purposes. If you have a fully-labeled set of data using the Alphatracker annotation tool, continue on...if you have NOT labeled your data, **please complete this step first!**
+If you have not labeled your training datasets, you can use the Alphatracker annotation tool to annotate your data.
 
-Also, if you are trying out Alphatracker and would like to use the sample data, click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
+Alternatively, if your behavioral settings are similar to ours, you can also the annotated data we provided. [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) 
+
+<br>
 
 To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1B0FZGVSDtLc7S5Mr1aYWpIUEs2hVgh4d?usp=sharing)**
 
@@ -16,21 +18,21 @@ To access the Colab notebook, **click [here](https://colab.research.google.com/d
 
 ## Step 1:
 
-Find your folder/folders of data that contain the training images and the JSON annotated files. 
+Locate your folder/folders of data that contain the training images and the JSON annotated files. 
 
-Open your Google Drive, and upload the folder/folders, and the videos you want to label, into the Drive under the main `My Drive` folder. Ensure that your Drive has ample storage after uploading the files!!
+Open your Google Drive, and upload the folder/folders, and the videos you want to label, onto the Drive under the main `My Drive` folder. Make sure that your Drive has ample storage after uploading the files!!
 
 <br>
 
 ## Step 2: 
 
-Open the `AlphaTrackerCOLAB.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1MVyZE73jzOI7bILU9vQttOpU3abK4daa?usp=sharing). You have now opened your Python session
+Open the `AlphaTrackerCOLAB.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1MVyZE73jzOI7bILU9vQttOpU3abK4daa?usp=sharing). 
 
 <br>
 
 ## Step 3:
 
-Click `Runtime` and then `Change runtime type`...from the dropdown menu, select `GPU`. 
+Click `Runtime` and then click `Change runtime type` from the dropdown menu, select `GPU`. 
 
 <p align = 'center'>
     <img src = '../Manual/media/runtime_pic.png' widht = 250 height = 250>
@@ -38,11 +40,11 @@ Click `Runtime` and then `Change runtime type`...from the dropdown menu, select 
 
 <br>
 
-## Step 4: 
+## Step 4 Connect to Google Drive
 
-Now, we will connect our Python session to our Google Drive. Press the play button next to the code block to run the first cell. You will be prompted with an authorization link. Click this link and follow the instructions...select the Google Drive account to which you have uploaded your data from `Step 1`. Paste the authorization code back into the prompt box. 
+Press the play button next to the code block to run the first cell. You will be prompted with an authorization link. Click this link and follow the instructions. Select the Google Drive account to which you have uploaded your data from `Step 1`. Paste the authorization code back into the prompt box. 
 
-Run the second code block...**this is an important note**: The main `My Drive` folder has the following path: `/content/drive/My Drive`. We are now inside this main folder
+Run the second code block **this is an important note**: The main `My Drive` folder has the following path: `/content/drive/My Drive`. We are now inside this main folder
 
 <p align = 'center'>
     <img src = '../Manual/media/step_4_.png'>
@@ -52,7 +54,7 @@ Run the second code block...**this is an important note**: The main `My Drive` f
 
 ## Step 5:
 
-Run the following code block to download `AlphaTracker` into your Google Drive...Wait a minute or two, then go to your `My Drive` folder...you should notice a new folder by the name `AlphaTracker` has appeared. 
+Run the following code block to download `AlphaTracker` into your Google Drive. Wait a minute or two, then go to your `My Drive` folder...you should notice a new folder by the name `AlphaTracker` has appeared. 
 
 
 <p align = 'center'>
@@ -119,7 +121,7 @@ Save the `setting.py` file, and you should be good to go! In the image below, yo
 
 ## Step 8: 
 
-Run the following code blocks back-to-back without any alterations...this will take about 6-10 minutes to complete!
+Run the following code blocks back-to-back without any alterations. This will take about 6-10 minutes to complete!
 
 <p align = 'left'>
     <img src = '../Manual/media/step_8_.png'>
@@ -129,7 +131,7 @@ Run the following code blocks back-to-back without any alterations...this will t
 
 ## Step 9:
 
-Run the following code block to train AlphaTracker! This step can take anywhere from 30 minutes to 6 hours...it depends on how many iterations you are training for.
+Run the following code block to train AlphaTracker! This step can take anywhere from 30 minutes to 6 hours. It depends on how many iterations you are training for.
 
 <p align = 'left'>
     <img src = '../Manual/media/step_9_.png'>
@@ -139,7 +141,9 @@ Run the following code block to train AlphaTracker! This step can take anywhere 
 
 ## Step 10:
 
-Run the following code block to perform tracking on the videos you listed in `setting.py`. Once this step is complete, you can go to the folder you designated in the `result_folder` variable in `setting.py` to find the location of the tracked results!
+Run the following code block to perform tracking on the videos you listed in `setting.py`. 
+
+Once this step is complete, you can go to the folder you designated in the `result_folder` variable in `setting.py` to find the location of the tracked results!
 
 <p align = 'left'>
     <img src = '../Manual/media/step_10_.png'>
