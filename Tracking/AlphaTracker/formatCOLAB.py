@@ -83,7 +83,7 @@ def make_settingPY(image_root_list, json_file_path, num_mouse, num_pose, exp_nam
 		f.write("start_frame={}\n".format(start_frame))
 		f.write("end_frame={}\n".format(end_frame))
 		f.write("max_pid_id_setting={}\n".format(max_pid_setting))
-		f.write("result_folder='./result_folder'\n")
+		f.write("result_folder='/gdrive/result_folder'\n")
 		f.write("remove_oriFrame=False\n")
 		
 		if visualize == 'yes':
