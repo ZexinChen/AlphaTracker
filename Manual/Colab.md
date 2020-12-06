@@ -32,7 +32,7 @@ Open the `AlphaTrackerCOLAB_12-2-20.ipynb`, which can be found at this [link her
 
 Click `Runtime` and then `Change runtime type`...from the dropdown menu, select `GPU`. 
 
-<p align = 'center'>
+<p align = 'left'>
     <img src = '../Manual/media/runtime_pic.PNG' widht = 250 height = 250>
 </p>
 
@@ -44,8 +44,8 @@ Now, we will connect our Python session to our Google Drive. Press the play butt
 
 Run the second code block...**this is an important note**: The main `My Drive` folder has the following path: `/content/drive/My Drive`. We are now inside this main folder
 
-<p align = 'center'>
-    <img src = '../Manual/media/step_4_.png'>
+<p align = 'left'>
+    <img src = '../Manual/media/mount_drive_pic.PNG'>
 </p>
 
 <br>
@@ -55,8 +55,8 @@ Run the second code block...**this is an important note**: The main `My Drive` f
 Run the following code block to download `AlphaTracker` into your Google Drive...Wait a minute or two, then go to your `My Drive` folder...you should notice a new folder by the name `AlphaTracker` has appeared. 
 
 
-<p align = 'center'>
-    <img src = '../Manual/media/step_5_.png'>
+<p align = 'left'>
+    <img src = '../Manual/media/git_clone_pic.PNG'>
 </p>
 
 <br>
@@ -107,7 +107,7 @@ In `yolo_batch_size`, type in the batch size for the YOLO model.
  
 
 <p align = 'center'>
-    <img src = '../Manual/media/step_6_.png' >
+    <img src = '../Manual/media/define_variables_pic.PNG' >
 </p>
 
 <br>
@@ -118,7 +118,7 @@ In `yolo_batch_size`, type in the batch size for the YOLO model.
 Run the following code blocks back-to-back without any alterations...this will take about 6-10 minutes to complete!
 
 <p align = 'left'>
-    <img src = '../Manual/media/step_8_.png'>
+    <img src = '../Manual/media/install_stuff_pic.PNG'>
 </p>
 
 <br>
@@ -128,7 +128,7 @@ Run the following code blocks back-to-back without any alterations...this will t
 Run the following code block to train AlphaTracker! This step can take anywhere from 30 minutes to 6 hours...it depends on how many iterations you are training for.
 
 <p align = 'left'>
-    <img src = '../Manual/media/step_9_.png'>
+    <img src = '../Manual/media/train_pic.PNG'>
 </p>
 
 <br>
