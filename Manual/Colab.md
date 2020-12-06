@@ -65,7 +65,7 @@ Run the following code block to download `AlphaTracker` into your Google Drive. 
 
 ## Step 6:
 
-In the following code block, enter in the variables that will define your experiment. 
+In the following code block, enter in the variables that will define your experiment. **Very important: Ensure that your training data for a specific experiment has the same number of animals and poses. If there are samples with different numbers, please separate them as run them with different experiment names!**
 
 In `experiment_name`, type in the name for the experiment inside the quotation marks. 
 
