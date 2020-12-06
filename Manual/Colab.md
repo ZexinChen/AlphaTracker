@@ -12,6 +12,8 @@ Also, if you are trying out Alphatracker and would like to use the sample data, 
 
 To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
 
+Lastly, please run different experiments if you have a variable number of animals per JSON file. 
+
 <br>
 
 ## Step 1:
