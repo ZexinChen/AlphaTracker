@@ -1,4 +1,4 @@
-# 04 Training and Tracking with Colab
+# Training and Tracking with Colab
 
 # Introduction
 
