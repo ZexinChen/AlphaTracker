@@ -33,7 +33,7 @@ Open the `AlphaTrackerCOLAB_12-2-20.ipynb`, which can be found at this [link her
 Click `Runtime` and then `Change runtime type`...from the dropdown menu, select `GPU`. 
 
 <p align = 'center'>
-    <img src = '../Manual/media/runtime_pic.png' widht = 250 height = 250>
+    <img src = '../Manual/media/runtime_pic.PNG' widht = 250 height = 250>
 </p>
 
 <br>
