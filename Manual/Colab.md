@@ -10,7 +10,7 @@ Google Colab is only useful for training and inference purposes. If you have a f
 
 Also, if you are trying out Alphatracker and would like to use the sample data, click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
 
-To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1B0FZGVSDtLc7S5Mr1aYWpIUEs2hVgh4d?usp=sharing)**
+To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
 
 <br>
 
@@ -24,7 +24,7 @@ Open your Google Drive, and upload the folder/folders, and the videos you want t
 
 ## Step 2: 
 
-Open the `AlphaTrackerCOLAB.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1MVyZE73jzOI7bILU9vQttOpU3abK4daa?usp=sharing). You have now opened your Python session
+Open the `AlphaTrackerCOLAB_12-2-20.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing). You have now opened your Python session
 
 <br>
 
@@ -63,15 +63,48 @@ Run the following code block to download `AlphaTracker` into your Google Drive..
 
 ## Step 6:
 
+In the following code block, enter in the variables that will define your experiment...
+
+In `experiment_name`, type in the name for the experiment inside the quotation marks. 
+
 In the following code block, in the variable `image_root_list`, enter the path to all your image folders...
 
 In the variable `json_path_list`, enter the path to all the respective JSON training files in the same order as the image folders in `image_root_list`. 
 
-In the variable `extension`, type in the filetype of the images...for example, `extension = 'jpg'` for JPG images.
+In `number_of_animals`, enter in the number of animals in each of the JSON files inside the brackets.
+
+In `number_of_poses`, enter in the number of bodyparts that are being labeled per animal. 
+
+In `image_suffix`, enter the extension of the image, such as "jpg", or "png".
+
+In `video_path`, enter in the path of where the videos to-be-tracked are located. 
+
+In `start_frame`, enter in the first frame of the video that you would like to label.
+
+In `end_frame`, enter in the last frame of the video that you would like to label. 
+
+In `number_of_animals_in_video`, enter in the number of animals in the video. 
+
+In `visualize_tracking_results`, enter in either 'yes' or 'no' if you would like to visualize the tracking results. 
+
+**The following are optional, but can be changed**
+
+In `sppe_learning_rate`, type in the learning rate for the SPPE model. 
+
+In `sppe_iterations`, type in the number of iterations for the SPPE model. 
+
+In `sppe_batch_size`, type in the batch size for the SPPE model. 
+
+In `yolo_learning_rate`, type in the learning rate for the YOLO model.
+
+In `yolo_iterations`, type in the number of iterations for the YOLO model.
+
+In `yolo_batch_size`, type in the batch size for the YOLO model. 
+
 
 **Remember, the main `My Drive` folder has the path `/content/drive/My Drive`...therefore, a folder named `Images` that is under the main `My Drive` folder would have the path `/content/drive/My Drive/Images`. This is what you should type. For example, `image_root_list = ['/content/drive/My Drive/Folder1', '/content/drive/My Drive/Folder2']` and etc...**
 
-Now, navigate back to the `My Drive` folder...you will see a new folder created beginning with `TRAINING_DATA` followed by the date. This is your new training data folder that contains all the images and JSON files in the appropriate format for Colab to use...At this point, you can remove the original image folders, but not the videos, you uploaded into your Google Drive to free up some memory. 
+ 
 
 <p align = 'center'>
     <img src = '../Manual/media/step_6_.png' >
@@ -79,45 +112,8 @@ Now, navigate back to the `My Drive` folder...you will see a new folder created 
 
 <br>
 
+
 ## Step 7: 
-
-Now, find the `setting.py` file inside the `AlphaTracker` directory: The file should be located in `/AlphaTracker/Tracking/AlphaTracker/setting.py`.
-
-**Open this file using the `Text Editor` and NOT Google Docs!!**
-
-Inside the `setting.py` file, you will find some variable that must be adjusted.
-
-First, find the `gpu_id` variable and set it equal to `0`. For example, `gpu_id = 0`. 
-
-Next, find the `AlphaTracker_root` variable, and **copy paste the following:** `/gdrive/AlphaTracker/Tracking/AlphaTracker`
-
-Next, find the `image_root_list` variable...replace it with the path to your new training data folder that was created in `Step 6`. **IMPORTANT: instead of typing `/content/drive/My Drive/TRAINING_DATA...`, type the following: `/gdrive/TRAINING_DATA...`. Essentially, replace `/content/drive/My Drive` with `/gdrive` while keeping everything else the same**
-
-Next, find the `json_file_list` variable and do the same as above, but this time, linking to the JSON file inside the `TRAINING_DATA...` folder. 
-
-In `num_mouse`, type in the number of animals in the training data, like the following: `num_mouse = [2]` if there are 2 animals. 
-
-In `exp_name`, choose an experiment name and type it within the parentheses...for example, `exp_name = 'Test_Experiment'`
-
-In `num_pose`, enter the number of poses being tracked per subject...for example, `num_pose = 4`. 
-
-In `image_suffix`, type in the filetype in the parentheses, same as `Step 6`. 
-
-In `yolo_iter`, enter the number of YOLO iterations...if you are simply trying the software out, enter a small number, for example, `yolo_iter = 700`. 
-
-In `video_full_path`, enter the path to the video you are attempting to track: For example, if the video `vid1.mp4` is under the `My Drive` folder, then type: `video_full_path = '/gdrive/vid1.mp4`. 
-
-In `result_folder`, enter the path for where you want to save tracking results...this will create a folder with the results...for example: `result_folder = /gdrive/tracking_results`. 
-
-Save the `setting.py` file, and you should be good to go! In the image below, you will see a formatted version of the `setting.py` after adjustments have been made. 
-
-<p align = 'center'>
-    <img src = '../Manual/media/setting_file.PNG' width = 500  height = 800>
-</p>
-
-<br>
-
-## Step 8: 
 
 Run the following code blocks back-to-back without any alterations...this will take about 6-10 minutes to complete!
 
@@ -127,7 +123,7 @@ Run the following code blocks back-to-back without any alterations...this will t
 
 <br>
 
-## Step 9:
+## Step 8:
 
 Run the following code block to train AlphaTracker! This step can take anywhere from 30 minutes to 6 hours...it depends on how many iterations you are training for.
 
@@ -137,7 +133,7 @@ Run the following code block to train AlphaTracker! This step can take anywhere 
 
 <br>
 
-## Step 10:
+## Step 9:
 
 Run the following code block to perform tracking on the videos you listed in `setting.py`. Once this step is complete, you can go to the folder you designated in the `result_folder` variable in `setting.py` to find the location of the tracked results!
 
