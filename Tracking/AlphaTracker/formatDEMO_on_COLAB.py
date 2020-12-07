@@ -54,7 +54,7 @@ def make_settingPY():
 		f.write("gpu_id=0\n")
 		f.write("AlphaTracker_root = '/gdrive/AlphaTracker/Tracking/AlphaTracker'\n")
 		f.write("image_root_list=['/gdrive/TRAINING_DATA']\n")
-		f.write("json_file_list=['/gdrive/TRAINING_DATA/train9.json']\n")
+		f.write("json_file_list=['/gdrive/TRAINING_DATA/ATjsonCOLAB.json']\n")
 		f.write("num_mouse=[2]\n")
 		f.write("num_pose=4\n")
 		f.write("exp_name='DEMO'\n")
