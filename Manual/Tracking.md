@@ -47,7 +47,7 @@ cd ./Tracking/AlphaTracker/
 python3 download.py
 ```
 
-This step downloads pretrain weights that are needed for training and also trained weights that you can use for demo.
+This step downloads pretrain weights that are needed for training and also trained weights that you can use for demo. The demo weights were trained based on data from 2 unmarked mice interacting in a cage. 
 
 <br>
 
