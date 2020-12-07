@@ -4,36 +4,29 @@ import shutil
 from datetime import datetime
 
 from google_drive_downloader import GoogleDriveDownloader as gdd
-sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
-yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
-
 
 def make_settingPY():
     
-    if os.path.exists('/content/drive/My Drive/data.zip'):
-        os.remove('/content/drive/My Drive/data.zip')
-        
-    if os.path.exists('/content/drive/My Drive/demo_video.mp4'):
-        os.remove('/content/drive/My Drive/demo_video.mp4')
-        
-    if os.path.exists('/content/drive/My Drive/TRAINING_DATA'):
-        shutil.rmtree('/content/drive/My Drive/TRAINING_DATA')
-        
-    data_zip_link = '15dR-vVCEsg2z7mEVzJOF9YDW6YioEU3N'
-    data_video_link = '1N0JjazqW6JmBheLrn6RoDTSRXSPp1t4K'
-    sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
-    yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
-    
-    gdd.download_file_from_google_drive(file_id=data_zip_link,
-                                        dest_path='/content/drive/My Drive/data.zip')
-    gdd.download_file_from_google_drive(file_id=data_video_link,
-                                    dest_path='/content/drive/My Drive/demo_video.mp4')
+	if os.path.exists('/content/drive/My Drive/data.zip'):
+		os.remove('/content/drive/My Drive/data.zip')
 
-	gdd.download_file_from_google_drive(file_id=sppe_id,
-                                    dest_path='/gdrive/AlphaTracker/Tracking/AlphaTracker/model10.pkl')
+	if os.path.exists('/content/drive/My Drive/demo_video.mp4'):
+		os.remove('/content/drive/My Drive/demo_video.mp4')
 
-    gdd.download_file_from_google_drive(file_id=yolo_id,
-                                    dest_path='/gdrive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights')
+	if os.path.exists('/content/drive/My Drive/TRAINING_DATA'):
+		shutil.rmtree('/content/drive/My Drive/TRAINING_DATA')
+
+	#data_zip_link = '15dR-vVCEsg2z7mEVzJOF9YDW6YioEU3N'
+	#data_video_link = '1N0JjazqW6JmBheLrn6RoDTSRXSPp1t4K'
+	sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
+	yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
+
+	#gdd.download_file_from_google_drive(file_id=data_zip_link, dest_path='/content/drive/My Drive/data.zip')
+	#gdd.download_file_from_google_drive(file_id=data_video_link, dest_path='/content/drive/My Drive/demo_video.mp4')
+
+	gdd.download_file_from_google_drive(file_id=sppe_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/model10.pkl')
+
+	gdd.download_file_from_google_drive(file_id=yolo_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights')
 
 	#new_video_paths = [s.replace('/content/drive/My Drive', '/gdrive') for s in video_path];
 	
@@ -48,8 +41,8 @@ def make_settingPY():
 		f.write("num_mouse=[2]\n")
 		f.write("num_pose=4\n")
 		f.write("exp_name='DEMO'\n")
-		f.write("pose_pair={}\n".format(pose_pair))
-		f.write("train_val_split=\n".format(train_val_split))
+		f.write("pose_pair=[[0,1],[0,2],[0,3]]\n")
+		f.write("train_val_split=0.90\n")
 		f.write("image_suffix='jpg'\n")
 		f.write("sppe_lr=1e-4\n")
 		f.write("sppe_epoch=5\n")
