@@ -45,7 +45,7 @@ def make_settingPY():
 		f.write("num_pose=4\n")
 		f.write("exp_name='DEMO'\n")
 		f.write("pose_pair={}\n".format(pose_pair))
-		f.write("train_val_split=\n".format(train_val_split))
+		f.write("train_val_split={}\n".format(train_val_split))
 		f.write("image_suffix='jpg'\n")
 		f.write("sppe_lr=1e-4\n")
 		f.write("sppe_epoch=5\n")
