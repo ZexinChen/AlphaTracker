@@ -11,7 +11,7 @@
 </div>
 
 ## Instructions
-- Training and Tracking
+- Tracking
 
    If you have access to GPU:
    
