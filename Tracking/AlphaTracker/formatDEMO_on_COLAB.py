@@ -13,35 +13,35 @@ def download_models():
 	if os.path.exists('/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights'):
 		os.remove('/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights')
     
-    sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
-    yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
-    
-    gdd.download_file_from_google_drive(file_id=sppe_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/model10.pkl')
-    gdd.download_file_from_google_drive(file_id=yolo_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights')
+	sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
+	yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
+
+	gdd.download_file_from_google_drive(file_id=sppe_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/model10.pkl')
+	gdd.download_file_from_google_drive(file_id=yolo_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights')
     
 
 def download_data():
 
-    if os.path.exists('/content/drive/My Drive/data.zip'):
-        os.remove('/content/drive/My Drive/data.zip');
+	if os.path.exists('/content/drive/My Drive/data.zip'):
+		os.remove('/content/drive/My Drive/data.zip');
 
-    if os.path.exists('/content/drive/My Drive/demo_video.mp4'):
-        os.remove('/content/drive/My Drive/demo_video.mp4');
+	if os.path.exists('/content/drive/My Drive/demo_video.mp4'):
+		os.remove('/content/drive/My Drive/demo_video.mp4');
 
-    if os.path.exists('/content/drive/My Drive/TRAINING_DATA'):
-        shutil.rmtree('/content/drive/My Drive/TRAINING_DATA');
+	if os.path.exists('/content/drive/My Drive/TRAINING_DATA'):
+		shutil.rmtree('/content/drive/My Drive/TRAINING_DATA');
 
-    data_zip_id = '15dR-vVCEsg2z7mEVzJOF9YDW6YioEU3N'
-    demo_vid_id = '1N0JjazqW6JmBheLrn6RoDTSRXSPp1t4K'
+	data_zip_id = '15dR-vVCEsg2z7mEVzJOF9YDW6YioEU3N'
+	demo_vid_id = '1N0JjazqW6JmBheLrn6RoDTSRXSPp1t4K'
 
-    gdd.download_file_from_google_drive(file_id=data_zip_id, dest_path='/content/drive/My Drive/data.zip')
-    gdd.download_file_from_google_drive(file_id=demo_vid_id, dest_path='/content/drive/My Drive/demo_video.mp4')
+	gdd.download_file_from_google_drive(file_id=data_zip_id, dest_path='/content/drive/My Drive/data.zip')
+	gdd.download_file_from_google_drive(file_id=demo_vid_id, dest_path='/content/drive/My Drive/demo_video.mp4')
 
-    import zipfile
-    path_to_zip = '/content/drive/My Drive/data.zip'
-    save_dir = '/content/drive/My Drive'
-    with zipfile.ZipFile(path_to_zip, 'r') as zip_file_rep:
-        zip_file_rep.extractall(save_dir)
+	import zipfile
+	path_to_zip = '/content/drive/My Drive/data.zip'
+	save_dir = '/content/drive/My Drive'
+	with zipfile.ZipFile(path_to_zip, 'r') as zip_file_rep:
+		zip_file_rep.extractall(save_dir)
 
 	formatCOLAB.convert(['/content/drive/My Drive/demo'], ['/content/drive/My Drive/demo/train9.json'], 'jpg')
 	shutil.rmtree('/content/drive/My Drive/demo')
@@ -71,7 +71,7 @@ def make_settingPY():
 		f.write("yolo_pretrain='/gdrive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights'\n")
 
 		f.write("video_full_path='/gdrive/demo_video.mp4'\n")
-			
+
 		f.write("start_frame=0\n")
 		f.write("end_frame=1000\n")
 		f.write("max_pid_id_setting=2\n")
