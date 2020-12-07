@@ -5,10 +5,14 @@ from datetime import datetime
 
 def convert(image_filepaths, json_filepaths, extension):
     save_path = '/content/drive/My Drive/TRAINING_DATA'
-    if os.path.isdir(save_path) == True:
+    print(save_path)
+    if os.path.exists(save_path):
         shutil.rmtree(save_path)
+        os.mkdir(save_path)
+        print("Deleted and made")
     else:
         os.mkdir(save_path)
+        print("Didn't exist, but made anyways")
     
     comb_pop = []
     for j in range(0, len(image_filepaths)):
