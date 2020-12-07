@@ -6,7 +6,7 @@ Download the AlphaTracker repository. Once downloaded, change the name of the ma
 
 ### Install conda
 
-This project is tested in conda env and thus conda is recommended. To install conda, please follow the instructions from the [conda website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) With conda installed, please set up the environment with the following steps.
+This project is tested in conda env in linux, and thus that is the recommended environment. To install conda, please follow the instructions from the [conda website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) With conda installed, please set up the environment with the following steps.
 
 ### Install conda environment
 
@@ -47,6 +47,8 @@ cd ./Tracking/AlphaTracker/
 python3 download.py
 ```
 
+This step downloads pretrain weights that are needed for training and also trained weights that you can use for demo.
+
 <br>
 
 ## Training
@@ -84,7 +86,15 @@ python train.py
 
 <br>
 
+### Demo data for training
 
+If you want to test AlphaTracker without annotating your own data. Here we provide 600 frames of two unmarked mice interacting in a homecage annotated.
+
+https://drive.google.com/file/d/1TYIXYYIkDDQQ6KRPqforrup_rtS0YetR/view?usp=sharing
+
+### Demo weights for tracking 
+
+There is a demo video in AlphaTracker/tracking/Alphatracker/data that you can use for tracking. If you want to use the trained network we provide to track this video set exp_name=demo in the setting.py
 
 ## Tracking
 
