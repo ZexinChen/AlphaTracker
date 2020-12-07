@@ -11,14 +11,23 @@
 </div>
 
 ## Instructions
+- Training and Tracking
 
-[Multi-animal Pose Estimation and Tracking](Manual/Tracking.md)
+   If you have access to GPU:
+   
+   [Multi-animal Pose Estimation and Tracking](Manual/Tracking.md)
+   
+   If you don't have access to GPU:
+   
+   [Use on Google Colab](Manual/Colab.md)
 
-[Unsupervised Behavioral Clustering](Manual/BehavioralClustering.md)
+- Behavioral clustering
 
-[Tracking UI and Clustering UI](Manual/UI.md)
+   [Unsupervised Behavioral Clustering](Manual/BehavioralClustering.md)
 
-[Use on Google Colab](Manual/Colab.md)
+- UI for inspecting tracking and clustering results
+   
+   [Tracking UI and Clustering UI](Manual/UI.md)
 
 
 <br>
