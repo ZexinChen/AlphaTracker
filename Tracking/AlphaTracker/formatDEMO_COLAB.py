@@ -12,12 +12,15 @@ yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
 def make_settingPY():
     
 	if os.path.exists('/content/drive/My Drive/data.zip'):
+		print("removing and replacing")
 		os.remove('/content/drive/My Drive/data.zip')
 
 	if os.path.exists('/content/drive/My Drive/demo_video.mp4'):
+		print("removing and replacing")
 		os.remove('/content/drive/My Drive/demo_video.mp4')
 
 	if os.path.exists('/content/drive/My Drive/TRAINING_DATA'):
+		print("removing and replacing")
 		shutil.rmtree('/content/drive/My Drive/TRAINING_DATA')
 
 	data_zip_link = '15dR-vVCEsg2z7mEVzJOF9YDW6YioEU3N'
@@ -25,12 +28,12 @@ def make_settingPY():
 	sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
 	yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
 
-	gdd.download_file_from_google_drive(file_id=data_zip_link, dest_path='/content/drive/My Drive/data.zip')
-	gdd.download_file_from_google_drive(file_id=data_video_link, dest_path='/content/drive/My Drive/demo_video.mp4')
+	gdd.download_file_from_google_drive(file_id=data_zip_link, dest_path='/content/drive/My Drive/data.zip'); print("finished with data zip")
+	gdd.download_file_from_google_drive(file_id=data_video_link, dest_path='/content/drive/My Drive/demo_video.mp4'); print("finished with demo video")
 
-	gdd.download_file_from_google_drive(file_id=sppe_id, dest_path='/gdrive/AlphaTracker/Tracking/AlphaTracker/model10.pkl')
+	gdd.download_file_from_google_drive(file_id=sppe_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/model10.pkl'); print("finished with sppe model")
 
-	gdd.download_file_from_google_drive(file_id=yolo_id, dest_path='/gdrive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights')
+	gdd.download_file_from_google_drive(file_id=yolo_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/yolov3-mice_final.weights'); print("finished with yolo model")
 
 	#new_video_paths = [s.replace('/content/drive/My Drive', '/gdrive') for s in video_path];
 	
