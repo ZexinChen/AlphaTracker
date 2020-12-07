@@ -2,6 +2,7 @@ import os
 import json
 import shutil
 from datetime import datetime
+import formatCOLAB
 
 from google_drive_downloader import GoogleDriveDownloader as gdd
 sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
@@ -33,6 +34,14 @@ def make_settingPY():
 
 	#new_video_paths = [s.replace('/content/drive/My Drive', '/gdrive') for s in video_path];
 	
+	import zipfile
+	path_to_zip = '/content/drive/My Drive/data.zip'
+	save_dir = '/content/drive/My Drive/TRAINING_DATA'
+	with zipfile.ZipFile(path_to_zip, 'r') as zip_ref:
+		zip_ref.extractall(save_dir)
+        
+	formatCOLAB.convert('/content/drive/My Drive/TRAINING_DATA/demo', '/content/drive/My Drive/TRAINING_DATA/demo/train9.json', 'jpg')
+	
 	pose_pair = [[0,1],[0,2],[0,3]]
 	train_val_split = 0.90
 	with open('setting.py', 'w') as f:
@@ -44,7 +53,7 @@ def make_settingPY():
 		f.write("num_mouse=[2]\n")
 		f.write("num_pose=4\n")
 		f.write("exp_name='DEMO'\n")
-		f.write("pose_pair={}\n".format(pose_pair))
+		f.write("pose_pair=[[0,1],[0,2],[0,3]]\n")
 		f.write("train_val_split=0.90\n")
 		f.write("image_suffix='jpg'\n")
 		f.write("sppe_lr=1e-4\n")
