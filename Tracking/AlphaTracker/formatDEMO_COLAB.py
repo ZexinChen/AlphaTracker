@@ -11,13 +11,13 @@ yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
 def make_settingPY():
     
 	if os.path.exists('/content/drive/My Drive/data.zip'):
-	os.remove('/content/drive/My Drive/data.zip')
+		os.remove('/content/drive/My Drive/data.zip')
 
 	if os.path.exists('/content/drive/My Drive/demo_video.mp4'):
-	os.remove('/content/drive/My Drive/demo_video.mp4')
+		os.remove('/content/drive/My Drive/demo_video.mp4')
 
 	if os.path.exists('/content/drive/My Drive/TRAINING_DATA'):
-	shutil.rmtree('/content/drive/My Drive/TRAINING_DATA')
+		shutil.rmtree('/content/drive/My Drive/TRAINING_DATA')
 
 	data_zip_link = '15dR-vVCEsg2z7mEVzJOF9YDW6YioEU3N'
 	data_video_link = '1N0JjazqW6JmBheLrn6RoDTSRXSPp1t4K'
@@ -58,7 +58,7 @@ def make_settingPY():
 
 		f.write("video_full_path='/gdrive/demo_video.mp4'\n")
 
-		f.write("start_frame=0\n".format(start_frame))
+		f.write("start_frame=0\n")
 		f.write("end_frame=1000\n")
 		f.write("max_pid_id_setting=2\n")
 		f.write("result_folder='/gdrive/result_folder'\n")
