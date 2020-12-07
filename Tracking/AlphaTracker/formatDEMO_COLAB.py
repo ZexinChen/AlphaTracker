@@ -28,8 +28,8 @@ def make_settingPY():
 	sppe_id = '1_BwtYySpX9uWDgdwqw0UEppyMYYv1gkJ'
 	yolo_id = '13zXkuZ4dNm3ZOwstr1sSWKOOzJ19XZpN'
 
-	gdd.download_file_from_google_drive(file_id=data_zip_link, dest_path='/content/drive/My Drive/data.zip'); print("finished with data zip")
-	gdd.download_file_from_google_drive(file_id=data_video_link, dest_path='/content/drive/My Drive/demo_video.mp4'); print("finished with demo video")
+	#gdd.download_file_from_google_drive(file_id=data_zip_link, dest_path='/content/drive/My Drive/data.zip'); print("finished with data zip")
+	#gdd.download_file_from_google_drive(file_id=data_video_link, dest_path='/content/drive/My Drive/demo_video.mp4'); print("finished with demo video")
 
 	gdd.download_file_from_google_drive(file_id=sppe_id, dest_path='/content/drive/My Drive/AlphaTracker/Tracking/AlphaTracker/model10.pkl'); print("finished with sppe model")
 
