@@ -4,6 +4,10 @@
 
 AlphaTracker is tested in Linux systems broadly and those systems that have GPUs. However, if you would do not have Linux-compatible system or do not have access to consumer GPUs, you can use Google Colab for the purposes of training and tracking Alphatracker!
 
+# Demo
+
+If you would like to see a demo version of AlphaTracker, please follow [this link](https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)
+
 ## An Important Notice Before You Continue:
 
 Google Colab is only useful for training and inference purposes. If you have a fully-labeled set of data using the Alphatracker annotation tool, continue on. If you have NOT labeled your data, **please complete this step first!**
