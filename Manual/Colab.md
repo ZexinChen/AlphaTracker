@@ -4,7 +4,7 @@ AlphaTracker is tested in Linux systems broadly and those systems that have GPUs
 
 ## An Important Notice Before You Continue:
 
-The training of AlphaTracker requires human annotated data. 
+The training of AlphaTracker requires human annotated data. Depending on whether your videos resemble ours, you may choose one of the following approach:
 
 ### Train with your own annotated data:
 
@@ -24,6 +24,7 @@ We also provide pre-trained model which allows users to skip training. This prom
 
 To access the Colab notebook, click [this link](https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)**
 
+<br>
 
 Note: If the number of animals are different across the JSON files, you need to run each separately.
 
