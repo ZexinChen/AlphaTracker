@@ -32,11 +32,21 @@ Note: If the number of animals are different across the JSON files, you need to 
 
 ## Step 1:
 
-Find your folder/folders of data that contain the training images and the JSON annotated files. 
+Find your folder/folders of data that contain the training images and the JSON annotated files. In this sample folder called `training-data`, there are 9 images alongside 1 json file that contains the image labels. <br>
 
-Open your Google Drive, and upload the folder/folders, and the videos you want to label, into the Drive under the main `My Drive` folder. Ensure that your Drive has ample storage after uploading the files!!
+<p align = 'left'>
+    <img src = '../Manual/media/training_local.PNG' widht = 250 height = 250>
+</p>
 
-<br>
+<br> 
+
+Open your Google Drive, and upload the folder/folders, and the videos you want to label, into the Drive under the main `My Drive` folder as shown in the image below. Ensure that your Drive has ample storage after uploading the files!!
+
+<p align = 'left'>
+    <img src = '../Manual/media/my_drive_save.PNG' widht = 250 height = 250>
+</p>
+
+<br> 
 
 ## Step 2: 
 
