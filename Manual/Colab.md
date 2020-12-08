@@ -6,19 +6,19 @@ AlphaTracker is tested in Linux systems broadly and those systems that have GPUs
 
 The training of AlphaTracker requires human annotated data. 
 
-1. Train with your own annotated data:
+### Train with your own annotated data:
 
 You can annotate your own data with the AlphaTracker Annotation Tool we provided before proceeding to the training phase.
 
 To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
 
-2. Train with our annotated data:
+###  Train with our annotated data:
 
 Alternatively, if your images resemble ours (background, mouse appearance, shooting angle), you can use the annotated dataset we provide. Click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
 
 To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
 
-3. Test without training.
+### Test without training:
 
 We also provide pre-trained model which allows users to skip training. This promises good performance if your videos resemble ours (background, mouse appearance, shooting angle).
 
