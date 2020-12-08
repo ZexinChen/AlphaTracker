@@ -50,7 +50,11 @@ Open your Google Drive, and upload the folder/folders, and the videos you want t
 
 ## Step 2: 
 
-Open the `AlphaTrackerCOLAB_12-2-20.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing). You have now opened your Python session
+Open the `AlphaTrackerCOLAB_12-2-20.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing). You should see a page like the one in the image below. 
+
+<p align = 'left'>
+    <img src = '../Manual/media/alphatracker_welcome_page.PNG' widht = 250 height = 250>
+</p>
 
 <br>
 
