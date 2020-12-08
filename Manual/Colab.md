@@ -4,7 +4,7 @@ AlphaTracker is tested in Linux systems broadly and those systems that have GPUs
 
 ## Before You Continue:
 
-The training of AlphaTracker requires human annotated data. Depending on whether your videos resemble ours, you may choose one of the following approach:
+The training of AlphaTracker requires human annotated data. Depending on whether your videos resemble ours, you may choose one of the following approaches:
 
 ### Train with your own annotated data:
 
