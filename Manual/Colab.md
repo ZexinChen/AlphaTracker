@@ -11,13 +11,26 @@ AlphaTracker is tested in Linux systems broadly and those systems that have GPUs
 
 ## An Important Notice Before You Continue:
 
-Google Colab is only useful for training and inference purposes. If you have a fully-labeled set of data using the Alphatracker annotation tool, continue on. If you have NOT labeled your data, **please complete this step first!**
+The training of AlphaTracker requires human annotated data. 
 
-Also, if you are trying out Alphatracker and would like to use the sample data, click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
+1. Train with your own annotated data:
+
+You can annotate your own data with the AlphaTracker Annotation Tool we provided before proceeding to the training phase.
 
 To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
 
-Lastly, please run different experiments if you have a variable number of animals across the JSON files. 
+2. Train with our annotated data:
+
+Alternatively, if your images resemble ours (background, mouse appearance, shooting angle), you can use the annotated dataset we provide. Click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
+
+To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
+
+3. Test without training.
+
+We also provide pre-trained model which allows users to skip training. This promises good performance if your videos resemble ours (background, mouse appearance, shooting angle).
+
+
+Note: If the number of animals are different across the JSON files, you need to run each separately.
 
 <br>
 
