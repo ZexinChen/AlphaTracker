@@ -2,13 +2,6 @@
 
 AlphaTracker is tested in Linux systems broadly and those systems that have GPUs. However, if you would do not have Linux-compatible system or do not have access to consumer GPUs, you can use Google Colab for the purposes of training and tracking Alphatracker!
 
-# Demo
-
-### **If you would like to see a demo version of AlphaTracker, please follow [this link](https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)**
-
-<br>
-<br>
-
 ## An Important Notice Before You Continue:
 
 The training of AlphaTracker requires human annotated data. 
@@ -28,6 +21,8 @@ To access the Colab notebook, **click [here](https://colab.research.google.com/d
 3. Test without training.
 
 We also provide pre-trained model which allows users to skip training. This promises good performance if your videos resemble ours (background, mouse appearance, shooting angle).
+
+To access the Colab notebook, click [this link](https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)**
 
 
 Note: If the number of animals are different across the JSON files, you need to run each separately.
