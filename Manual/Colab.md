@@ -6,7 +6,7 @@ AlphaTracker is tested in Linux systems broadly and those systems that have GPUs
 
 # Demo
 
-**If you would like to see a demo version of AlphaTracker, please follow [this link]**(https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)
+**If you would like to see a demo version of AlphaTracker, please follow [this link](https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)**
 
 ## An Important Notice Before You Continue:
 
