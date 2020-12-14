@@ -26,7 +26,7 @@ See the installation for the tracking part.
 Set the Behavioral Clustering folder as the current directory.
 
 ``` 
-cd "02 Behavioral Clustering"
+cd "Behavioral Clustering"
 ```
 
 Change the following settings in ```./utils_file/setting.py```. Changes for individual behavior and social behavior are explained separately here.
