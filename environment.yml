@@ -1,8 +1,6 @@
 name: alphatracker
 channels:
   - https://repo.anaconda.com/pkgs/free
-  - https://conda.binstar.org/cyclus
-  - https://conda.binstar.org/vgauthier
   - defaults
   - conda-forge
 dependencies:
