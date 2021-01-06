@@ -1,6 +1,6 @@
 # 03 Tracking UI and Clustering UI
 
-This interface is browser-based. We recommend using `Chrome` as the browser. 
+This interface is browser-based. We recommend using `Google Chrome` as the browser. 
 
 Pre-installed Python3 is required since this package includes Python scripts.
 
