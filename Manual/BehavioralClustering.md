@@ -26,10 +26,10 @@ See the installation for the tracking part.
 Set the Behavioral Clustering folder as the current directory.
 
 ``` 
-cd "Behavioral Clustering"
+cd BehavioralClustering
 ```
 
-Change the following settings in ```./utils_file/setting.py```. Changes for individual behavior and social behavior are explained separately here.
+Change the following settings in ```./setting.py```. Changes for individual behavior and social behavior are explained separately here.
 
 #### Configuration for individual behavior
 
@@ -204,7 +204,6 @@ self.video_name_suffix = # suffix for generated videos
 Run the following command in the current folder
 
 ```bash
-cd utils_file
 bash run_all.sh
 ```
 
