@@ -106,7 +106,7 @@ def retrieve_poses(arg):
 
     json_names = arg.tracked_json
 
-    with open('./utils_file/pca.pckl','rb') as f:
+    with open('./pca.pckl','rb') as f:
         faces_pca = pickle.load(f)
 
     pose_clips = []
@@ -180,7 +180,7 @@ def retrieve_poses_Mice(arg):
 
     json_names = arg.tracked_json
 
-    with open('./utils_file/pca.pckl','rb') as f:
+    with open('./pca.pckl','rb') as f:
         faces_pca = pickle.load(f)
 
     pose_clips = []
