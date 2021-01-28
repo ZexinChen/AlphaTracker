@@ -63,55 +63,55 @@ feature_clips_dict,all_info_selected,raw_feature_clips_dict = \
 
 
 ################ Cluster  ##################
-# all_result = []
-# all_result_dict = {}
-# for c_arg_dict_idx in range(len(arg.cluster_arg)):
-#     c_arg_dict = arg.cluster_arg[c_arg_dict_idx]
-#     print('clustering with %s, with thred:%f'%(c_arg_dict['name'],c_arg_dict['thred']))
-#     ### Normalize and concatenate feature  
-#     feat_norm = c_arg_dict['features_arg'][0]['weight']*fft_utils.get_normFeature_byArg(c_arg_dict['features_arg'][0],feature_clips_dict)
-#     for f_i in range(1,len(c_arg_dict['features_arg'])):
-#         feat_norm_tmp = c_arg_dict['features_arg'][f_i]['weight']*fft_utils.get_normFeature_byArg(c_arg_dict['features_arg'][f_i],feature_clips_dict)
-#         feat_norm = np.concatenate([feat_norm,feat_norm_tmp] ,axis = 1)
+all_result = []
+all_result_dict = {}
+for c_arg_dict_idx in range(len(arg.cluster_arg)):
+    c_arg_dict = arg.cluster_arg[c_arg_dict_idx]
+    print('clustering with %s, with thred:%f'%(c_arg_dict['name'],c_arg_dict['thred']))
+    ### Normalize and concatenate feature  
+    feat_norm = c_arg_dict['features_arg'][0]['weight']*fft_utils.get_normFeature_byArg(c_arg_dict['features_arg'][0],feature_clips_dict)
+    for f_i in range(1,len(c_arg_dict['features_arg'])):
+        feat_norm_tmp = c_arg_dict['features_arg'][f_i]['weight']*fft_utils.get_normFeature_byArg(c_arg_dict['features_arg'][f_i],feature_clips_dict)
+        feat_norm = np.concatenate([feat_norm,feat_norm_tmp] ,axis = 1)
         
-#     ### hierarchical clustering with the selected features
-#     feature_clips_forCluster = feat_norm
-#     clusters,Z,cluster_result_fcluster,leaves = fft_utils.cluster_bak1(c_arg_dict,feature_clips_forCluster)
-#     print('number of clusters:%d'%(np.max(cluster_result_fcluster)))  
+    ### hierarchical clustering with the selected features
+    feature_clips_forCluster = feat_norm
+    clusters,Z,cluster_result_fcluster,leaves = fft_utils.cluster_bak1(c_arg_dict,feature_clips_forCluster)
+    print('number of clusters:%d'%(np.max(cluster_result_fcluster)))  
     
-#     ### t sne 
-#     if arg.DR_method == 'tsne':
-#         n_components = 2 
-#         tsne = TSNE(n_components=n_components, init='pca', random_state=0)
-#         Y = tsne.fit_transform(feat_norm)
-#     elif arg.DR_method == 'umap':
-#         um = umap.UMAP(n_neighbors=5,
-#                       min_dist=0.3,
-#                       metric='correlation')
-#         Y = um.fit_transform(feat_norm)
-#     else:
-#         print('dimension reduction algorithm %s is not defined'%(arg.DR_method))
-#         raise
+    ### t sne 
+    if arg.DR_method == 'tsne':
+        n_components = 2 
+        tsne = TSNE(n_components=n_components, init='pca', random_state=0)
+        Y = tsne.fit_transform(feat_norm)
+    elif arg.DR_method == 'umap':
+        um = umap.UMAP(n_neighbors=5,
+                      min_dist=0.3,
+                      metric='correlation')
+        Y = um.fit_transform(feat_norm)
+    else:
+        print('dimension reduction algorithm %s is not defined'%(arg.DR_method))
+        raise
     
-#     all_result.append({'clusters':clusters,\
-#                        'Z':Z,\
-#                        'cluster_result_fcluster':cluster_result_fcluster,\
-#                        'leaves':leaves,\
-#                        'dimension_reduction_Y':Y
-#                       })
-#     all_result_dict[c_arg_dict['name']]= {'clusters':clusters,\
-#                        'Z':Z,\
-#                        'cluster_result_fcluster':cluster_result_fcluster,\
-#                        'leaves':leaves,\
-#                        'dimension_reduction_Y':Y
-#                       }
+    all_result.append({'clusters':clusters,\
+                       'Z':Z,\
+                       'cluster_result_fcluster':cluster_result_fcluster,\
+                       'leaves':leaves,\
+                       'dimension_reduction_Y':Y
+                      })
+    all_result_dict[c_arg_dict['name']]= {'clusters':clusters,\
+                       'Z':Z,\
+                       'cluster_result_fcluster':cluster_result_fcluster,\
+                       'leaves':leaves,\
+                       'dimension_reduction_Y':Y
+                      }
 
 all_result,all_result_dict = fft_utils.cluster(arg,feature_clips_dict,all_info_selected,raw_feature_clips_dict)
 
 
-# ### save file for UI
-# fft_utils.write_cluster_result_to_infoDict(all_result,all_info_selected)
-# fft_utils.save_Z_and_clips(arg,all_result_dict,all_info_selected)
+### save file for UI
+fft_utils.write_cluster_result_to_infoDict(all_result,all_info_selected)
+fft_utils.save_Z_and_clips(arg,all_result_dict,all_info_selected)
 
 ### merge seperate cluster 
 name = [arg.cluster_arg[c_arg_dict_i]['name'] for c_arg_dict_i in range(len(arg.cluster_arg))]
