@@ -431,9 +431,14 @@ print("This video contains %d animals." % (num_persons))
 
 # export tracking result into notrack json files
 print("\nExport tracking results to json...")
-for fid, frame_name in enumerate(tqdm(frame_list)):
-    for pid in range(track[frame_name]['num_boxes']):
-        notrack[frame_name][pid]['idx'] = track[frame_name][pid+1]['new_pid']
+if args.max_pid_id_setting == 1:
+    for fid, frame_name in enumerate(tqdm(frame_list)):
+        for pid in range(track[frame_name]['num_boxes']):
+            notrack[frame_name][pid]['idx'] = 1
+else:
+    for fid, frame_name in enumerate(tqdm(frame_list)):
+        for pid in range(track[frame_name]['num_boxes']):
+            notrack[frame_name][pid]['idx'] = track[frame_name][pid+1]['new_pid']
 
 # export tracking result into new json files
 track_forJson = {}
