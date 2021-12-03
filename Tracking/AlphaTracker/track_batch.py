@@ -189,27 +189,24 @@ for p in all_video_paths:
     s2 = os.system(demo_cmd)
 
     print('')
-    if max_pid_id_setting==1:
-        print('there is only one mouse, no need to do the tracking')
-    else:
-        print('tracking pose:')
-        cmd_line = 'python ./PoseFlow/tracker-general-fixNum-newSelect-noOrb.py \\\n \
-            --imgdir {} \\\n \
-            --in_json {}/alphapose-results.json \\\n \
-            --out_json {}/alphapose-results-forvis-tracked.json \\\n \
-            --visdir {}/pose_track_vis/ --vis {} \\\n \
-            --image_format {} \
-            --max_pid_id_setting {} --match {}  --weights {} \\\n \
-            --out_video_path {}/{}_{}_{}_{}.mp4  \
-            '.format(video_image_save_path,\
-            	result_folder_special,\
-            	result_folder_special,\
-            	result_folder_special, vis_track_result,\
-            	'%s.png',\
-            	max_pid_id_setting, match, weights, \
-            	result_folder_special,exp_name,max_pid_id_setting, match, weights.replace(' ', ''))
-        print(cmd_line)
-        s3 = os.system(cmd_line)
+    print('tracking pose:')
+    cmd_line = 'python ./PoseFlow/tracker-general-fixNum-newSelect-noOrb.py \\\n \
+        --imgdir {} \\\n \
+        --in_json {}/alphapose-results.json \\\n \
+        --out_json {}/alphapose-results-forvis-tracked.json \\\n \
+        --visdir {}/pose_track_vis/ --vis {} \\\n \
+        --image_format {} \
+        --max_pid_id_setting {} --match {}  --weights {} \\\n \
+        --out_video_path {}/{}_{}_{}_{}.mp4  \
+        '.format(video_image_save_path,\
+            result_folder_special,\
+            result_folder_special,\
+            result_folder_special, vis_track_result,\
+            '%s.png',\
+            max_pid_id_setting, match, weights, \
+            result_folder_special,exp_name,max_pid_id_setting, match, weights.replace(' ', ''))
+    print(cmd_line)
+    s3 = os.system(cmd_line)
 
     if s1==0 and s2==0 and s3==0:
         s_list.append(p)
