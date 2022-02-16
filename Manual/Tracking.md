@@ -4,61 +4,34 @@
 
 Download the AlphaTracker repository. Once downloaded, change the name of the main folder from `AlphaTracker-master` to `AlphaTracker`. 
 
-### Install conda
+### Install Conda
 
 This project is tested in conda env in linux, and thus that is the recommended environment. To install conda, please follow the instructions from the [conda website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) With conda installed, please set up the environment with the following steps.
 
-### Install conda environment
+### NVIDIA driver
+
+Please makse sure that your NVIDIA driver version  >= 450.
+
+### Install AlphaTracker
 
 In your command window, locate the terminal prompt. Open this application. Then, find the folder that contains the `AlphaTracker` repository that you just downloaded. Then inside the terminal window, change the directory as follows: `cd /path/to/AlphaTracker`. 
 
-1. Create conda enviroment with dependencies by typing in the following:
-
+Then run the following command:
 ```bash
-conda env create -f environment.yml
+bash install.sh
 ```
-
-If the above command line failed, please install the packages in the environment.yml that are failed to install manually and then run the following command line:
-
-```bash
-conda activate alphatracker
-conda env update --file environment.yml
-```
-2. install pytorch following the guide from [Pytorch Website](https://pytorch.org/get-started/previous-versions/).
-
-(The code is tested with pytorch 0.4.0, pytorch 0.4.1)
-
-
-### Install YOLO
-
-Install [YOLO](https://pjreddie.com/darknet/yolo/) for training by copy-pasting the following into the terminal window.
-```bash
-cd ./Tracking/AlphaTracker/train_yolo/darknet/
-make
-cd ../../../../
-```
-
-### Download weights 
-
-Download files from google drive and place them in specific locations by copy-pasting the following into the terminal window:
-```bash
-conda activate alphatracker
-cd ./Tracking/AlphaTracker/
-python3 download.py
-```
-
-This step downloads pretrain weights that are needed for training and also trained weights that you can use for demo. The demo weights were trained based on data from 2 unmarked mice interacting in a cage. 
 
 <br>
 
-## Training
+## Training (Optional)
+
+We have provided pretrained models. However, if you want to train your own models on your custom dataset, you can refer to the following steps.
 
 ### Step 1. Data Preparation
 
 Labeled data is required to train the model. The code would read RGB images and json files of
 annotations to train the model. Our code is compatible with data annotated by the open source tool Sloth.
-Figure 1 shows an example of annotation json file. In this example, there only two images. Each image
-has two mice and each mouse has two keypoint annotated.
+Figure 1 shows an example of annotation json file. In this example, there only two images. Each image has two mice and each mouse has two keypoint annotated.
 <div align="center">
     <img src="media/jsonFormatForTraining.png", width="500" alt><br>
     Figure 1. Example of Annotation Json File
@@ -70,7 +43,7 @@ If the keypoint is not visible in one frame, then make the x,y of the keypoint t
 
 ### Step 2. Configuration
 
-Before training, you need to charge the parameters in ./setting.py (red block in Figure 2). The meaning of the parameters can be found in the ./setting.py.
+Before training, you need to charge the parameters in [Tracking/AlphaTracker/setting.py](../Tracking/AlphaTracker/setting.py) (red block in Figure 2). The meaning of the parameters can be found in the comments.
 <div align="center">
     <img src="media/parameterForTracking.png", width="500" alt><br>
     Figure 2. Parameters
@@ -78,9 +51,10 @@ Before training, you need to charge the parameters in ./setting.py (red block in
 
 ### Step 3. Running the code
 
-Change directory to the alphatracker folder (where this README is in) and use the following command line to train the model:
+Change directory to the [alphatracker folder](../Tracking/AlphaTracker/) and use the following command line to train the model:
 ```bash
-conda activate alphatracker
+# if your current virtual environment is not alphatracker
+# run this command first: conda activate alphatracker
 python train.py
 ```
 
@@ -88,29 +62,29 @@ python train.py
 
 ### Demo data for training
 
-If you want to test AlphaTracker without annotating your own data. Here we provide 600 frames of two unmarked mice interacting in a homecage annotated.
+If you want to test AlphaTracker's training without annotating your own data, here we provide 600 frames of two unmarked mice interacting in a homecage annotated:
 
 https://drive.google.com/file/d/1TYIXYYIkDDQQ6KRPqforrup_rtS0YetR/view?usp=sharing
 
 ### Demo weights for tracking 
 
-There is a demo video in AlphaTracker/tracking/Alphatracker/data that you can use for tracking. If you want to use the trained network we provide to track this video set exp_name=demo in the setting.py
+There is a demo video in [Tracking/Alphatracker/data](../Tracking/Alphatracker/data) that you can use for tracking. If you want to use the trained network we provide to track this video set `exp_name=demo` in the [Tracking/AlphaTracker/setting.py](../Tracking/AlphaTracker/setting.py)
 
 ## Tracking
 
 ### Step 1. Configuration
 
-Before tracking, you need to change the parameters in ./Tracking/AlphaTracker/setting.py (blue block in Figure 2). The meaning of
-the parameters can be found in the ./Tracking/AlphaTracker/setting.py.
+Before tracking, you need to change the parameters in [Tracking/AlphaTracker/setting.py](../Tracking/AlphaTracker/setting.py) (blue block in Figure 2). The meaning of
+the parameters can be found in the comments.
 
-The default ./Tracking/AlphaTracker/setting.py will use a trained weight to track a demo video
+We will use a trained weight to track a demo video by default.
 
 ### Step 2. Running the code
 
-Use the following command line to train the model...copy paste the following into the terminal window:
+Change directory to the [alphatracker folder](../Tracking/AlphaTracker/) and run the following command line to do tracking:
 ```bash
-conda activate alphatracker
-cd ./Tracking/AlphaTracker/
+# if your current virtual environment is not alphatracker
+# run this command first: conda activate alphatracker
 python track.py
 ```
 

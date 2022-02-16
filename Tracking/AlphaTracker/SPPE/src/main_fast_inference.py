@@ -44,7 +44,7 @@ class InferenNet(nn.Module):
 
         flip_out = self.pyranet(flip_v(x))
         flip_out = flip_out.narrow(1, 0, self.opt.nClasses)
-
+        
         flip_out = flip_v(shuffleLR(
             flip_out, self.dataset))
 
@@ -54,15 +54,14 @@ class InferenNet(nn.Module):
 
 
 class InferenNet_fast(nn.Module):
-    def __init__(self, kernel_size, dataset):
+    def __init__(self, kernel_size, dataset, opt):
         super(InferenNet_fast, self).__init__()
 
         model = createModel().cuda()
-        mobile_pth = "./train_sppe/exp/coco/exp2/model_49.pkl"
+        mobile_pth = opt.pose_model_path
         print('Loading pose model from {}'.format(mobile_pth))
         model.load_state_dict(torch.load(mobile_pth))
-        # print('Loading pose model from {}'.format('./models/sppe/duc_se.pth'))
-        # model.load_state_dict(torch.load('./models/sppe/duc_se.pth'))
+
         model.eval()
         self.pyranet = model
 

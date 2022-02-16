@@ -4,11 +4,10 @@
 # -----------------------------------------------------
 
 import numpy as np
+import cv2
 import torch
-import scipy.misc
 from torchsample.transforms import SpecialCrop, Pad
 import torch.nn.functional as F
-import cv2
 from opt import opt
 
 
@@ -37,8 +36,7 @@ def torch_to_im(img):
 
 def load_image(img_path):
     # H x W x C => C x H x W
-    # print(img_path)
-    return im_to_torch(scipy.misc.imread(img_path, mode='RGB'))
+    return im_to_torch(cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB))
 
 
 def to_numpy(tensor):
@@ -140,6 +138,7 @@ def cropBox(img, ul, br, resH, resW):
     newDim = torch.IntTensor((img.size(0), int(lenH), int(lenW)))
 
     if(ul[1]>=img.shape[1] or ul[0]>=img.shape[2]):
+        print('Error when cropping box. The detected box is out of the image. Will ignore it.')
         print('This error may because yolo is not trained correctly or the weights is not used correctly.')
         raise IndexError
 
@@ -151,7 +150,7 @@ def cropBox(img, ul, br, resH, resW):
     # Resize to output
     v_Img = torch.autograd.Variable(newImg)
     v_Img = torch.unsqueeze(v_Img, 0)
-    # newImg = F.upsample_bilinear(v_Img, size=(int(resH), int(resW))).data[0]
+
     if torch.__version__ == '0.4.0a0+32f3bf7' or torch.__version__ == '0.4.0':
         newImg = F.upsample(v_Img, size=(int(resH), int(resW)),
                             mode='bilinear', align_corners=True).data[0]
@@ -171,7 +170,6 @@ def flip_v(x, cuda=False):
 
 def flip(x):
     assert (x.dim() == 3 or x.dim() == 4)
-    # dim = x.dim() - 1
     try:
         x = x.cpu().numpy().copy()
         usingCUDA = True
@@ -185,9 +183,6 @@ def flip(x):
         for i in range(x.shape[0]):
             x[i] = np.transpose(
                 np.fliplr(np.transpose(x[i], (0, 2, 1))), (0, 2, 1))
-    # x = x.swapaxes(dim, 0)
-    # x = x[::-1, ...]
-    # x = x.swapaxes(0, dim)
 
     return torch.from_numpy(x.copy())
 
@@ -196,7 +191,6 @@ def shuffleLR(x, dataset):
     flipRef = dataset.flipRef
     assert (x.dim() == 3 or x.dim() == 4)
     for pair in flipRef:
-        # print(pair)
         dim0, dim1 = pair
         dim0 -= 1
         dim1 -= 1
@@ -204,12 +198,10 @@ def shuffleLR(x, dataset):
             tmp = x[:, dim1].clone()
             x[:, dim1] = x[:, dim0].clone()
             x[:, dim0] = tmp.clone()
-            #x[:, dim0], x[:, dim1] = deepcopy((x[:, dim1], x[:, dim0]))
         else:
             tmp = x[dim1].clone()
             x[dim1] = x[dim0].clone()
             x[dim0] = tmp.clone()
-            #x[dim0], x[dim1] = deepcopy((x[dim1], x[dim0]))
     return x
 
 
@@ -266,9 +258,7 @@ def vis_frame(frame, im_res, format='coco'):
             cor_x, cor_y = int(kp_preds[n, 0]), int(kp_preds[n, 1])
             part_line[n] = (cor_x, cor_y)
             cv2.circle(img, (cor_x, cor_y), 4, p_color[n], -1)
-            # Now create a mask of logo and create its inverse mask also
-            #transparency = max(0, min(1, kp_scores[n]))
-            #img = cv2.addWeighted(bg, transparency, img, 1, 0)
+
         # Draw limbs
         for i, (start_p, end_p) in enumerate(l_pair):
             if start_p in part_line and end_p in part_line:
@@ -276,7 +266,5 @@ def vis_frame(frame, im_res, format='coco'):
                 end_xy = part_line[end_p]
                 cv2.line(img, start_xy, end_xy,
                          line_color[i], (0.5 * (kp_scores[start_p] + kp_scores[end_p])) + 1)
-                #transparency = max(
-                #    0, min(1, (kp_scores[start_p] + kp_scores[end_p])))
-                #img = cv2.addWeighted(bg, transparency, img, 1, 0)
+
     return img

@@ -222,7 +222,7 @@ python fft_main_sep_twoMiceInteract.py
 
 There are two steps to add feature for clustering:
 
-###  Step 1. Add Code for the Feature
+###  step 1. Add Code for the Feature
 
 1. Define the new feature ./fft_utils.py as the following template (you can find this template in ./fft_utils.py ；
 
@@ -274,7 +274,7 @@ python fft_main_sep_twoMiceInteract.py
 
 
 ## Inspect Clustering results
-
+<!-- 
 ### Install the following packages with conda
 
 ```
@@ -285,7 +285,7 @@ python fft_main_sep_twoMiceInteract.py
 - pandas
 - matplotlib
 - scipy
-```
+``` -->
 
 <br>
 

@@ -15,12 +15,10 @@ delta2 = 2.65
 gamma = 22.48
 gamma_avg = 22.48/17
 scoreThreds = 0.3
-# scoreThreds = 0
 matchThreds = 5
 matchThreds_ratio = 0.6
-areaThres = 0#40 * 40.5
+areaThres = 0 # 40 * 40.5
 alpha = 0.1
-#pool = ThreadPool(4)
 
 
 def pose_nms(bboxes, bbox_scores, pose_preds, pose_scores):
@@ -56,7 +54,7 @@ def pose_nms(bboxes, bbox_scores, pose_preds, pose_scores):
     npose = pose_preds.shape[1]
 
     human_ids = np.arange(nsamples)
-    # print('npose_nms.py:',bboxes.shape,human_ids,nsamples)
+
     # Do pPose-NMS
     pick = []
     merge_ids = []
@@ -75,17 +73,10 @@ def pose_nms(bboxes, bbox_scores, pose_preds, pose_scores):
         num_match_keypoints = PCK_match(pose_preds[pick_id], pose_preds, ref_dist)
 
         # Delete humans who have more than matchThreds keypoints overlap and high similarity
-        # delete_ids = torch.from_numpy(np.arange(human_scores.shape[0]))[(simi > gamma) | (num_match_keypoints >= matchThreds)]
-        # delete_ids = torch.from_numpy(np.arange(human_scores.shape[0]))[(simi > gamma) | (num_match_keypoints >= int(npose*matchThreds_ratio))]
         delete_ids = torch.from_numpy(np.arange(human_scores.shape[0]))[((simi)/npose > gamma) | (num_match_keypoints >= int(npose*matchThreds_ratio))]
 
-        # print('pPose-NMS.py:delete_ids:',delete_ids)
-        # print('pPose-NMS.py:pick_id:',pick_id)
-        # print('pPose-NMS.py:merge_ids:',merge_ids)
         if delete_ids.shape[0] == 0:
             delete_ids = pick_id
-        #else:
-        #    delete_ids = torch.from_numpy(delete_ids)
 
         merge_ids.append(human_ids[delete_ids])
         pose_preds = np.delete(pose_preds, delete_ids, axis=0)
@@ -99,15 +90,11 @@ def pose_nms(bboxes, bbox_scores, pose_preds, pose_scores):
     scores_pick = ori_pose_scores[pick]
     bbox_scores_pick = ori_bbox_scores[pick]
     bbox_pick = ori_bbox[pick]
-    #final_result = pool.map(filter_result, zip(scores_pick, merge_ids, preds_pick, pick, bbox_scores_pick))
-    #final_result = [item for item in final_result if item is not None]
-    # print('pPose-NMS.py:pick:',pick)
 
     for j in range(len(pick)):
         ids = np.arange(4)
         max_score = torch.max(scores_pick[j, ids, 0])
 
-        # print('pPose-NMS.py:max_score1:',max_score)
         if max_score < scoreThreds:
             continue
 
@@ -117,7 +104,6 @@ def pose_nms(bboxes, bbox_scores, pose_preds, pose_scores):
             preds_pick[j], ori_pose_preds[merge_id], ori_pose_scores[merge_id], ref_dists[pick[j]])
 
         max_score = torch.max(merge_score[ids])
-        # print('pPose-NMS.py:max_score2:',max_score)
         if max_score < scoreThreds:
             continue
 
@@ -125,8 +111,6 @@ def pose_nms(bboxes, bbox_scores, pose_preds, pose_scores):
         xmin = min(merge_pose[:, 0])
         ymax = max(merge_pose[:, 1])
         ymin = min(merge_pose[:, 1])
-        # print('pPose-NMS.py:merge_pose:',merge_pose)
-        # print('pPose-NMS.py:(xmax - xmin) * (ymax - ymin) < areaThres:',(xmax - xmin) * (ymax - ymin) < areaThres)
 
         if (1.5 ** 2 * (xmax - xmin) * (ymax - ymin) < areaThres):
             continue
@@ -367,9 +351,7 @@ def write_json(all_results, outputpath, for_eval=True):
                 json_results_cmu[result['image_id']]['people'].append(tmp)
             else:
                 json_results.append(result)
-                count+=1
-                # print('pPose-NMS.py:count:',count)
-                # print('pPose-NMS.py:result:',result)
+                count += 1
 
     if form == 'cmu': # the form of CMU-Pose
         with open(os.path.join(outputpath,'alphapose-results.json'), 'w') as json_file:
@@ -412,10 +394,7 @@ def write_json_withID(all_results, outputpath, img_json, for_eval=True):
         for human in im_res['result']:
             keypoints = []
             result = {}
-            # if for_eval:
-            #     result['image_id'] = int(im_name.split('/')[-1].split('.')[0].split('_')[-1])
-            # else:
-            #     result['image_id'] = im_name.split('/')[-1]
+
             result['image_id'] = imgname_id_dict[im_name.split('/')[-1]]
             result['file_name'] = im_name.split('/')[-1]
             result['category_id'] = 1
@@ -464,8 +443,6 @@ def write_json_withID(all_results, outputpath, img_json, for_eval=True):
             else:
                 json_results.append(result)
                 count+=1
-                # print('pPose-NMS.py:count:',count)
-                # print('pPose-NMS.py:result:',result)
 
     if form == 'cmu': # the form of CMU-Pose
         with open(os.path.join(outputpath,'alphapose-results.json'), 'w') as json_file:

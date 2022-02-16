@@ -1,25 +1,15 @@
-import torch
-from torch.autograd import Variable
-import torch.nn.functional as F
-import torchvision.transforms as transforms
-
-import torch.nn as nn
-import torch.utils.data
-import numpy as np
-from opt import opt
-
-from dataloader import ImageLoader, DetectionLoader, DetectionProcessor, DataWriter, Mscoco
-from yolo.util import write_results, dynamic_write_results
-from SPPE.src.main_fast_inference import *
-
 import os
 import sys
-from tqdm import tqdm
-import time
-from fn import getTime
 
-from pPose_nms import pose_nms, write_json, write_json_withID
-import cv2
+import numpy as np
+import torch
+from tqdm import tqdm
+
+from opt import opt
+from dataloader import ImageLoader, DetectionLoader, DetectionProcessor, DataWriter, Mscoco
+from SPPE.src.main_fast_inference import *
+from fn import getTime
+from pPose_nms import write_json, write_json_withID
 
 args = opt
 args.dataset = 'coco'
@@ -39,12 +29,8 @@ if __name__ == "__main__":
     elif len(inputpath) and inputpath != '/':
         for root, dirs, files in os.walk(inputpath):
             im_names = files
-        # im_names = [inputpath]
     else:
         raise IOError('Error: must contain either --indir/--list')
-
-    # print('process part of images:')
-    # im_names = im_names[:5]
 
     # Load input images
     data_loader = ImageLoader(im_names, batchSize=args.detbatch, format='yolo').start()
@@ -59,7 +45,7 @@ if __name__ == "__main__":
     sys.stdout.flush()
     det_loader = DetectionLoader(data_loader, batchSize=args.detbatch,use_boxGT=args.use_boxGT,gt_json=args.gt_json).start()
     det_processor = DetectionProcessor(det_loader).start()
-    
+
     # Load pose model
     pose_dataset = Mscoco()
     if args.fast_inference:
@@ -90,8 +76,6 @@ if __name__ == "__main__":
                 print('warning: %d : can detect no object.'%(i))
                 writer.save(None, None, None, None, None, orig_img, im_name.split('/')[-1])
                 continue
-            # cv2.imwrite('./debug/0.jpg',inps[0,:,:,:].cpu().numpy().transpose(1,2,0))
-            # print('demo.py:',orig_img.shape,im_name,inps.shape,boxes.shape)
             ckpt_time, det_time = getTime(start_time)
             runtime_profile['dt'].append(det_time)
             # Pose Estimation
@@ -110,7 +94,6 @@ if __name__ == "__main__":
             ckpt_time, pose_time = getTime(ckpt_time)
             runtime_profile['pt'].append(pose_time)
             hm = hm.cpu()
-            # print('demo:',boxes.shape, scores.shape, hm.shape, pt1.shape, pt2.shape, orig_img.shape)
             writer.save(boxes, scores, hm, pt1, pt2, orig_img, im_name.split('/')[-1])
 
             ckpt_time, post_time = getTime(ckpt_time)
