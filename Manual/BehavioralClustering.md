@@ -15,7 +15,7 @@ The main process of hierarchical clustering list below can be found in 	`./fft_m
 
 ## Installation
 
-See the installation for the tracking part.
+See the [installation for the tracking part](Tracking.md).
 
 <br>
 
@@ -195,7 +195,7 @@ self.result_folder = # where the metadata will be saved
 ```
 self.video_name_suffix = # suffix for generated videos
 ```
- 
+
  <br>
 
 
