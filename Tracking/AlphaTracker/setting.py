@@ -41,7 +41,7 @@ video_paths = [
   './data/demo.mp4',
   ]   # make sure video names are different from each other
 start_frame = 0   # id of the start frame of the video
-end_frame = 300   # id of the last frame of the video
+end_frame = 9737   # id of the last frame of the video
 max_pid_id_setting = 2    # number of mice in the video
 result_folder = './track_result/'   # path to the folder used to save the result
 remove_oriFrame = False   # whether to remove the original frame that generated from video
