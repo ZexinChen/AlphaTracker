@@ -11,28 +11,29 @@ Download and unzip the file.
 
 ### Running
 
-Run `server.py` script in command window in the unzipped folder. A window should appear in the user's browser. From there, select a program you want to run.
+Run `python server.py` in command window in the unzipped folder. A window should appear in the user's browser. Then click `html/`. From there, select a program you want to run. `cluster.html` is the Cluster UI and `curate.html` is the Tracking UI.
 
-<img src = "media/window.png" width = "400" >
+<img src="media/html.jpg" width = "300" /><img src="media/window.png" width = "400" />
 
 <br>
     
+
 ## Tracking UI
 
 
 ### Import data
 
 
-- Click the first `Click Here` button to upload JSON file.
+- Click the first `Click Here` button to upload the track result JSON file. For example, [alphapose-results-forvis-tracked.json](../Tracking/AlphaTracker/track_result/alphapose-results-forvis-tracked.json)
 
-- Click the second `Click Here`button to upload the video.
+- Click the second `Click Here`button to upload the original video. For example, [demo.mp4](../Tracking/AlphaTracker/data/demo.mp4)
 
-- Specify the frame rate of the imported video. *The default frame rate value is* `29.95`.
- 
+- Specify the frame rate of the imported video. *The default frame rate value is* `25.0`.
+
     <img src = "media/1.png" width = "400">
- 
+
  <br>
- 
+
 ### User interface
 
 The functions of each element in the toolbar is explained by the numerical order shown in the figure.
@@ -81,17 +82,17 @@ The functions of each element in the toolbar is explained by the numerical order
 ### Import Data
 To  import data from Alphatracker clustering, follow the instructions shown on corresponding pop-ups.
 
-- Step 1: 
+- Step 1:  Upload the JSON file that contains the clip information. For example, [clips_info.json](../BehavioralClustering/data_for_ui_1/clips_info.json)
 
     <img src = "media/4.png" width = 400>
 
 
-- Step 2: Specify the frame rate of the imported video. *The default frame rate value is* `30`.
+- Step 2: Click the `Import` button and upload the original video. Then specify the frame rate of the imported video. *The default frame rate value is* `30`.
 
     <img src = "media/5.png" width = 400>
 
 
-- Step 3: 
+- Step 3: Upload the JSON file that contains the cluster tree information. For example, [Z_all_twoMice.json](../BehavioralClustering/data_for_ui_1/Z_all_twoMice.json)
 
     <img src = "media/6.png" width = 400>
 

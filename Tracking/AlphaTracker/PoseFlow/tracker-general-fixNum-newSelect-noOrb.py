@@ -42,7 +42,7 @@ def display_pose_cv2(imgdir, visdir, tracked, cmap, args):
     # pairs = pose_pair
     pairs = [[0,1],[0,2],[0,3]]
     # min_frameNo = np.min([int(k) for k in tracked.keys()])
-    
+
     img_tmp = cv2.imread(os.path.join(imgdir,args.image_format%(list(tracked.keys())[0])))
     height, width, channels = img_tmp.shape
     fourcc = cv2.VideoWriter_fourcc(*'mp4v') # Be sure to use lower case
@@ -81,7 +81,6 @@ def display_pose_cv2(imgdir, visdir, tracked, cmap, args):
                     continue
                 cv2.circle(img,\
                     center=(int(np.clip(pose[idx_c,0],0,width)), int(np.clip(pose[idx_c,1],0,height))),\
-                    # radius=int(20*np.mean(pose[:,2])+1),\
                     radius=6,\
                     color=((50*idx_c)%255,(80*idx_c)%255,(120*idx_c)%255),\
                     thickness=-1)
@@ -91,16 +90,13 @@ def display_pose_cv2(imgdir, visdir, tracked, cmap, args):
                 cv2.line(img, \
                     pt1=(int(np.clip(pose[pairs[idx][0],0],0,width)),int(np.clip(pose[pairs[idx][0],1],0,height))), \
                     pt2=(int(np.clip(pose[pairs[idx][1],0],0,width)),int(np.clip(pose[pairs[idx][1],1],0,height))), \
-                    # color=cmap(tracked_id*5), \
                     color=((160*tracked_id)%255,(80*tracked_id)%255,(30*tracked_id)%255), \
-                    # thickness=int(20*np.mean(pose[pairs[idx],2])+1)
                     thickness=3
                     )
 
         if not os.path.exists(visdir): 
             os.mkdir(visdir)
-        # cv2.imwrite(os.path.join(visdir,str(int(imgname.split()[0])-min_frameNo)+".png"),img)
-        # cv2.imwrite(os.path.join(visdir,imgname+'.png'),img)
+
         out.write(img) # Write out frame to video
     out.release()
     print('demo image is generated in ',visdir)
@@ -190,12 +186,7 @@ args = parser.parse_args()
 # 7. match threshold in Hungarian Matching
 
 link_len = args.link
-# weights = [1,2,1,2,0,0] #dm_iou, box_iou, pose_iou_dm, pose_iou, box1_score, box2_score
-# weights = [0,3,0,3,0,0] #dm_iou, box_iou, pose_iou_dm, pose_iou, box1_score, box2_score
-weights = args.weights #dm_iou, box_iou, pose_iou_dm, pose_iou, box1_score, box2_score
-# weights = [2,4,0,0,0,0] #dm_iou, box_iou, pose_iou_dm, pose_iou, box1_score, box2_score
-# weights = [0,6,0,0,0,0] #dm_iou, box_iou, pose_iou_dm, pose_iou, box1_score, box2_score
-# weights_fff = [0,1,0,1,0,0]
+weights = args.weights # dm_iou, box_iou, pose_iou_dm, pose_iou, box1_score, box2_score
 weights_fff = args.weights
 drop = args.drop
 num = args.num
@@ -262,15 +253,11 @@ with open(notrack_json,'r') as f:
             track[img_name][bid+1]['box_pose_score'] = np.array(notrack[img_name][bid]['keypoints']).reshape(-1,3)[:,-1]
 
 np.save('notrack-bl.npy',track)
-# track = np.load('notrack-bl.npy').item()
 
 # tracking process
 max_pid_id = 0
 frame_list = list(track.keys())
 frame_list.sort(key=cmp_to_key(lambda a,b:int(a.split('_')[-1])-int(b.split('_')[-1])))
-# frame_list.sort(cmp=lambda a,b:int(a.split('_')[-1])-int(b.split('_')[-1]))
-###############################e### draw for debugging  #################################
-###############################e### draw for debugging  #################################
 
 
 print("\nStart pose tracking...")
@@ -285,29 +272,17 @@ for idx, frame_name in enumerate(tqdm(frame_list[:-1])):
     # init tracking info of the first frame in one video
     if idx == 0:
         for pid in range(1, track[frame_name]['num_boxes']+1):
-            # print('!!!!!!!!!!!in')
             track[frame_name][pid]['new_pid'] = pid
             track[frame_name][pid]['match_score'] = 0
-    # print('!!!!!!',idx)
 
     max_pid_id = max(max_pid_id, track[frame_name]['num_boxes'])
-    # cor_file = os.path.join(image_dir, "".join([frame_id, '_', next_frame_id, '_orb.txt']))
 
-    # regenerate the missed pair-matching txt
-    # if not os.path.exists(cor_file) or os.stat(cor_file).st_size<200:
-    #     img1_path = os.path.join(image_dir, args.image_format%(frame_name))
-    #     img2_path = os.path.join(image_dir, args.image_format%(next_frame_name))
-
-    #     orb_matching(img1_path,img2_path, image_dir, frame_id, next_frame_id)
-    # orb_time = time.time()
-
-    # all_cors = np.loadtxt(cor_file)
 
     # if there is no animal in this frame, then copy the info from former frame
     if track[next_frame_name]['num_boxes'] == 0:
         track[next_frame_name] = copy.deepcopy(track[frame_name])
         continue
-    # print(track, frame_list[:-1], idx, max_pid_id, link_len)
+
     # get all the newest animal info from frame idx-linklen to idx
     cur_all_pids, cur_all_pids_fff = stack_all_pids(track, frame_list[:-1], idx, max_pid_id, link_len)
     stack_time = time.time()
@@ -317,62 +292,12 @@ for idx, frame_name in enumerate(tqdm(frame_list[:-1])):
     # match_indexes, match_scores = best_matching_boxIOU(cur_all_pids,cur_all_pids_fff)
     match_time = time.time()
 
-    # print('orb_time:%f, stack_time:%f, match_time:%f'%(orb_time - start_time, stack_time- orb_time, match_time- stack_time))
-    
-
-    # ################################# draw for debugging  #################################
-    # frame = cv2.imread(os.path.join(image_dir, args.image_format%(frame_name)))
-    # next_frame = cv2.imread(os.path.join(image_dir, args.image_format%(next_frame_name)))
-    # cv2.putText(frame, \
-    #                     text=args.image_format%(frame_name), \
-    #                     org=(50,50), \
-    #                     fontFace=cv2.FONT_HERSHEY_SIMPLEX, \
-    #                     fontScale=1, \
-    #                     color=(255,255,255), \
-    #                     thickness=3)
-    # for pid1, pid2 in match_indexes:
-    #     [left, right, top, bottom] = track[next_frame_name][pid2+1]['box_pos']
-    #     color = ((cur_all_pids[pid1]['new_pid']*60)%255,(cur_all_pids[pid1]['new_pid']*90)%255,255)
-    #     cv2.rectangle(next_frame, (left, top), (right,bottom), color , 5)
-    #     cv2.putText(next_frame,str(cur_all_pids[pid1]['new_pid']), (left, top), cv2.FONT_HERSHEY_SIMPLEX, 1,color,2)
-    #     cv2.putText(next_frame,str(match_scores[pid1][pid2]),    (right, bottom), cv2.FONT_HERSHEY_SIMPLEX, 1,color,2)
-    #     cv2.putText(next_frame,next_frame_name, (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1,color,2)
-    #     for iii in range(track[next_frame_name][pid2+1]['box_pose_pos'].shape[0]):
-    #         cv2.circle(next_frame,\
-    #             (int(track[next_frame_name][pid2+1]['box_pose_pos'][iii][0]),int(track[next_frame_name][pid2+1]['box_pose_pos'][iii][1])),\
-    #             5,color,-1)
-
-    #     [left, right, top, bottom] = cur_all_pids[pid1]['box_pos']
-    #     cv2.rectangle(frame, (left, top), (right,bottom), color, 5)
-    #     cv2.putText(frame,str(cur_all_pids[pid1]['new_pid']), (left, top), cv2.FONT_HERSHEY_SIMPLEX, 1,color,1)
-    #     cv2.putText(frame,str(match_scores[pid1][pid2]),    (right, bottom), cv2.FONT_HERSHEY_SIMPLEX, 1,color,1)
-    #     for iii in range(cur_all_pids[pid1]['box_pose_pos'].shape[0]):
-    #         cv2.circle(frame,\
-    #             (int(cur_all_pids[pid1]['box_pose_pos'][iii][0]),int(cur_all_pids[pid1]['box_pose_pos'][iii][1])),\
-    #             5,color,-1)
-    #     break
-
-    # cv2.imshow('next frame',next_frame)
-    # cv2.imshow('current frame',frame)
-    # print(cur_all_pids)
-    # print(match_indexes)
-    # print(match_scores)
-    # if cv2.waitKey(100) & 0xFF == ord('q'):
-    #     # print "I'm done"
-    #     break
-    #     # track[next_frame_name][pid2+1]['new_pid'] = cur_all_pids[pid1]['new_pid']
-
-    # ################################# draw for debugging  #################################
-
 
     pid_remain = [i+1 for i in range(args.max_pid_id_setting)]
     pid_conflict = []
     pid2s_checked = []
     pid1s_checked = []
-    # print('')
-    # print(idx)
-    # print(match_indexes)
-    # print(match_scores)
+
     for pid1, pid2 in match_indexes:
         if match_scores[pid1][pid2] > match_thres:
 
@@ -381,33 +306,18 @@ for idx, frame_name in enumerate(tqdm(frame_list[:-1])):
                     pid_conflict.append([pid1,pid2])
                     continue
                 else:
-                    # print('tracking:',track[next_frame_name][pid2+1]['new_pid'],pid_remain,next_frame_name)
                     pid_remain.remove(cur_all_pids[pid1]['new_pid'])
                     pid2s_checked.append(pid2)
                     pid1s_checked.append(pid1)
 
             track[next_frame_name][pid2+1]['new_pid'] = cur_all_pids[pid1]['new_pid']
-            # max_pid_id = max(max_pid_id, track[next_frame_name][pid2+1]['new_pid'])
             track[next_frame_name][pid2+1]['match_score'] = match_scores[pid1][pid2]
-
-            # print(pid2+1,track[next_frame_name][pid2+1])
 
             if track[next_frame_name][pid2+1]['new_pid']>max_pid_id:
                 print('tracking warning!!\n track[next_frame_name][pid2+1][\'new_pid\']>max_pid_id:',next_frame_name,track[next_frame_name][pid2+1]['new_pid'],max_pid_id)
-            
-            # print(pid1,pid2,pid_remain,pid_conflict)
-
-    # # solve conflict issue (comment for no need,add the untracked new person section will solve the problem)
-    # for [pid1, pid2] in  pid_conflict:
-    #     if len(pid_remain)!=0:
-    #         print('tracking conflict:',track[next_frame_name][pid2+1]['new_pid'],pid_remain,next_frame_name)
-    #         track[next_frame_name][pid2+1]['new_pid'] = pid_remain[0] 
-    #         track[next_frame_name][pid2+1]['match_score'] = match_scores[pid1][pid2]
-    #         del pid_remain[0]
 
 
     # add the untracked new person
-    # print(pid_remain)
     for next_pid in range(1, track[next_frame_name]['num_boxes'] + 1):
         if 'new_pid' not in track[next_frame_name][next_pid]:
             if args.max_pid_id_setting!=-1:
@@ -420,7 +330,6 @@ for idx, frame_name in enumerate(tqdm(frame_list[:-1])):
                 track[next_frame_name][next_pid]['match_score'] = 0
 
 np.save('track-bl.npy',track)
-# track = np.load('track-bl.npy').item()
 
 # calculate number of animal
 num_persons = 0
@@ -466,7 +375,3 @@ if len(args.visdir)>0 and args.vis!=0:
     display_pose_cv2(image_dir, vis_dir, notrack, cmap, args)
 
 os.system('rm {}/*.txt'.format(args.imgdir))
-
-
-
-

@@ -499,6 +499,6 @@ def processPeaks(candidate_points, hm, pt1, pt2, inpH, inpW, resH, resW):
 def flip_v(x, cuda=True, volatile=True):
     x = flip(x.cpu().data)
     if cuda:
-        x = x.cuda(async=True)
-    x = torch.autograd.Variable(x, volatile=volatile)
+        x = x.cuda(non_blocking=True)
+    x = torch.autograd.Variable(x, requires_grad=False)
     return x

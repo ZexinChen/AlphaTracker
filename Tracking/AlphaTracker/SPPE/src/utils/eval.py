@@ -1,8 +1,8 @@
 from opt import opt
-try:
-    from utils.img import transformBoxInvert, transformBoxInvert_batch
-except ImportError:
-    from SPPE.src.utils.img import transformBoxInvert, transformBoxInvert_batch
+# try:
+#     from utils.img import transformBoxInvert, transformBoxInvert_batch
+# except:
+from SPPE.src.utils.img import transformBoxInvert, transformBoxInvert_batch
 import torch
 
 
@@ -39,7 +39,7 @@ def heatmapAccuracy(output, label, idxs):
 
     norm = torch.ones(preds.size(0)) * opt.outputResH / 10
     dists = calc_dists(preds, gt, norm)
-    #print(dists)
+
     acc = torch.zeros(len(idxs) + 1)
     avg_acc = 0
     cnt = 0
