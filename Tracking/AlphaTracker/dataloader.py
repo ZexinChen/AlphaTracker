@@ -413,16 +413,13 @@ class DetectionLoader:
                 boxes = dets[:, 1:5]
                 scores = dets[:, 5:6]
 
-            # print(scores.shape,img.shape,boxes.shape,len(orig_img))
             for k in range(len(orig_img)):
                 if not self.use_boxGT:
                     boxes_k = boxes[dets[:,0]==k]
                     scores_k = scores[dets[:,0]==k]
                 else:
                     boxes_k = self.box_gt.get_box(im_name[k].split('/')[-1])
-                    # print(boxes_k.shape)
                     scores_k = torch.ones((boxes_k.shape[0],1))
-                # print(boxes_k.shape,img.shape,scores[dets[:,0]==k].shape,len(orig_img))
 
                 if isinstance(boxes_k, int) or boxes_k.shape[0] == 0:
                     if self.Q.full():
@@ -451,25 +448,18 @@ class box_gt_class(object):
         with open(json_file, 'r') as File:
             data = json.load(File)
         self.data = {}
-        # print('here')
+
         for single_img_data in tqdm(data):
             name=single_img_data['filename']
             annot=single_img_data['annotations']
                 
-            # if(len(annot)!=10):
-            #     continue
-
             bboxes = []
             for d in annot:
                 if d['class']=='Face':
                     bbox = [d['x'], d['y'], d['x']+d['width'], d['y']+d['height']]
                     bboxes.append(bbox)
-            # for mice_id in range(2):
-            #     d=annot[mice_id*5]
-            #     bbox = [d['x'], d['y'], d['x']+d['width'], d['y']+d['height']]
-            #     bboxes.append(bbox)
+
             self.data[name] = torch.from_numpy(np.asarray(bboxes)).float()
-            # print(name)
 
     def get_box(self,name):
         return self.data[name]
@@ -510,8 +500,6 @@ class DetectionProcessor:
             
             with torch.no_grad():
                 (orig_img, im_name, boxes, scores, inps, pt1, pt2) = self.detectionLoader.read()
-                # boxes = self.box_gt.get_box(im_name.split('/')[-1])
-                # print('im_name',im_name,'boxes',boxes)
                 if orig_img is None:
                     self.Q.put((None, None, None, None, None, None, None))
                     return
@@ -524,18 +512,8 @@ class DetectionProcessor:
                     self.Q.put((None, orig_img, im_name, boxes, scores, None, None))
                     continue
                 inp = im_to_torch(cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB))
-                # print(type(boxes),boxes.shape)
-                # print(boxes )
-                # ################## draw image ##################
-                # img_print = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
-                # for b in boxes:
-                #     cv2.rectangle(img_print, (int(b[0]),int(b[1])), (int(b[2]),int(b[3])), (0,0,255), 3)
-                # img_path = './debug/fromDataloader.py_boxOnly'+im_name.split('/')[-1]
-                # # print('dataloader.py:writing to ',img_path)
-                # cv2.imwrite(img_path,img_print)
 
-                # ################## draw image ##################
-
+                # draw image
                 inps, pt1, pt2 = crop_from_dets(inp, boxes, inps, pt1, pt2)
 
                 while self.Q.full():
@@ -790,18 +768,12 @@ class DataWriter:
                     preds_hm, preds_img, preds_scores = getPrediction(
                         hm_data, pt1, pt2, opt.inputResH, opt.inputResW, opt.outputResH, opt.outputResW, opt.nClasses)
 
-                    # print('dataloader:',boxes.shape, scores.shape, preds_img.shape, preds_scores.shape)
                     result = pose_nms(boxes, scores, preds_img, preds_scores)
                     result = {
                         'imgname': im_name,
                         'result': result,
                         'boxes':boxes
                     }
-                    # print('dataloader.py:result:',result)
-                    # print('dataloader.py:hm_data.shape:',hm_data.shape)
-                    # print('dataloader.py:preds_hm.shape:',preds_hm.shape)
-                    # self.count+=1
-                    # print('dataloader.py:count:',self.count)
 
                     self.final_result.append(result)
                     if opt.save_img or opt.save_video or opt.vis:
@@ -900,10 +872,11 @@ def crop_from_dets(img, boxes, inps, pt1, pt2):
         try:
             inps[i] = cropBox(tmp_img, upLeft, bottomRight, opt.inputResH, opt.inputResW)
         except IndexError:
-            print(tmp_img.shape)
-            print(upLeft)
-            print(bottomRight)
-            print('===')
+            # print(tmp_img.shape)
+            # print(upLeft)
+            # print(bottomRight)
+            # print('===')
+            pass
         pt1[i] = upLeft
         pt2[i] = bottomRight
 

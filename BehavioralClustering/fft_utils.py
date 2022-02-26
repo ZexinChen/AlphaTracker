@@ -3317,12 +3317,12 @@ def visualize_inSepVideo_twoMice(arg,\
             feature_distance2 = [1/(f_dist+0.001) for f_dist in feature_distance2]
 
             f = plt.figure(figsize = (10,5))
-            plt.barh(range(len(feature_distance1)), feature_distance1,color='rgb',tick_label=feature_name)
+            plt.barh(range(len(feature_distance1)), feature_distance1,color=['r', 'g', 'b'],tick_label=feature_name)
             plt.xlabel('importance of feature (1/distance)', fontsize=14)
             f.savefig('./tmp_image/feature_distance1_%s_%d.png'%(video_name_suffix,cluster_num_id))
             plt.close()
             f = plt.figure(figsize = (15,5))
-            plt.barh(range(len(feature_distance2)), feature_distance2,color='rgb',tick_label=feature_name)
+            plt.barh(range(len(feature_distance2)), feature_distance2,color=['r', 'g', 'b'],tick_label=feature_name)
             plt.xlabel('importance of feature')
             f.savefig('./tmp_image/feature_distance2_%s_%d.png'%(video_name_suffix,cluster_num_id))
             plt.close()

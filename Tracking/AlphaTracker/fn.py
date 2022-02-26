@@ -2,7 +2,11 @@ import torch
 import re
 import os
 import collections
-from torch._six import string_classes, int_classes
+try:
+    from torch._six import string_classes, int_classes
+except:
+    int_classes = int
+    string_classes = str
 import cv2
 from opt import opt
 from tqdm import tqdm
@@ -196,9 +200,7 @@ def vis_frame(frame, im_res, format='coco'):
         part_line = {}
         kp_preds = human['keypoints']
         kp_scores = human['kp_score']
-        # print(kp_preds.shape)
-        # kp_preds = torch.cat((kp_preds, torch.unsqueeze((kp_preds[5,:]+kp_preds[6,:])/2,0)))
-        # kp_scores = torch.cat((kp_scores, torch.unsqueeze((kp_scores[5,:]+kp_scores[6,:])/2,0)))
+
         # Draw keypoints
         for n in range(kp_scores.shape[0]):
             if kp_scores[n] <= 0.05:
@@ -226,7 +228,7 @@ def vis_frame(frame, im_res, format='coco'):
                 stickwidth = (kp_scores[start_p] + kp_scores[end_p]) + 1
                 polygon = cv2.ellipse2Poly((int(mX),int(mY)), (int(length/2), stickwidth), int(angle), 0, 360, 1)
                 cv2.fillConvexPoly(bg, polygon, line_color[i])
-                #cv2.line(bg, start_xy, end_xy, line_color[i], (2 * (kp_scores[start_p] + kp_scores[end_p])) + 1)
+
                 transparency = max(0, min(1, 0.5*(kp_scores[start_p] + kp_scores[end_p])))
                 img = cv2.addWeighted(bg, transparency, img, 1-transparency, 0)
     img = cv2.resize(img,(width,height),interpolation=cv2.INTER_CUBIC)

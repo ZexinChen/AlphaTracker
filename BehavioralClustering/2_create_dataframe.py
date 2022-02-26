@@ -15,10 +15,7 @@ import contour_utils
 import setting
 
 def create_dataframe_faces():
-
-    # 取读所有的mask图，构成一个dataframe
-
-
+    # read all mask images， and construct into a dataframe
     faces = pd.DataFrame([])
     i = 0
     arg = setting.args_class()
@@ -35,16 +32,12 @@ def create_dataframe_faces():
 
             if np.random.randn()>0.8:
                 print('add %d th image '%(len(faces+1)))
-                # print(i,img_dict + img_name)
                 frame = plt.imread(img_dict + '/' + img_name)
                 frame = np.asarray(frame[:,:,0],dtype = 'uint8')
                 frame[frame == 255] = 1
-                # flat = frame.flatten()
 
-                # print(flat.shape)
                 face = pd.Series(frame.flatten(),name = img_name)
 
-                # print(face)
                 faces = faces.append(face)
                 i += 1
             if len(faces)>2500:
@@ -53,7 +46,7 @@ def create_dataframe_faces():
             break
 
 
-    # ## 可视化
+    # ## Visualization
     # width, height = frame.shape
     # fig, axes = plt.subplots(10,10,figsize=(9,9),
     #     subplot_kw = {'xticks':[], 'yticks':[]},
