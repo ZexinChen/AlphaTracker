@@ -11,6 +11,11 @@
 </div>
 
 ## Instructions
+
+- Installation
+
+    Head to [Multi-animal Pose Estimation and Tracking](Manual/Tracking.md) for information on how to install AlphaTracker.
+
 - Tracking
 
    If you have access to GPU:
