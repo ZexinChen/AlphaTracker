@@ -10,19 +10,19 @@ The training of AlphaTracker requires human annotated data. Depending on whether
 
 You can annotate your own data with the AlphaTracker Annotation Tool we provided before proceeding to the training phase.
 
-To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
+To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1qzl-lQC59di5v2jrSARtZfR2JlOIdCgc?usp=sharing)**
 
 ###  Train with our annotated data:
 
 Alternatively, if your images resemble ours (background, mouse appearance, shooting angle), you can use the annotated dataset we provide. Click [here](https://drive.google.com/drive/folders/1Dk6e7sJ-dtT3L26r2Tw2QeiQSkn1DAfs?usp=sharing) to download this data. 
 
-To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing)**
+To access the Colab notebook, **click [here](https://colab.research.google.com/drive/1qzl-lQC59di5v2jrSARtZfR2JlOIdCgc?usp=sharing)**
 
 ### Test without training:
 
 We also provide pre-trained model which allows users to skip training. This promises good performance if your videos resemble ours (background, mouse appearance, shooting angle).
 
-To access the Colab notebook, click [this link](https://colab.research.google.com/drive/1KOQy1ij6aClW5rmygSxoUVIKpLNcjo1x?usp=sharing)**
+To access the Colab notebook, click [this link](https://colab.research.google.com/drive/1qzl-lQC59di5v2jrSARtZfR2JlOIdCgc?usp=sharing)**
 
 <br>
 
@@ -50,7 +50,7 @@ Open your Google Drive, and upload the folder/folders, and the videos you want t
 
 ## Step 2: 
 
-Open the `AlphaTrackerCOLAB_12-2-20.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1SE3NpoTOjZqt8AftP5taNCQ8efWUanQW?usp=sharing). You should see a page like the one in the image below. 
+Open the `AlphaTrackerCOLAB_08-01-2022.ipynb`, which can be found at this [link here](https://colab.research.google.com/drive/1qzl-lQC59di5v2jrSARtZfR2JlOIdCgc?usp=sharing). You should see a page like the one in the image below. 
 
 <p align = 'left'>
     <img src = '../Manual/media/alphatracker_welcome_page.PNG' widht = 250 height = 250>
@@ -145,11 +145,7 @@ In `yolo_batch_size`, type in the batch size for the YOLO model.
 
 ## Step 7: 
 
-Run the following code blocks back-to-back without any alterations. This will take about 6-10 minutes to complete!
-
-<p align = 'left'>
-    <img src = '../Manual/media/install_stuff_pic.PNG'>
-</p>
+Run Step 7a, then 7b in order without any alterations. This will take about 6-10 minutes to complete!
 
 <br>
 
