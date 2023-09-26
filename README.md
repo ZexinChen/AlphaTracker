@@ -45,4 +45,6 @@ AlphaTracker: A Multi-Animal Tracking and Behavioral Analysis Tool
 Zexin Chen, Ruihan Zhang, Yu Eva Zhang, Hao-Shu Fang, Haowen Zhou, Rachel R. Rock, Aneesh Bal, Nancy Padilla-Coreano, Laurel Keyes, Kay M. Tye, Cewu Lu
 bioRxiv 2020.12.04.405159; doi: https://doi.org/10.1101/2020.12.04.405159
 
+The latest link: https://www.frontiersin.org/articles/10.3389/fnbeh.2023.1111908/full
+
 For technical questions contact us at alphatrackertool@gmail.com
